@@ -29,14 +29,22 @@
                     <input type="hidden" name="id_user" id="id_user" value="<?=(isset($catagories)) ? $catagories->id : ''?>">
                     <div class="form-group"><label class="col-sm-2 control-label">Tên danh mục</label>
                         <div class="col-sm-9">
-                           <input type="text" required="" placeholder="Name" <?=$this->uri == 'edit'?'disabled':'' ?> onchange="stralias('username','alias')" class="form-control area-input" name="username" id="username"  data-error="Nhập tên danh mục" data-error-1="Tên danh mục đã tồn tại!" data-url="<?=base_url('catagories/api_check_catagories')?>" value="<?=(isset($catagories)) ? $catagories->name : ''?>">
+                           <input type="text" required="" placeholder="tên danh mục" <?=$this->uri == 'edit'?'disabled':'' ?> 
+                           onchange="stralias('username','alias')" class="form-control area-input" 
+                           name="username" id="username"  
+                           data-error="Nhập tên danh mục" data-error-1="Tên danh mục đã tồn tại!" 
+                           data-url="<?=base_url('catagories/api_check_catagories')?>" 
+                           value="<?=(isset($catagories)) ? $catagories->name : ''?>">
                         </div>
                      </div>
                      <div class="hr-line-dashed"></div>
                      <div class="form-group"><label class="col-sm-2 control-label">Alias</label>
                         <div class="col-sm-9">
                            <input type="text" required="" placeholder="alias" class="form-control area-input" 
-                           name="alias" id="alias" data-error="Nhập alias" data-error-1="Alias đã tồn tại!" data-url="<?=base_url('catagories/api_check_alias')?>" value="<?=(isset($catagories)) ? $catagories->alias : ''?>">
+                           name="alias" id="alias" data-error="Nhập alias" 
+                           data-error-1="Alias đã tồn tại!" 
+                           data-url="<?=base_url('catagories/api_check_alias')?>" 
+                           value="<?=(isset($catagories)) ? $catagories->alias : ''?>">
                         </div>
                      </div>
                      <div class="hr-line-dashed"></div>
