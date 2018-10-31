@@ -91,12 +91,11 @@ class newscontroller  extends controller
 	function api_check_news($return = false)
 	{
 		if($this->model->islogin()){
-			$name = $this->model->clean($this->post('name'));
+			$name = $this->model->clean($this->post('username'));
 			$uri = $this->model->clean($this->post('uri'));
 			$id = $this->model->clean($this->post('id_user'));
-			if($uri == 'create' && empty($id))
+			if($uri == 'create')
 			{
-				echo "222";
 				$check = $this->model->getkey(array('name'=>$name));
 				if($check){
 					if($return) return false; else echo "false";
@@ -123,15 +122,6 @@ class newscontroller  extends controller
 					if($return) return true; else echo "true";
 				}
 
-				
-				// $check = $this->model->checknameedit($name,$id);
-				// if(!$check){
-				// 	if($return) return true; else echo "true";
-				// }
-				// else{
-				// 	if($return) return false; else  echo "false";
-				// }
-
 			}
 		}else
 			return false;
@@ -148,7 +138,6 @@ class newscontroller  extends controller
 		$this->size_imgshare = '(300x300)px';
 		$this->uri = $this->getactionname();
 		$this->catcon = new catagorycontroller();
-
 		$this->setdata(array('list_catagory'=>$this->models->listcatagoriesall(),
 							'catcontrl'=>$this->catcon));
 		if($this->post() && $this->istoken('tokennews',$this->model->clean($this->post('tokennews'))))

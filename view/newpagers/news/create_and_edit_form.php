@@ -26,7 +26,7 @@
             <div class="form-horizontal">
                <form class="m-t" role="form" action="" method="post" id="form-users">
                   <input type="hidden" name="uri" id="uri" value="<?php echo $this->uri ?>">
-                  <input type="hidden" name="id_user" id="id_user" value="<?=(isset($news)) ? $news->id : ''?>">
+                  <input type="hidden" name="username" id="username" value="<?=(isset($news)) ? $news->username : ''?>">
                   <div class="wrapper wrapper-content animated fadeInRight ecommerce">
                     <div class="col-sm-9 col-sm-offset-8">
                         <a class="btn btn-white" type="text" href="<?=base_url('news');?>">Cancel</a>
@@ -47,29 +47,13 @@
                                     <fieldset class="form-horizontal">
                                         <div class="form-group">
                                           <label class="col-sm-2 control-label">Tên bài viết:</label>
-                                          <div class="col-sm-10"><input type="text" required="" placeholder="nhập tên bài viết" 
-                                          onchange="stralias('name','alias')" class="form-control area-input" 
-                                          name="name" id="name"  
-                                          data-error="Nhập tên bài viết"
-                                          data-error-1="Tên bài viết đã tồn tại!" 
-                                          data-url="<?=base_url('news/api_check_news')?>" 
-                                          value="<?=(isset($news)) ? $news->name : ''?>"></div>
+                                          <div class="col-sm-10"><input type="text" required="" placeholder="Name" onchange="stralias('name','alias')" class="form-control area-input" name="name" id="name"  data-error="Nhập tên bài viết" data-error-1="Tên bài viết đã tồn tại!" data-url="<?=base_url('news/api_check_news')?>" value="<?=(isset($news)) ? $news->name : ''?>"></div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Alias</label>
                                           <div class="col-sm-10">
                                              <input type="text" required="" placeholder="alias" class="form-control area-input" 
-                                                name="alias" id="alias" 
-                                                data-error="Nhập alias" 
-                                                data-error-1="Alias đã tồn tại!" 
-                                                data-url="<?=base_url('news/api_check_alias')?>" 
-                                                value="<?=(isset($news)) ? $news->alias : ''?>">
-                                          </div>
-                                       </div>
-                                       <div class="form-group">
-                                          <label class="col-sm-2 control-label">Mô tả ngắn:</label>
-                                          <div class="col-sm-10">
-                                             <textarea type="text" required=""  placeholder="Description" class="form-control area-input" name="shortdescription" id="shortdescription"> <?=(isset($news)) ? $news->shortdescription : ''?></textarea>
+                                                name="alias" id="alias" data-error="Nhập alias" data-error-1="Alias đã tồn tại!" data-url="<?=base_url('news/api_check_alias')?>" value="<?=(isset($news)) ? $news->alias : ''?>">
                                           </div>
                                        </div>
                                        <div class="form-group">
@@ -253,22 +237,4 @@
             },2000);
         });
       });
-
-    function stralias(nguon, dich)
-    {
-        var str = ($('#'+nguon).val()).trim();
-        str= str.toLowerCase();
-        str= str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
-        str= str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
-        str= str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
-        str= str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
-        str= str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
-        str= str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
-        str= str.replace(/đ/g,"d");
-        str= str.replace(/!|@|\$|%|\^|\*|∣|\+|\=|\<|\>|\?|\/|,|\.|\:|\'| |\"|\&|\#|\[|\]|~/g,"-");
-        str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
-        str= str.replace(/^\-+|\-+$/g,"");//cắt bỏ ký tự - ở đầu và cuối chuỗi
-        var des = document.getElementById(dich);
-        des.value = str;
-    }
 </script>

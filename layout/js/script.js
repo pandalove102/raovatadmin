@@ -56,7 +56,7 @@ function SetFileField3(fileUrl,id )
 	$('#'+id).val(fileUrl);
 	$('#'+id).parent().children('img').attr('src',fileUrl);
 }
-function stralias(nguon, dich)
+function stralias(nguon,dich)
 {
     var str = ($('#'+nguon).val()).trim();
     str= str.toLowerCase();
