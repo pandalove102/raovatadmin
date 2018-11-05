@@ -165,6 +165,41 @@ class catalogmodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	// function searchproduct($skus = '', $products = '', $prices = '', $qty = '', $parent_id = '', $status = '',$pos,$numrow)
+	// {
+	// 	if($numrow>0)
+	// 	{
+	// 		$this->limit = "  limit $pos,$numrow";
+	// 	}
+	// 	$w = ' where p.hide = 1 and c.hide=1 ';
+	// 	if($skus != '')
+	// 	{
+	// 		$w .= " and p.sku LIKE '%$skus%'";
+	// 	}
+	// 	if($products != '')
+	// 	{
+	// 		$w .= " and p.name LIKE '%$products%'";
+	// 	}
+	// 	if($prices != '')
+	// 	{
+	// 		$w .= " and p.price = '$prices'";
+	// 	}
+	// 	if($qty != '')
+	// 	{
+	// 		$w .= " and p.quantity = '$qty'";
+	// 	}
+	// 	if($parent_id != '')
+	// 	{
+	// 		$w .= " and p.catagories_id = '$parent_id'";
+	// 	}
+	// 	if($status != '')
+	// 	{
+	// 		$w .= " and p.status = '$status'";
+	// 	}
+	//      $sql = 'select p.*,c.name as catname from `catalogs` p join `catagories` c on p.catagories_id=c.id '.@$w." {$this->limit} ";
+	// 	$this->setQuery($sql);
+	// 	return $this->loadAllRow();
+	// }
 }
 
 ?>
