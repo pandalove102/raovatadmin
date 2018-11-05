@@ -5,6 +5,7 @@ class catagorycontroller  extends controller
 	function __construct()
 	{
 		$this->model = new catagorymodel();
+		$this->modelstatus =new statusmodel();
 		$this->pathview = 'view/products/catagory/';
 	}
 	function index()
@@ -65,6 +66,76 @@ class catagorycontroller  extends controller
 			}
 		}else
 			return false;
+	}
+	function listattribute()
+	{
+		$this->title='Danh sách danh mục';
+		$this->h = 'Danh sách danh mục';
+		$this->a = 'Danh mục';
+		$this->strong = 'Danh sách';
+		$this->uri = $this->getactionname();
+		$id = $this->get('id');
+		$idattribute = $this->post('idattribute');
+		$idcatagories = $this->post('idcatagories');
+		if($this->post())
+		{
+				if($this->model->check_idattribute($idattribute,$idcatagories))
+				{
+				
+					$data = array(
+						'idattribute' => $this->model->clean($this->post('idattribute')),
+						'idcatagories' => $this->model->clean($this->post('idcatagories')),
+						'created' => date('Y-m-d H:i:s'),
+						'hide' => 1,
+						'state' => 1
+					);
+					if($this->model->insert($data,'','catagories_attribute'))
+					{
+						$this->model->logs('Thêm thành công thuộc tình vào DM: '.$this->model->clean($this->post('username')),$this->getcontrollername().'/'.$this->uri);
+						if($this->model->clean($this->post('save')) == 1)
+						{
+							$this->setmsg('Thêm thành công.','success');
+						}
+						else{
+							redirect('catagory',2);
+						}
+					}
+					else
+					{
+						$this->setmsg('Thêm thất bại.','error');
+					}
+				
+
+			}
+		}
+		$status = $this->modelstatus->status();
+		$listattribute = $this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
+		$listattributeall = $this->model->listattributeall();
+	    $totalpage =count($listattribute);
+		$this->setdata(array('listattribute'=>$listattribute,
+							 'listattributeall'=>$listattributeall,
+							  'totalpage'=> $totalpage,
+							  'status'=>$status
+							));
+		$this->render('listattribute');
+	}
+	function delete_attribute()
+	{
+		if(isset($_GET))
+		{
+			$idattribute = $this->get('idattribute');
+			$idcatagories = $this->get('idcatagories');
+			if($this->model->delete_attribute_model($idattribute,$idcatagories)) // update hide=2
+			{
+				$this->model->logs('Xóa thành công thuộc tính');
+				redirect('catagory/listattribute/'.$idcatagories,2);
+			}
+			else
+			{
+				$this->setmsg('Thêm thất bại.','error');
+			}
+			$this->render('listattribute');
+		}
 	}
 	// function api_getsub()
 	// {
@@ -308,6 +379,8 @@ class catagorycontroller  extends controller
 	   }
 	   echo '<select>';
 	}
+
+	
 }
  
 ?>

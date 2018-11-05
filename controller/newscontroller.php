@@ -91,7 +91,7 @@ class newscontroller  extends controller
 	function api_check_news($return = false)
 	{
 		if($this->model->islogin()){
-			$name = $this->model->clean($this->post('username'));
+			$name = $this->model->clean($this->post('name'));
 			$uri = $this->model->clean($this->post('uri'));
 			$id = $this->model->clean($this->post('id_user'));
 			if($uri == 'create')
@@ -232,53 +232,51 @@ class newscontroller  extends controller
 						}
 					}
 				}
-					$json = $jsonarray? json_encode($jsonarray):'';		
-					$catshow = implode(',',$this->post('catshow'));
-					$data = array(
-						'id' => $news->id,
-						'catshow' => $catshow,
-		                'name' => $this->model->clean($this->post('name')),
-		                'alias' => $this->post('alias'),
-		                'shortdescription' => $this->model->clean($this->post('shortdescription')),
-		                'description' => $this->model->clean($this->post('description')),
-		                'h1' => $this->model->clean($this->post('h1')),
-		                'metakey' => $this->model->clean($this->post('metakey')),
-		                'metadesc' => $this->model->clean($this->post('metadesc')),
-		                'metatitle' => $this->model->clean($this->post('metatitle')),
-		                'image' => $this->model->clean($this->post('image')),
-		                'imgshare' => $this->model->clean($this->post('imgshare')),
-		                'images' => $json,
-						'status' => $this->model->clean($this->post('status')),
-		                'catagories_id' => $this->model->clean($this->post('catagorie_id')),
-		                'username' => $this->model->clean($this->model->session->get('username')),
-						'update_at' => date('Y-m-d H:i:s')
-					);
-					if($this->model->update($data))
+				$json = $jsonarray? json_encode($jsonarray):'';		
+				$catshow = implode(',',$this->post('catshow'));
+				$data = array(
+					'id' => $news->id,
+					'catshow' => $catshow,
+					'name' => $this->model->clean($this->post('name')),
+					'alias' => $this->post('alias'),
+					'shortdescription' => $this->model->clean($this->post('shortdescription')),
+					'description' => $this->model->clean($this->post('description')),
+					'h1' => $this->model->clean($this->post('h1')),
+					'metakey' => $this->model->clean($this->post('metakey')),
+					'metadesc' => $this->model->clean($this->post('metadesc')),
+					'metatitle' => $this->model->clean($this->post('metatitle')),
+					'image' => $this->model->clean($this->post('image')),
+					'imgshare' => $this->model->clean($this->post('imgshare')),
+					'images' => $json,
+					'status' => $this->model->clean($this->post('status')),
+					'catagories_id' => $this->model->clean($this->post('catagorie_id')),
+					'username' => $this->model->clean($this->model->session->get('username')),
+					'update_at' => date('Y-m-d H:i:s')
+				);
+				if($this->model->update($data))
+				{
+					$news = $this->model->getone($news->id);
+					$this->model->logs('Cập nhật thành công nhóm: '.$news->name,$this->getcontrollername().'/'.$this->uri);
+					$this->setmsg('Cập nhật thành công. Đang chuyển hướng...','success');
+					if($this->model->clean($this->post('save')) == 1)
 					{
-						$news = $this->model->getone($news->id);
-						$this->model->logs('Cập nhật thành công nhóm: '.$news->name,$this->getcontrollername().'/'.$this->uri);
-						$this->setmsg('Cập nhật thành công. Đang chuyển hướng...','success');
-						if($this->model->clean($this->post('save')) == 1)
-						{
-							$this->setmsg('Cập nhật thành công.','success');
-						}
-						else{
-							redirect('news',2);
-						}
+						$this->setmsg('Cập nhật thành công.','success');
 					}
-					else
-					{
-						$this->setmsg('Cập nhật thất bại. Đang chuyển hướng...','error');
+					else{
+						redirect('news',2);
 					}
-				
-				//else
-				//{
-					//$this->setmsg('Vui lòng nhập đầy đủ thông tin!','error');
-				//}
+				}
+				else
+				{
+					$this->setmsg('Cập nhật thất bại. Đang chuyển hướng...','error');
+				}
+			
 
 			}
 			$this->catcon = new catagorycontroller();
-			$this->setdata(array('news'=>$news,'list_catagory'=>$this->models->listcatagories($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow),'catcontrl'=>$this->catcon));
+			$this->setdata(array('news'=>$news,
+								 'list_catagory'=>$this->models->listcatagories($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow),
+								 'catcontrl'=>$this->catcon));
 			$this->render('create_and_edit_form');
 		}
 	}
@@ -303,6 +301,7 @@ class newscontroller  extends controller
 		}
 		$this->render('list_view');
 	}
+	
 }
  
 ?>

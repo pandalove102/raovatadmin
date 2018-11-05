@@ -72,6 +72,7 @@
                               <th data-hide="phone">Danh mục</th>
                               <th data-hide="all">Mô tả</th>
                               <th data-hide="phone">Giá</th>
+                              <th data-hide="phone">Xem thuộc tính</th>
                               <th data-hide="all" >Số lượng</th>
                               <th data-hide="phone">Trạng thái</th>
                               <th class="text-right" data-sort-ignore="true">H/Động</th>
@@ -100,6 +101,9 @@
                                  </td>
                                  <td class="footable-visible">
                                     $ <?php echo number_format($v->price) ?> VNĐ
+                                 </td>
+                                 <td class="footable-visible">
+                                 <a href="<?=base_url('catalog/listattribute/?idcatalog='.$v->id.'&&idcatagories='.$v->catagories_id); ?>">Xem thuộc tính
                                  </td>
                                  <td class="footable-visible">
                                     <?php echo $v->quantity ?>

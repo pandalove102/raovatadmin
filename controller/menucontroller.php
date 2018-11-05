@@ -15,8 +15,27 @@ class menucontroller  extends controller
 		$this->strong = 'Danh sách Menu';
 		$this->setscript(array('layout/js/plugins/dataTables/datatables.min.js'));
 		$this->setcss(array('layout/css/plugins/dataTables/datatables.min.css'));
-		$totalpage = $this->model->total();
-		$this->setdata(array('menu'=>$this->model->listmenu($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow),'totalpage'=>$totalpage));
+		if($this->get() && $this->istoken('tokenmenu',$this->model->clean($this->get('tokenmenu'))))
+		{
+			$menu = $this->model->listmenusearch($this->tim_vi_tri_bat_dau($this->numrow),
+														   $this->numrow,
+														   $this->get('key')
+														);
+			if($this->get('key') !='')
+			{
+				$totalpage =count($menu);
+			}else{
+				$totalpage = $this->model->total();
+			}
+			
+		}else
+		{
+			$menu=$this->model->listmenu($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow);
+			$totalpage = $this->model->total();
+		}
+		$this->setdata(array('menu'=>$menu,
+							 'totalpage'=>$totalpage)
+							);
 		$this->render('list_view');
     }
     function api_check_menu($return = false)
@@ -64,6 +83,8 @@ class menucontroller  extends controller
 			{ 
 				$data = array(
 					'name' => $this->model->clean($this->post('name')),
+					'link' => $this->model->clean($this->post('link')),
+					'parent_id' => $this->model->clean($this->post('parent_id')),
 					'state' => $this->model->clean($this->post('state')),
 					'created' => date('Y-m-d H:i:s'),
 	                'hide' => 1
@@ -88,6 +109,8 @@ class menucontroller  extends controller
 				$this->setmsg('Menu đã tồn tại!','error');
 			}
 		}
+		$listmenu=$this->model->listmenuall();
+		$this->setdata(array('listmenu'=>$listmenu));
 		$this->render('create_and_edit_form');
 	}
 	function edit()
@@ -107,7 +130,9 @@ class menucontroller  extends controller
 		{			
 			$data = array(
 				'id' => $menu->id,
-                'name' => $this->model->clean($this->post('name')),
+				'name' => $this->model->clean($this->post('name')),
+				'parent_id' => $this->model->clean($this->post('parent_id')),
+                'link' => $this->model->clean($this->post('link')),
                 'state' => $this->model->clean($this->post('state'))
 				
 			);
@@ -130,7 +155,10 @@ class menucontroller  extends controller
 				$this->setmsg('Cập nhật thất bại. Đang chuyển hướng...','error');
 			}
 		}
-		$this->setdata(array('menu'=>$menu));
+		$listmenu=$this->model->listmenuall();
+		$this->setdata(array('menu'=>$menu,
+							 'listmenu'=>$listmenu
+							));
 		$this->render('create_and_edit_form');
 	}
 	// Delete : chỉ ẩn không hiển thị
@@ -168,6 +196,15 @@ class menucontroller  extends controller
 		}
 		
 		
+	}
+	function api_getsub()
+	{
+		if($this->post()){
+			$list = $this->model->listmenu_sub($this->post('parent'));
+			echo json_encode(array('lv'=>$this->post('lv'),'data'=>$list));
+		}else
+			echo '[]';
+
 	}
 
 

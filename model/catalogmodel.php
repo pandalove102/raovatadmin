@@ -12,13 +12,55 @@ class catalogmodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	function listattribute($pos,$numrow,$id='')
+	{
+		if($numrow>0)
+		{
+			$this->limit = " limit $pos,$numrow";
+		}
+		$w='WHERE a.idattribute=b.id and a.hide=1   ';
+		if($id != '')
+		{
+			$w .= " and a.idcatalogs=$id ";
+		}
+		$sql = "select * FROM catalogs_attribute a,attribute b $w {$this->limit}";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+
+	}
+	function listattributeall($pos,$numrow)
+	{
+		if($numrow>0)
+		{
+			$this->limit = " limit $pos,$numrow";
+		}
+		$sql = "select * FROM catalogs_attribute a,attribute b  {$this->limit}";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+
+	}
 	function listcatalogs($pos,$numrow)
 	{
 		if($numrow>0)
 		{
 			$this->limit = " limit $pos,$numrow";
 		}
-		$sql = "select p.*,c.name as catname from `catalogs` p join `catagories` c on p.catagories_id=c.id where p.hide = 1 and c.hide=1 {$this->limit}";
+		echo $sql = "select p.*,c.name as catname from `catalogs` p join `catagories` c on p.catagories_id=c.id where p.hide = 1 and c.hide=1 {$this->limit}";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+	}
+	function listcatalogsiduser($pos,$numrow,$id='')
+	{
+		$w='';
+		if($id != '')
+		{
+			$w .= " and p.username=$id ";
+		}
+		if($numrow>0)
+		{
+			$this->limit = " limit $pos,$numrow";
+		}
+		$sql = "select p.*,c.name as catname from `catalogs` p join `catagories` c on p.catagories_id=c.id where p.hide = 1 and c.hide=1  $w  {$this->limit}";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}

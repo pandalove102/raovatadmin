@@ -90,6 +90,57 @@ class catagorymodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	function listattribute($pos,$numrow,$id)
+	{
+		if($numrow>0)
+		{
+			$this->limit = " limit $pos,$numrow";
+		}
+		$w = ' where a.idattribute=b.id and a.idcatagories=c.id and a.hide=1 ';
+		if($id != '')
+		{
+			$w .= "  and a.`idcatagories`=$id";
+		}
+		 $sql = "select  * from `catagories_attribute` a, attribute b , catagories c $w  {$this->limit} ";
+		// exit();
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+
+	}
+	function listattributeall()
+	{
+		$sql = "select  * from  attribute  where hide=1 ";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+
+	}
+	function load_attribute_idcatagories($idcatagories)
+	{
+		$sql="select  *  from `catagories_attribute` where hide=1 and `idcatagories`=$idcatagories ";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+
+	}
+	function check_idattribute($idattribute,$idcatagories)
+	{
+		$data=$this->load_attribute_idcatagories($idcatagories);
+		
+		foreach($data as $v)
+		{
+			if($v->idattribute==$idattribute)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	function delete_attribute_model($idattribute,$idcatagories)
+	{
+		//,'catagories_attribute'
+		$sql="update `catagories_attribute` set `hide`=2 where `idattribute`=$idattribute and `idcatagories`=$idcatagories ";
+		$this->setQuery($sql);
+		return $this->execute();
+	}
 	
 }
 

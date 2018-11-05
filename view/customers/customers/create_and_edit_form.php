@@ -82,7 +82,7 @@
                                                   for($i=1;$i<count($city);$i++)
                                                   {
                                                 ?>
-                                                <option value="<?=(isset($city[$i])) ? $city[$i]->id : ''?>" <?=(isset($city[$i]) && $city[$i]->id==$customers->city) ? 'selected="selected"' : '' ?>> <?=(isset($city[$i])) ? $city[$i]->name : ''?> </option>
+                                                <option value="<?=(isset($city[$i])) ? $city[$i]->id : ''?>" <?=(isset($customers->city) && $city[$i]->id==$customers->city) ? 'selected="selected"' : '' ?>> <?=(isset($city[$i])) ? $city[$i]->name : ''?> </option>
                                                 <?php
                                                   }
                                                 ?>
@@ -97,7 +97,7 @@
                                                   for($i=1;$i<count($district);$i++)
                                                   {
                                                 ?>
-                                                <option value="<?=(isset($district[$i])) ? $district[$i]->id : ''?>" <?=(isset($district[$i]) && $district[$i]->id==$customers->district) ? 'selected="selected"' : '' ?>> <?=(isset($district[$i])) ? $district[$i]->name : ''?> </option>
+                                                <option value="<?=(isset($district[$i])) ? $district[$i]->id : ''?>" <?=(isset($customers->district) && $district[$i]->id==$customers->district) ? 'selected="selected"' : '' ?>> <?=(isset($district[$i])) ? $district[$i]->name : ''?> </option>
                                                 <?php
                                                   }
                                                 ?>
@@ -134,7 +134,7 @@
                                                   for($i=0;$i<count($groups);$i++)
                                                   {
                                                 ?>
-                                                <option value="<?php echo $groups[$i]->id  ?>" <?=(isset($groups[$i]) && $groups[$i]->id==$customers->group_id) ? 'selected="selected"' : '' ?>> <?php echo $groups[$i]->fullname  ?> </option>
+                                                <option value="<?php echo $groups[$i]->id  ?>" <?=(isset($customers->group_id) && $groups[$i]->id==$customers->group_id) ? 'selected="selected"' : '' ?>> <?php echo $groups[$i]->fullname  ?> </option>
                                                 <?php
                                                   }
                                                 ?>
@@ -192,7 +192,7 @@
               <div class="ibox">
                   <div class="ibox-content">
                     <div style="text-align: right;">
-                      <a class="btn btn-success" style="margin-bottom: 0px;" type="text" href="<?=base_url('catalog/create'); ?>">Thêm sản phẩm mới</a>
+                      <a class="btn btn-success" style="margin-bottom: 0px;" type="text" href="<?=base_url('catalog/create'); ?>">Thêm bài viết mới</a>
 					  <?php $this->paging($totalpage,'left'); ?>
                     </div>
 					
@@ -212,7 +212,7 @@
                            </tr>
                         </thead>
                           <tbody>
-                           <?php if($catalogs) {foreach ($catalogs as $v) { ?>
+                           <?php if($catalogs) {foreach ($catalogs as $v)  { ?>
                               <tr class="footable-even" style="">
                                  <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>
                                     <?php echo $v->id ?>

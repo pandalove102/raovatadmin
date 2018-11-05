@@ -16,6 +16,21 @@ class customersmodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	function listcustomerssearch($pos,$numrow,$key)
+	{
+		$w='';
+		if($key != '')
+		{
+			$w .= " and c.fullname LIKE '%$key%' ";
+		}
+		if($numrow>0)
+		{
+			$this->limit = " limit $pos,$numrow";
+		}
+    	echo $sql = "select c.*,g.fullname as fullnamegroups from `" . $this->table . "` c LEFT JOIN `groups` g on c.group_id=g.id where  c.hide = 1 $w {$this->limit} ";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+	}
 	function total()
 	{
 		$sql = "select count(*) as total from " . $this->table . " where hide = 1 ";

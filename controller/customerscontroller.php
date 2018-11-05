@@ -18,8 +18,26 @@ class customerscontroller  extends controller
 		$this->strong = 'Danh sách khách hàng';
 		$this->setscript(array('layout/js/plugins/dataTables/datatables.min.js'));
 		$this->setcss(array('layout/css/plugins/dataTables/datatables.min.css'));
-		$this->setdata(array('customers'=>$this->model->listcustomers($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow),
-							 'totalpage'=>$this->model->total()
+		if($this->get() && $this->istoken('tokencustomers',$this->model->clean($this->get('tokencustomers'))))
+		{
+			$customers = $this->model->listcustomerssearch($this->tim_vi_tri_bat_dau($this->numrow),
+													 $this->numrow,
+													 $this->get('key')
+													);
+			if($this->get('key') !='')
+			{
+				$totalpage =count($customers);
+			}else{
+				$totalpage = $this->model->total();
+			}
+			
+		}else
+		{
+			$customers=$this->model->listcustomers($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow);
+			$totalpage = $this->model->total();
+		}
+		$this->setdata(array('customers'=>$customers,
+							 'totalpage'=>$totalpage
 								));
 		$this->render('list_view');
 	}
@@ -41,6 +59,10 @@ class customerscontroller  extends controller
 		$this->save = 'Lưu';
 		$this->save_close = 'Lưu & Đóng';
 		$this->uri = $this->getactionname();
+		$id = $this->get('id');
+		$city=$this->model->city();
+		$district=$this->model->district();
+		$groups=$this->model->groups();
 		if($this->post() && $this->istoken('tokencustomers',$this->model->clean($_POST['tokencustomers'])))
 		{	
 				$data = array(
@@ -78,6 +100,13 @@ class customerscontroller  extends controller
 					$this->setmsg('Thêm thất bại.','error');
 				}
 		}
+		$this->setdata(array('city'=>$city,
+							 'district'=>$district,
+							 'groups'=>$groups,
+							 'catalogs'=>'',
+							 'totalpage'=>1,
+							 'status'=>$this->statusmodel->liststatusall()
+	   					    ));
 		$this->render('create_and_edit_form');
 	}
 	function edit()
@@ -189,6 +218,27 @@ class customerscontroller  extends controller
 		}
 		
 		
+	}
+
+	function listpost()
+	{
+		$this->title ='Danh sách bài viết';
+		$this->h = 'Danh sách bài viết';
+		$this->a = 'Khách Hàng';
+		$this->strong = 'DS Bài viết';
+		$this->size_image = '(300x300)px';
+		$this->size_imgshare = '(300x300)px';
+		$id = $this->get('id');
+		$listpost=$this->models->listcatalogsiduser($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id,$id);
+		// if(!$listpost)
+		// 	redirect('customers',1);		
+		$this->uri = $this->getactionname();
+		$this->setdata(array('listpost'=>$listpost,
+							 'status'=>$this->statusmodel->liststatusall(),
+							 'totalpage'=>$this->modelnews->totalid($id)
+		                    ));
+		$this->render('list_post_customers');
+	
 	}
 
 

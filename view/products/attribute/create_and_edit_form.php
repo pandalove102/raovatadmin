@@ -85,10 +85,21 @@
                      <div class="form-group"><label class="col-sm-2 control-label">Loại</label>
                         <div class="col-sm-9">
                            <div class="relative">
-                              <input type="text" class="form-control area-input" rows="1" required="" placeholder="Loại"  name="type" id="type" data-error="Nhập unique" value="<?=(isset($attribute)) ? $attribute->type : ''?>">
+                                <td>
+                                    <select class="form-control" name="type">
+                                        <option <?php if(isset($attribute->type)&& $attribute->type=='select' ) echo 'selected="selected"'; else echo ''; ?> value="select" >Select/option</option>
+                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='text' ) echo 'selected="selected"'; else echo ''; ?> value="text" >Text</option>
+                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='input' ) echo 'selected="selected"'; else echo ''; ?> value="input" >input</option>
+                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='hidden' ) echo 'selected="selected"'; else echo ''; ?> value="hidden" >hidden</option>
+                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='date' ) echo 'selected="selected"'; else echo ''; ?> value="date" >date</option>
+                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='textarea' ) echo 'selected="selected"'; else echo ''; ?> value="textarea" >textarea</option>
+                                    </select>
+                                </td>
+                              <!-- <input type="text" class="form-control area-input" rows="1" required="" placeholder="Loại"  name="type" id="type" data-error="Nhập unique" value="<?=(isset($attribute)) ? $attribute->type : ''?>"> -->
                            </div>
                         </div>
                      </div>
+                    
                      <div class="hr-line-dashed"></div>
                      <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-2">
@@ -104,3 +115,6 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $('#example-multiple-optgroups-classes').multiselect();
+</script>

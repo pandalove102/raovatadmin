@@ -47,16 +47,25 @@
                      <div class="form-group"><label class="col-sm-2 control-label">Link</label>
                         <div class="col-sm-9">
                            <div class="relative">
-                              <input type="text" class="form-control area-input" rows="1" required=""  name="name" data-error="Nhập content" value="<?=(isset($menu)) ? $menu->link : ''?>">
+                              <input type="text" class="form-control area-input" rows="1" required=""  name="link" data-error="Nhập content" value="<?=(isset($menu)) ? $menu->link : ''?>">
                            </div>
                         </div>
                      </div>
                      <div class="hr-line-dashed"></div>
-                     <div class="form-group"><label class="col-sm-2 control-label">created</label>
+                     <div class="form-group"><label class="col-sm-2 control-label">Cấp Độ </label>
                         <div class="col-sm-9">
                             <div class="relative">
-                            <input type="text" class="form-control area-input" rows="1" name='created'  value="<?=(isset($menu->created)) ? $menu->created :  date('Y-m-d H:i:s') ?>">
-                           
+                            <select class="form-control m-b" name="parent_id">                              
+                              <option value="0" <?=(isset($menu) && $menu->parent_id==0) ? 'selected="selected"' : '' ?> >Menu Cha</option>
+                              <?php 
+                                for($i=0;$i<count($listmenu);$i++)
+                                {
+                              ?>
+							  <option value="<?php echo $listmenu[$i]->id ?>"  <?=(isset($menu) && $menu->parent_id==$listmenu[$i]->id) ? 'selected="selected"' : '' ?>><?php echo $listmenu[$i]->name ?></option>
+                              <?php
+                                }
+                              ?>
+                           </select>
                             </div>
                         </div>
                      </div>

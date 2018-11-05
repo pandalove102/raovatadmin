@@ -228,6 +228,7 @@ class catagoriescontroller  extends controller
 		}
 		$this->render('list_view_catagories');
 	}
+
 }
  
 ?>

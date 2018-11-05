@@ -1,3 +1,4 @@
+
 <?php defined('BASE') OR exit('No direct script access allowed');?>
 <div class="row">
    <div class="col-lg-12">
@@ -24,7 +25,7 @@
          </div>
          <div class="ibox-content">
             <div class="form-horizontal">
-               <form class="m-t" role="form" action="" method="post" id="form-users">
+               <form class="m-t" role="form" action="" method="post" >
                   <input type="hidden" name="uri" id="uri" value="<?php echo $this->uri ?>">
                   <input type="hidden" name="username" id="username" value="<?=(isset($news)) ? $news->username : ''?>">
                   <div class="wrapper wrapper-content animated fadeInRight ecommerce">
@@ -47,13 +48,17 @@
                                     <fieldset class="form-horizontal">
                                         <div class="form-group">
                                           <label class="col-sm-2 control-label">Tên bài viết:</label>
-                                          <div class="col-sm-10"><input type="text" required="" placeholder="Name" onchange="stralias('name','alias')" class="form-control area-input" name="name" id="name"  data-error="Nhập tên bài viết" data-error-1="Tên bài viết đã tồn tại!" data-url="<?=base_url('news/api_check_news')?>" value="<?=(isset($news)) ? $news->name : ''?>"></div>
+                                          <div class="col-sm-10"><input type="text" required="" placeholder="ten bài viết" 
+                                          onchange="stralias('name','alias')" class="form-control area-input" name="name" id="name"  
+                                          data-url="<?=base_url('news/api_check_news')?>" 
+                                          value="<?=(isset($news)) ? $news->name : ''?>"></div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Alias</label>
                                           <div class="col-sm-10">
                                              <input type="text" required="" placeholder="alias" class="form-control area-input" 
-                                                name="alias" id="alias" data-error="Nhập alias" data-error-1="Alias đã tồn tại!" data-url="<?=base_url('news/api_check_alias')?>" value="<?=(isset($news)) ? $news->alias : ''?>">
+                                                name="alias" id="alias"  data-url="<?=base_url('news/api_check_alias')?>" 
+                                                value="<?=(isset($news)) ? $news->alias : ''?>">
                                           </div>
                                        </div>
                                        <div class="form-group">

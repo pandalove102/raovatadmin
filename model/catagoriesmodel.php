@@ -65,6 +65,22 @@ class catagoriesmodel extends model
 		$this->setQuery($sql);
 		return $this->loadRow(array($name,$id));	
 	}
+	// function listattribute($pos,$numrow,$id)
+	// {
+	// 	if($numrow>0)
+	// 	{
+	// 		$this->limit = " limit $pos,$numrow";
+	// 	}
+	// 	$w = ' where hide=1 ';
+	// 	if($id != '')
+	// 	{
+	// 		$w .= " and `parent_id`=$id  ";
+	// 	}
+	// 	$sql = "select * from `" . $this->table . "`  $w  {$this->limit} ";
+	// 	$this->setQuery($sql);
+	// 	return $this->loadAllRow();
+
+	// }
 }
 
 ?>

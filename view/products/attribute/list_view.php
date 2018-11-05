@@ -41,6 +41,8 @@
                               <td><?php echo $v->unique==1?'Có':'Không' ?></td>
                               <td><?php echo $v->code ?></td>
                               <td><?php echo $v->type ?></td>
+                             
+                           
                               <td class="center">
                                  <a href="<?=base_url('attribute/edit/'.$v->id); ?>" ><span class="glyphicon glyphicon-pencil"></span></a>
                                  <a class="delete-confirm" href="<?=base_url('attribute/delete/'.$v->id); ?>"><span class="glyphicon glyphicon-trash"></span></a>

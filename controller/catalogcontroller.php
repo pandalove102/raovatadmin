@@ -12,9 +12,9 @@ class catalogcontroller  extends controller
 	}
 	function index()
 	{
-		$this->title='Danh sách sản phẩm';
-		$this->h = 'Danh sách sản phẩm';
-		$this->a = 'Sản phẩm';
+		$this->title='Danh sách bài viết';
+		$this->h = 'Danh sách bài viết';
+		$this->a = 'Bài viết';
 		$this->strong = 'Danh sách';
 		$status = $this->modelstatus->status();
 		if($this->get() && $this->istoken('tokensearch',$this->model->clean($this->get('tokensearch'))))
@@ -161,11 +161,77 @@ class catalogcontroller  extends controller
 		}else
 			return false;
 	}
+	function listattribute()
+	{
+		$this->title='DS thuộc tính tin đăng';
+		$this->h = 'DS thuộc tính tin đăng';
+		$this->a = 'Danh mục';
+		$this->strong = 'Danh sách';
+		$this->uri = $this->getactionname();
+		$id = $this->get('id');
+		$idattribute = $this->post('idattribute');
+		$idcatagories = $this->post('idcatagories');
+
+		// get id tin đăng 
+		$idcatalog=$this->get('idcatalog');
+		// get id danh mục 
+		$idcatagories=$this->get('idcatagories');
+		// get list thuoc tính 
+		$listattribute = $this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$idcatalog);
+		// tính số trang 
+		$totalpage =count($listattribute);
+		if($totalpage<=0)
+		{
+			$totalpage=1;
+		}
+		$this->setdata(array('listattribute'=>$listattribute,
+							  'totalpage'=> $totalpage
+							));
+		$this->render('listattribute');
+		// if($this->post())
+		// {
+		// 		if($this->model->check_idattribute($idattribute,$idcatagories))
+		// 		{
+				
+		// 			$data = array(
+		// 				'idattribute' => $this->model->clean($this->post('idattribute')),
+		// 				'idcatagories' => $this->model->clean($this->post('idcatagories')),
+		// 				'created' => date('Y-m-d H:i:s'),
+		// 				'hide' => 1,
+		// 				'state' => 1
+		// 			);
+		// 			if($this->model->insert($data,'','catagories_attribute'))
+		// 			{
+		// 				$this->model->logs('Thêm thành công thuộc tình vào DM: '.$this->model->clean($this->post('username')),$this->getcontrollername().'/'.$this->uri);
+		// 				if($this->model->clean($this->post('save')) == 1)
+		// 				{
+		// 					$this->setmsg('Thêm thành công.','success');
+		// 				}
+		// 				else{
+		// 					redirect('catagory',2);
+		// 				}
+		// 			}
+		// 			else
+		// 			{
+		// 				$this->setmsg('Thêm thất bại.','error');
+		// 			}
+				
+
+		// 	}
+		// }
+	
+		
+		
+	    
+		
+		
+
+	}
 	function create()
 	{
-		$this->title ='Thêm sản phẩm';
-		$this->h = 'Thêm sản phẩm';
-		$this->a = 'Sản phẩm';
+		$this->title ='Thêm bài viết';
+		$this->h = 'Thêm bài viết';
+		$this->a = 'Bài viết';
 		$this->strong = 'Thêm';
 		$this->save = 'Lưu';
 		$this->save_close = 'Lưu & Đóng';
@@ -215,7 +281,7 @@ class catalogcontroller  extends controller
 					);
 					if($this->model->insert($data))
 					{
-						$this->model->logs('Thêm thành công sản phẩm: '.$this->model->clean($this->post('sku')),$this->getcontrollername().'/'.$this->uri);
+						$this->model->logs('Thêm thành công bài viết: '.$this->model->clean($this->post('sku')),$this->getcontrollername().'/'.$this->uri);
 						$sku = $this->model->getsku($this->model->clean($this->post('sku')));
 						if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
 							{							
@@ -256,7 +322,7 @@ class catalogcontroller  extends controller
 				}
 				else
 				{
-					$this->setmsg('Tên sản phẩm đã tồn tại!','error');
+					$this->setmsg('Tên bài viết đã tồn tại!','error');
 				}
 		
 		}
@@ -264,9 +330,9 @@ class catalogcontroller  extends controller
 	}
 	function edit()
 	{
-		$this->title ='Cập nhật sản phẩm';
-		$this->h = 'Sản phẩm';
-		$this->a = 'Cập nhật sản phẩm';
+		$this->title ='Cập nhật bài viết';
+		$this->h = 'Bài viết';
+		$this->a = 'Cập nhật bài viết';
 		$this->strong = 'Sửa';
 		$this->save = 'Cập nhật';
 		$this->save_close = 'Cập nhật & Đóng';
@@ -317,13 +383,13 @@ class catalogcontroller  extends controller
 		                'catagories_id' => $this->model->clean($this->post('catagorie_id')),
 		                'tax' => $this->model->clean($this->post('tax')),
 		                'afterprice' => (1+0.1) * $this->model->clean($this->post('price')),
-		                'username' => $this->model->clean($this->model->session->get('admin_name')),
+		                // 'username' => $this->model->clean($this->model->session->get('admin_name')),
 						'update_at' => date('Y-m-d H:i:s'),
 					);
 					if($this->model->update($data))
 					{
 						$catalogs = $this->model->getone($catalogs->id);
-						$this->model->logs('Cập nhật thành công sản phẩm: '.$catalogs->sku,$this->getcontrollername().'/'.$this->uri);
+						$this->model->logs('Cập nhật thành công bài viết: '.$catalogs->sku,$this->getcontrollername().'/'.$this->uri);
 						$this->setmsg('Cập nhật thành công. Đang chuyển hướng...','success');
 						if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
 							{							
@@ -388,7 +454,7 @@ class catalogcontroller  extends controller
 		);
 		if($this->model->update($data))
 		{
-			$this->model->logs('Xóa thành công sản phẩm: '.$catalogs->sku,'catalog/delete/'.$catalogs->id);
+			$this->model->logs('Xóa thành công bài viết: '.$catalogs->sku,'catalog/delete/'.$catalogs->id);
 			$this->setmsg('Xóa thành công!','success');
 			redirect('catalog',2);
 		}
@@ -401,7 +467,7 @@ class catalogcontroller  extends controller
 	function api_listcatnice($name='catagories_id',$selectid = 0)
 	{
 	   $list = $this->model->listcatnice();
-	   echo ' <select class="form-control m-b" name="'.$name.'"> <option value="">--- Danh mục sản phẩm ---</option>';
+	   echo ' <select class="form-control m-b" name="'.$name.'"> <option value="">--- Danh mục bài viết ---</option>';
 	   $ar1 = array();$ar2 = array();
 	   foreach($list as $item)
 	   {

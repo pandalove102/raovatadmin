@@ -5,6 +5,7 @@ class attributemodel extends model
 	{
 		parent::__construct();
 		$this->table = 'attribute';
+		
 	}
 
 	function listattribute($pos,$numrow)
@@ -13,10 +14,11 @@ class attributemodel extends model
 		{
 			$this->limit = " limit $pos,$numrow";
 		}
-		$sql = "select * from " . $this->table . " where hide = 1 {$this->limit}";
+		 $sql = "select * from " . $this->table . " where hide = 1 {$this->limit}";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	
 	function listattributesearch($pos,$numrow,$key='')
 	{
 		$w = ' where hide = 1 ';
@@ -31,6 +33,22 @@ class attributemodel extends model
 		echo $sql = "select * from " . $this->table . "  $w {$this->limit}";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
+	}
+	function listcatagories()
+	{
+         $sql = "select id,name,parent_id from `catagories` where hide = 1 ";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+	}
+	function detail_catagories_attribute($id='')
+	{
+		if($id!='')
+		{
+			$sql="select * from catagories_attribute a , catagories b ,attribute c   
+			where a.idattribute=c.id and a.idcatagories=b.id and a.hide = 1 and a.idattribute=$id ";
+		}
+		$this->setQuery($sql);
+		return $this->loadRow();
 	}
 	// function searchcustomer($users = '', $emails = '', $groups = '', $status = '')
 	// {
@@ -65,6 +83,7 @@ class attributemodel extends model
 	{
 		return $this->getone($id);	
 	}
+	
 }
 
 ?>

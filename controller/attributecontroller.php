@@ -5,6 +5,7 @@ class attributecontroller  extends controller
 	function __construct()
 	{
 		$this->model = new attributemodel();
+		$this->models = new catalogmodel();
 		$this->pathview = 'view/products/attribute/';
 	}
 	function index()
@@ -153,9 +154,15 @@ class attributecontroller  extends controller
 				$this->setmsg('Cập nhật thất bại. Đang chuyển hướng...','error');
 			}
 		}
-		$this->setdata(array('attribute'=>$attribute));
+		$listcatagories=$this->model->listcatagories();
+		$detail_catagories_attribute=$this->model->detail_catagories_attribute($id);
+		$this->setdata(array('attribute'=>$attribute,
+							 'listcatagories'=>$listcatagories,
+							 'detail_catagories_attribute'=>$detail_catagories_attribute
+							));
 		$this->render('create_and_edit_form');
 	}
+	
 	// code cũ 
 		// function delete()
 		// {

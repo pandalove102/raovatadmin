@@ -23,6 +23,7 @@
 							 <th  style="width: 60px;">Hình</th>
 			                   <th style="width: 218px;">Tên</th>
 			                   <th  style="width: 218px;">Alias</th>
+			                   <th  style="width: 218px;">Thuộc tính Danh Mục</th>
 			                   <th  style="width: 218px;">Danh mục con</th>
 			                   <th style="width: 50px;">Trạng thái</th>
 			                   <th  style="width: 50px;">Hành động</th>
@@ -35,6 +36,8 @@
 			                              <td><img src="<?=(isset($v->image) && $v->image) ? $v->image : base_url('layout/images/no-image.png')?>" height="50px" width="50px"></td>
 			                              <td ><?php echo $v->name ?></td>  
 			                              <td ><?php echo $v->alias ?></td>  
+			                              <td ><a href="<?=base_url('catagory/listattribute/'.$v->id); ?>">Thuộc tính Danh Mục</td> 
+										  
 			                              <td>
 											<a><span class="fa fa-plus-circle btnopenuser" data-lv="1" data-id="<?php echo $v->id ?>"></span></a>                                
 										  </td> 
@@ -77,13 +80,14 @@ $(document).on('click','.btnopenuser',function(){
 			{
 				c_user.empty();
 				d = JSON.parse(d);
-				var str = '<td colspan="7" style="padding:0"><table class="table  sub-table">';
+				var str = '<td colspan="8" style="padding:0"><table class="table  sub-table">';
 				$.each(d.data,function(i,u){
 					 str += '<tr '+(d.lv==1?'class="success"':'class="info"')+'>'+
                               '<td width="75px">'+u.id+'</td> '+                            
                               '<td width="60px"><img src="'+(u.image?u.image:'<?=base_url()?>layout/images/no-image.png')+'" height="50px" width="50px"></td>'+
                               ' <td style="width: 218px;">'+(d.lv==1?'|-- ':'    |---- ')+u.name+'</td>'+  
                               '<td style="width: 218px;">'+u.alias+'</td>'+
+                              '<td style="width: 218px;"><a href="catagory/listattribute/'+u.id+'">Thuộc tính danh mục</td>'+
                               ' <td style="width: 218px;">'+
 								'<a><span class="fa fa-plus-circle btnopenuser" data-lv="'+(d.lv+1)+'" data-id="'+u.id+'"></span></a>'+                                
 							  '</td>'+
@@ -99,7 +103,7 @@ $(document).on('click','.btnopenuser',function(){
 				str += '</table></td>';
 				c_user.html(str);
 			}else{
-				c_user.html('<td colspan="7">Không tìm thấy dữ liệu</td>');
+				c_user.html('<td colspan="8">Không tìm thấy dữ liệu</td>');
 			}
 		})
 	}else

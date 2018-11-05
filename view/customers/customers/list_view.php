@@ -13,7 +13,7 @@
 		                           <?=$this->randtoken('tokencustomers'); ?>
 		                           <input name="key" type="text" class="form-control" value="<?=$this->get('key') ?>" placeholder="Tên trạng thái">
 		                           <button class="btn btn-primary" style="margin-bottom: 0px;" type="submit">Tìm Kiếm</button>
-		                           <!-- <a class="btn btn-success" style="margin-bottom: 0px;" type="text" href="<?=base_url('customers/create'); ?>">Thêm mới</a> -->
+		                           <a class="btn btn-success" style="margin-bottom: 0px;" type="text" href="<?=base_url('customers/create'); ?>">Thêm mới</a>
 		                        </div>            
 		                     </form>
 		                  </div>
@@ -43,7 +43,7 @@
 			                              <td><img src="<?=(isset($v->image) && $v->image) ? $v->image : base_url('layout/images/no-image.png')?>" height="50px" width="50px"></td>
 			                              <td ><?php echo $v->fullname ?></td>  
 			                              <td ><?php echo $v->email ?></td>  
-			                              <td ><?php echo $v->address ?></td>  
+			                              <td ><a href="<?=base_url('customers/listpost/'.$v->id); ?>">Xem Bài Viết</a></td>  
 			                              <td ><?php echo $v->fullnamegroups ?></td>  
 			                              <td ><?php echo $v->cellularphone ?></td> 
 										
