@@ -24,7 +24,7 @@
 			                   <th style="width: 218px;">Tên</th>
 			                   <th  style="width: 218px;">Alias</th>
 			                   <th  style="width: 218px;">Thuộc tính Danh Mục</th>
-			                   <th  style="width: 218px;">Danh mục con</th>
+			                   <th  style="width: 100px;">Danh mục con</th>
 			                   <th style="width: 50px;">Trạng thái</th>
 			                   <th  style="width: 50px;">Hành động</th>
 							</tr>
@@ -88,7 +88,7 @@ $(document).on('click','.btnopenuser',function(){
                               ' <td style="width: 218px;">'+(d.lv==1?'|-- ':'    |---- ')+u.name+'</td>'+  
                               '<td style="width: 218px;">'+u.alias+'</td>'+
                               '<td style="width: 218px;"><a href="catagory/listattribute/'+u.id+'">Thuộc tính danh mục</td>'+
-                              ' <td style="width: 218px;">'+
+                              ' <td style="width: 100px;">'+
 								'<a><span class="fa fa-plus-circle btnopenuser" data-lv="'+(d.lv+1)+'" data-id="'+u.id+'"></span></a>'+                                
 							  '</td>'+
 							   '<td class="text-center" style="width: 50px;">'+

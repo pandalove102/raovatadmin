@@ -36,10 +36,10 @@ class catagorymodel extends model
 	}
 	function catagories_idcatagories($id='')
 	{
-		$add = '';
+		$add = 'where hide = 1 ';
 		if($id!='')
-			$add = ' and id = '.$id;
-		$sql = "select * from `catagories` where hide = 1 $add";
+			$add += " and id =$id ";
+		$sql = "select * from `new_catagories`  $add ";
 		$this->setQuery($sql);
 		return $this->loadRow();
 	}
