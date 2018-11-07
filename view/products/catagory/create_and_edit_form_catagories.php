@@ -93,12 +93,82 @@
                         </div>
                      </div>
 					  <div class="hr-line-dashed"></div>
-                     <div class="form-group"><label class="col-sm-2 control-label">Thứ tự</label>
+                        <div class="form-group"><label class="col-sm-2 control-label">Thứ tự</label>
                         <div class="col-sm-9">
                            <input type="text" required="" placeholder="Thứ tự hiển thị" class="form-control area-input" 
 						   name="pos" id="thutu" value="<?=(isset($catagory)) ? $catagory->pos : '1'?>">
                         </div>
                      </div>
+                     <!-- thêm thuộc tính cho danh mục  -->
+                     <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Danh sach thuộc tính</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <select class="form-control" name="idattribute" id="idattribute">
+                                    <?php 
+                                    
+                                        for($i=0;$i<count($listattributeall);$i++)
+                                        {
+                                            
+                                    ?>
+                                    <option  value="<?php  echo $listattributeall[$i]->id  ?>" ><?php  echo $listattributeall[$i]->label  ?></option>
+                                    <?php 
+                                                
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                                
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" id='addattribute' value="add" class="btn btn-success" name="save" >Thêm</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                            </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                     <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Thuộc tính mở rộng:</label>
+                        <div class="col-sm-9">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                            Thêm thuộc tính mới vào danh mục 
+                            </button>
+                            <?php $this->paging($totalpage,'left'); ?>
+                            <table class="table table-striped table-bordered table-hover ">
+                                <thead>
+                                <tr>
+                                    <th data-toggle="true">ID</th>
+                                    <th data-toggle="true">Tiêu đề</th>
+                                    <th data-toggle="true">Giá Trị</th>
+                                    <th data-toggle="true">Giá trị mặc định</th>
+                                    <th data-toggle="true">Code</th>
+                                    <th data-toggle="true">Loại</th>
+                                    <th class="text-right" data-sort-ignore="true">Hành Động</th>
+                                </tr>
+                                </thead>
+                                <tbody id="myTable">
+                                    <tr class="footable-even" style="">
+                                       
+                                       
+                                    
+                                        
+                                      
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <?php $this->paging($totalpage); ?>
+                        </div>
+                     </div>
+
+                     <!-- The End , thêm thuộc tính cho danh mục -->
                      <div class="hr-line-dashed"></div>
                      <div class="form-group">
                         <div class="col-sm-4 col-sm-offset-2">
@@ -115,3 +185,38 @@
     </div>
 </div>
 <script type="text/javascript">CKEDITOR.replace('description');</script>
+
+<script>
+    $("#addattribute").click(function () {
+        {
+            var selected = $('select#idattribute option:selected').text();
+            var idselected = $('select#idattribute option:selected').val();
+
+            alert(selected);
+            alert(idselected);
+
+            $.post('<?=base_url('catagory/api_list_attribute') ?>',{idselected:idselected})
+            .done(function(d){
+                        if(d && d!='[]')
+                        {
+                            var str='';
+                            alert(d);
+                            d = JSON.parse(d);
+                            $.each(d.data, function(k,v)
+                            {
+                                var str+='<tr class="gradeA odd" role="row"><td class="sorting_1">'+v.id+'</td><td>'+v.label+'</td><td>'+v.value+'</td><td>'+v.defaultvalue+'</td><td>'+v.code+'</td><td>'+v.type+'</td></tr>';
+                            }
+                            alert(str);
+                            //     $( "#district" ).html(str);
+                            // }else{
+                            //     $( "#district" ).html('<select class="form-control m-b" name="district"> No data </select> ');
+                        }
+            })
+
+
+            // selected.each(function () {
+                // $('table1').append('<tr><td>'+$(this).val() +'</td></tr>');
+        //     });
+        }
+    });
+</script>

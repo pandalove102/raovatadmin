@@ -34,6 +34,15 @@ class catagorymodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	function catagories_idcatagories($id='')
+	{
+		$add = '';
+		if($id!='')
+			$add = ' and id = '.$id;
+		$sql = "select * from `catagories` where hide = 1 $add";
+		$this->setQuery($sql);
+		return $this->loadRow();
+	}
 	// load phân trang 
 	function listparent($pos,$numrow,$id = 0)
 	{
@@ -140,6 +149,17 @@ class catagorymodel extends model
 		$sql="update `catagories_attribute` set `hide`=2 where `idattribute`=$idattribute and `idcatagories`=$idcatagories ";
 		$this->setQuery($sql);
 		return $this->execute();
+	}
+	function list_attribute($id='')
+	{
+		$w = ' where hide=1 ';
+		if($id != '')
+		{
+			$w .= "  and `id`=$id";
+		}
+		$sql="select * from attribute  ";
+		$this->setQuery($sql);
+		return $this->loadRow();
 	}
 	
 }

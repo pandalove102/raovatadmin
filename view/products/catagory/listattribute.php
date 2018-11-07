@@ -1,5 +1,5 @@
 
-
+<?php ?>
 <?php defined('BASE') OR exit('No direct script access allowed');?>
 <form class="m-t" role="form" action="" method="post" >
 <div class="row">
@@ -42,6 +42,10 @@
                               <div id="tab-1" class="tab-pane active">
                               <div class="col-lg-12">
                                 <div class="ibox">
+                                <div class="col-lg-10">
+                                    Danh sách thuộc tính danh mục: 
+                                    <h2><?=(isset($catagories->name))?$catagories->name:'';?></h2>
+                                </div>
                                 <div style="text-align: right;">
                                         <a class="btn btn-success" style="margin-bottom: 0px;" type="text" href="<?=base_url('attribute/create'); ?>">Tạo thuộc tính mới</a>
                                 <div>
@@ -92,6 +96,7 @@
                                                         <button type="submit" value="1" class="btn btn-success" name="save" >Lưu</button>
                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                                                     </div>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,6 +131,7 @@
                                                         <?php echo $v->code ?>
                                                     </td>
                                                     <td>
+                                                    <!-- $this->form->select(data , dieukien ) -->
                                                         <select class="form-control" name="type">
                                                             <option <?php if(isset($v->type)&& $v->type=='select' ) echo 'selected="selected"'; else echo ''; ?> value="select" >Select/option</option>
                                                             <option  <?php if(isset($v->type)&& $v->type=='text' ) echo 'selected="selected"'; else echo ''; ?> value="text" >Text</option>
@@ -139,7 +145,7 @@
                                                    
                                                     <td class="text-right">
                                                         <div class="btn-group">
-                                                        <a href="<?=base_url('attribute/edit/'.$v->idattribute); ?>" class="btn-white btn btn-xs">Sửa</a>
+                                                        <!-- <a href="<?=base_url('attribute/edit/'.$v->idattribute); ?>" class="btn-white btn btn-xs">Sửa</a> -->
                                                         <a href="<?=base_url('catagory/delete_attribute/?idattribute='.$v->idattribute.'&&idcatagories='.$this->get('id')); ?>" class="btn-white btn btn-xs">Xóa</a>
                                                         </div>
                                                     </td>
@@ -151,7 +157,7 @@
                                     </div>
                                 </div>
                               </div>
-                              <!-- </div> -->
+                              </div>
                               </div>
                            
                            </div>

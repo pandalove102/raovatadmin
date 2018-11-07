@@ -28,6 +28,18 @@ class catalogmodel extends model
 		return $this->loadAllRow();
 
 	}
+	// function listattribute($id='')
+	// {
+	// 	$w='';
+	// 	if($id != '')
+	// 	{
+	// 		$w .= " and idcatagories=$id ";
+	// 	}SELECT  * FROM catagories_attribute WHERE hide=1 and idcatagories=4;
+	// 	$sql = "SELECT  * FROM catagories_attribute WHERE hide=1  $w;";
+	// 	$this->setQuery($sql); 
+	// 	return $this->loadAllRow();
+
+	// }
 	function listattributeall($pos,$numrow)
 	{
 		if($numrow>0)

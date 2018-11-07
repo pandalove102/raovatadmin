@@ -37,24 +37,25 @@
                      <div class="col-lg-12">
                         <div class="tabs-container">
                            <ul class="nav nav-tabs">
-                              <li class="active"><a data-toggle="tab" href="#tab-1"> Thông tin sản phẩm</a></li>
-                              <li class=""><a data-toggle="tab" href="#tab-2"> Thông tin khác</a></li>
-                              <li class=""><a data-toggle="tab" href="#tab-3"> Giảm giá</a></li>
+                              <li class="active"><a data-toggle="tab" href="#tab-1"> Thông tin chung</a></li>
+                              <!-- <li class=""><a data-toggle="tab" href="#tab-2"> Thông tin khác</a></li> -->
+                              <!-- <li class=""><a data-toggle="tab" href="#tab-3"> Giảm giá</a></li> -->
                               <li class=""><a data-toggle="tab" href="#tab-4"> Hình ảnh</a></li>
                               <li class=""><a data-toggle="tab" href="#tab-5"> SEO</a></li>
-                              <li class=""><a data-toggle="tab" href="#tab-6"> Khuyến mãi</a></li>
+                              <!-- <li class=""><a data-toggle="tab" href="#tab-6"> Khuyến mãi</a></li> -->
                               <li class=""><a data-toggle="tab" href="#tab-7"> Thuộc tính khác</a></li>
+                              <li class=""><a data-toggle="tab" href="#tab-8"> Thông tin liên hệ</a></li>
                            </ul>
                            <div class="tab-content">
                               <div id="tab-1" class="tab-pane active">
                                  <div class="panel-body">
                                     <fieldset class="form-horizontal">
                                         <div class="form-group">
-                                          <label class="col-sm-2 control-label">Sku:</label>
+                                          <label class="col-sm-2 control-label">Mã bài viết:</label>
                                           <div class="col-sm-10"><input type="text" required="" placeholder="Sku" class="form-control area-input" name="sku" id="sku"  data-error="Nhập Sku" data-error-1="Mã sku đã tồn tại!" data-url="<?=base_url('catalog/api_check_sku')?>" value="<?=(isset($catalogs)) ? $catalogs->sku : ''?>"></div>
                                         </div>
                                         <div class="form-group">
-                                          <label class="col-sm-2 control-label">Tên sản phẩm:</label>
+                                          <label class="col-sm-2 control-label">Tên bài viết:</label>
                                           <div class="col-sm-10"><input type="text" required="" placeholder="Name" onchange="stralias('username','alias')" class="form-control area-input" name="username" id="username"  data-error="Nhập tên sản phẩm" data-error-1="Tên sản phẩm đã tồn tại!" data-url="<?=base_url('catalog/api_check_catalogs')?>" value="<?=(isset($catalogs)) ? $catalogs->name : ''?>"></div>
                                        </div>
                                        <div class="form-group">
@@ -67,24 +68,73 @@
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Giá:</label>
                                           <div class="col-sm-10">
-                                            <input type="number" onkeyup="validateInp(this);" required="" placeholder="price" class="form-control area-input" 
+                                            <script>
+                                               $(function () {
+                                                    $("#inlineCheckbox1").click(function () {
+                                                        if ($(this).is(":checked")) {
+                                                            $("#price").hide();
+                                                            $("#price").val('0');
+                                                        }
+                                                         else {
+                                                            $("#price").show();
+                                                        }
+                                                    });
+                                                });
+                                                </script>
+                                              <input type="number"   placeholder="nhập giá" class="form-control area-input" 
                                              name="price" id="price" value="<?=(isset($catalogs)) ? $catalogs->price : ''?>">
+                                                <input type="checkbox" <?php if($catalogs->price==0) echo  'checked' ; else echo ''; ?>  id="inlineCheckbox1" value="lienhe">
+                                                <label for="inlineCheckbox1"> Liên hệ </label>
                                           </div>
                                        </div>
-									    <div class="form-group">
+
+
+
+
+                                       <div class="form-group">
+                                          <label class="col-sm-2 control-label">Thành Phố:</label>
+                                          <div class="col-sm-10">
+                                          <select class="form-control m-b" id="city" name="city">
+                                                <?php
+                                                  for($i=1;$i<count($city);$i++)
+                                                  {
+                                                ?>
+                                                <option value="<?=(isset($city[$i])) ? $city[$i]->id : ''?>" <?=(isset($catalogs->city) && $city[$i]->id==$catalogs->city) ? 'selected="selected"' : '' ?>> <?=(isset($city[$i])) ? $city[$i]->name : ''?> </option>
+                                                <?php
+                                                  }
+                                                ?>
+                                             </select>
+                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-2 control-label">Quận/Huyện:</label>
+                                          <div class="col-sm-10">
+                                            <select class="form-control m-b" id="district" name="district">
+                                                <?php
+                                                  for($i=1;$i<count($district);$i++)
+                                                  {
+                                                ?>
+                                                <option value="<?=(isset($district[$i])) ? $district[$i]->id : ''?>" <?=(isset($catalogs->district) && $district[$i]->id==$catalogs->district) ? 'selected="selected"' : '' ?>> <?=(isset($district[$i])) ? $district[$i]->name : ''?> </option>
+                                                <?php
+                                                  }
+                                                ?>
+                                             </select>
+                                        </div>
+                                        </div>
+									    <!-- <div class="form-group">
                                           <label class="col-sm-2 control-label">Màu sắc</label>
                                           <div class="col-sm-10">
                                              <input type="text" required="" placeholder="color" class="form-control area-input" 
                                                 name="color" id="color" data-error="Nhập color"  value="<?=(isset($catalogs)) ? $catalogs->color : ''?>">
                                           </div>
-                                       </div>
-									    <div class="form-group">
+                                       </div> -->
+									    <!-- <div class="form-group">
                                           <label class="col-sm-2 control-label">Chất liệu</label>
                                           <div class="col-sm-10">
                                              <input type="text" required="" placeholder="material" class="form-control area-input" 
                                                 name="material" id="material" data-error="Nhập Chất liệu" value="<?=(isset($catalogs)) ? $catalogs->material : ''?>">
                                           </div>
-                                       </div>
+                                       </div> -->
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Mô tả ngắn:</label>
                                           <div class="col-sm-10">
@@ -97,7 +147,9 @@
                                              <textarea type="text" required=""  placeholder="Description" class="form-control area-input" name="description" id="description"> <?=(isset($catalogs)) ? $catalogs->description : ''?></textarea>
                                           </div>
                                        </div>
-                                       <div class="form-group">
+                                     
+                                     
+                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Hình ảnh</label>
                                           <div class="col-sm-9">
                                              <img src="<?=(isset($catalogs) && $catalogs->image) ? $catalogs->image : base_url('layout/images/no-image.png')?>" height="100px" width="100px">
@@ -106,6 +158,55 @@
                                               <?php echo $this->size_image ?>                    
                                           </div>
                                        </div>
+
+                                      <div class="form-group">
+                                          <label class="col-sm-2 control-label">Danh mục:</label>
+                                          <div class="col-sm-10">
+                                              <?=$this->api_listcatnice('catagorie_id',@$catalogs->catagories_id)?>
+                                          </div>
+                                       </div>
+                                       
+                                       <div class="form-group">
+                                          <label class="col-sm-2 control-label">Số lượng:</label>
+                                          <div class="col-sm-10">
+                                            <input type="number" required="" placeholder="quantity" class="form-control area-input" 
+                                             name="quantity" data-error="Nhập số lượng" onkeyup="validateInp(this);" id="quantity" value="<?=(isset($catalogs)) ? $catalogs->quantity : ''?>">
+                                          </div>
+                                       </div>
+
+                                        <div class="form-group">
+                                          <label class="col-sm-2 control-label">Ngày Hiển Thị:</label>
+                                          <div class="col-sm-10">
+                                             <input type="text" required="" placeholder="Ngày Hiển Thị" class="form-control area-input" 
+                                                name="date_show" id="date_show" >
+                                          </div>
+                                       </div>
+
+                                         <div class="form-group">
+                                          <label class="col-sm-2 control-label">Loại tin đăng:</label>
+                                          <div class="col-sm-10">
+                                             <select class="form-control m-b" name="idtypecatalogs">
+                                                 <?php if($typecatalogs) {foreach ($typecatalogs as $v){ ?>
+                                                <option value="<?=$v->id?>" <?=$this->uri!='create' ? (isset($v) && $v->id==$catalogs->idtypecatalogs) ? 'selected="selected"' : '' :''?> ><?php echo $v->name ?></option>
+                                                <?php }} ?>
+                                             </select>
+                                          </div>
+                                        </div>
+
+
+                                         <div class="form-group">
+                                          <label class="col-sm-2 control-label">Trạng thái:</label>
+                                          <div class="col-sm-10">
+                                             <select class="form-control m-b" name="status">
+                                                 <?php if($status) {foreach ($status as $v){ ?>
+                                                <option value="<?=$v->id?>" <?=$this->uri!='create' ? (isset($v) && $v->id==$catalogs->status) ? 'selected="selected"' : '' :''?> ><?php echo $v->name ?></option>
+                                                <?php }} ?>
+                                             </select>
+                                          </div>
+                                        </div>
+
+                                      
+
                                     </fieldset>
                                  </div>
                               </div>
@@ -115,27 +216,27 @@
                                        
                                             <input type="hidden" 
                                              name="id" id="id" value="<?=(isset($catalogs)) ? $catalogs->id : ''?>">
-                                       <div class="form-group">
+                                       <!-- <div class="form-group">
                                           <label class="col-sm-2 control-label">Thương hiệu:</label>
                                           <div class="col-sm-10">
                                              <input type="text" class="form-control" required="" name="brand" id="brand" placeholder="Thương hiệu" data-error="Nhập thương hiệu" value="<?=(isset($catalogs)) ? $catalogs->brand : ''?>">
                                           </div>
-                                       </div>
-                                       <div class="form-group">
+                                       </div> -->
+                                       <!-- <div class="form-group">
                                           <label class="col-sm-2 control-label">Danh mục:</label>
                                           <div class="col-sm-10">
                                               <?=$this->api_listcatnice('catagorie_id',@$catalogs->catagories_id)?>
                                           </div>
-                                       </div>
-                                       <div class="form-group">
+                                       </div> -->
+                                       <!-- <div class="form-group">
                                           <label class="col-sm-2 control-label">Thuế</label>
                                           <div class="col-sm-10">
                                              <select class="form-control" id="tax" name="tax">
                                                 <option value="10" <?=(isset($catalogs) && $catalogs->tax==10) ? 'selected="selected"' : '' ?>>10 %</option>
                                              </select>
                                           </div>
-                                       </div>
-                                       <div class="form-group">
+                                       </div> -->
+                                       <!-- <div class="form-group">
                                           <label class="col-sm-2 control-label">Số lượng:</label>
                                           <div class="col-sm-10">
                                             <input type="number" required="" placeholder="quantity" class="form-control area-input" 
@@ -151,11 +252,11 @@
                                                 <?php }} ?>
                                              </select>
                                           </div>
-                                       </div>
+                                       </div> -->
                                     </fieldset>
                                  </div>
                               </div>
-                              <div id="tab-3" class="tab-pane">
+                              <!-- <div id="tab-3" class="tab-pane">
                                  <div class="panel-body">
                                     <div class="table-responsive">
                                        <table class="table table-stripped table-bordered">
@@ -206,7 +307,7 @@
                                         <a class="btn btn-success" id="adddis" >Thêm giảm giá</a>
                                     </div>
                                  </div>
-                              </div>
+                              </div> -->
                               <div id="tab-4" class="tab-pane">
                                  <div class="panel-body">
                                     <div class="table-responsive">
@@ -282,17 +383,24 @@
                                              name="metadesc" id="metadesc" value="<?=(isset($catalogs)) ? $catalogs->metadesc : ''?>">
                                          </div>
                                        </div>
-                                       <div class="form-group hidden">
+                                       <!-- <div class="form-group hidden">
                                           <label class="col-sm-2 control-label">Meta Tag Keywords:</label>
                                           <div class="col-sm-10">
                                             <input type="text" required="" placeholder="metakey" class="form-control area-input" 
                                              name="metakey" id="metakey" value="<?=(isset($catalogs)) ? $catalogs->metakey : ''?>">
                                          </div>
+                                       </div> -->
+                                       <div class="form-group">
+                                          <label class="col-sm-2 control-label">Tag:</label>
+                                          <div class="col-sm-10">
+                                            <textarea type="text" rows="4" placeholder="Tag" class="form-control area-input" 
+                                             name="" ><?=(isset($catalogs)) ? $catalogs->metakey : ''?></textarea>
+                                         </div>
                                        </div>
                                     </fieldset>
                                  </div>
                               </div>
-                              <div id="tab-6" class="tab-pane">
+                              <!-- <div id="tab-6" class="tab-pane">
                                  <div class="panel-body">
                                     <div class="table-responsive">
                                        <table class="table table-stripped table-bordered">
@@ -337,6 +445,74 @@
                                        </table>
                                         <a class="btn btn-success" id="addkm" >Thêm hàng tặng</a>
                                     </div>
+                                 </div>
+                              </div> -->
+                              <div id="tab-7" class="tab-pane">
+                                 <div class="panel-body">
+                                    <div class="table-responsive">
+                                       
+                                      
+                                    </div>
+                                 </div>
+                              </div>
+                              <div id="tab-8" class="tab-pane">
+                                 <div class="panel-body">
+                                    <fieldset class="form-horizontal">
+                                       <!-- <div class="form-group">
+                                          <label class="col-sm-2 control-label">Hình ảnh chia sẽ</label>
+                                          <div class="col-sm-9">
+                                             <img src="<?=(isset($catalogs) && $catalogs->imgshare) ? $catalogs->imgshare : base_url('layout/images/no-image.png')?>" height="100px" width="100px">                  
+                                             <input type="hidden" name="imgshare" value="<?=(isset($catalogs)) ? $catalogs->imgshare : ''?>"  id="imgshare" />
+                                             <button class="btn btn-info" type="button" onclick="openPopup('imgshare')">Changes</button>
+                                             <?php echo $this->size_imgshare ?>
+                                          </div>
+                                       </div> -->
+                                       <div class="form-group">
+                                          <label class="col-sm-2 control-label">Tên:</label>
+                                          <div class="col-sm-10">
+                                            <input type="text" required="" placeholder="Tên" class="form-control area-input" 
+                                             name="h1" id="h1" value="<?=(isset($catalogs)) ? $catalogs->h1 : ''?>">
+                                          </div>
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="col-sm-2 control-label">Số điện thoại:</label>
+                                          <div class="col-sm-10">
+                                            <input type="text" required="" placeholder="Số điện thoại" class="form-control area-input" 
+                                             name="metatitle" id="metatitle" value="<?=(isset($catalogs)) ? $catalogs->metatitle : ''?>">
+                                          </div>
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="col-sm-2 control-label">Email:</label>
+                                          <div class="col-sm-10">
+                                            <input type="text" required="" placeholder="Email" class="form-control area-input" 
+                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs)) ? $catalogs->metadesc : ''?>">
+                                         </div>
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="col-sm-2 control-label">Phương tiện khác:</label>
+                                          <div class="col-sm-10">
+                                            <input type="text" required="" placeholder="Phương tiện khách" class="form-control area-input" 
+                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs)) ? $catalogs->metadesc : ''?>">
+                                         </div>
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="col-sm-2 control-label">Vị trí bản đồ:</label>
+                                          <div class="col-sm-10">
+                                            <!-- <input type="text" required="" placeholder="Vị trí bản đồ" class="form-control area-input" 
+                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs)) ? $catalogs->metadesc : ''?>"> -->
+                                             <div>
+                                                <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15673.15986240415!2d106.5996596!3d10.86553605!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1541606648945" width="900" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                             </div>
+                                         </div>
+                                       </div>
+                                       <div class="form-group">
+                                          <label class="col-sm-2 control-label">Ghi chú:</label>
+                                          <div class="col-sm-10">
+                                            <textarea type="text" rows="4" placeholder="Ghi chú" class="form-control area-input" 
+                                             name="" ><?=(isset($catalogs)) ? $catalogs->metakey : ''?></textarea>
+                                         </div>
+                                       </div>
+                                    </fieldset>
                                  </div>
                               </div>
                            </div>
@@ -461,4 +637,31 @@
              idkm++;
         });
     
+</script>
+<script>
+$(document).on('change','#city', function() {
+  var _that = $(this);
+  var id=$( "#city" ).val();
+  // alert(id);
+  $.post('<?=base_url('customers/api_getsub') ?>',{id:id})
+  .done(function(d){
+			if(d && d!='[]')
+			{
+        // alert(d);
+        var str = '<select class="form-control m-b" name="district">';
+				$( "#district" ).empty();
+				d = JSON.parse(d);
+				$.each(d.data, function(k,v) 
+        {
+          str +='<option value="'+v.id+'">'+v.name+' </option>';	
+        });
+				str += '</select>';
+        // alert(str);
+				$( "#district" ).html(str);
+			}else{
+				$( "#district" ).html('<select class="form-control m-b" name="district"> No data </select> ');
+			}
+		})
+
+});
 </script>

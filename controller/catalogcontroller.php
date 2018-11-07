@@ -6,6 +6,8 @@ class catalogcontroller  extends controller
 	{
 		parent::__construct();
 		$this->model = new catalogmodel();
+		$this->customersmodel = new customersmodel();
+		$this->typecatalogsmodel = new typecatalogsmodel();
 		$this->models = new catagorymodel();
 		$this->modelstatus = new statusmodel();
 		$this->pathview = 'view/products/catalog/';
@@ -176,8 +178,8 @@ class catalogcontroller  extends controller
 		$idcatalog=$this->get('idcatalog');
 		// get id danh mục 
 		$idcatagories=$this->get('idcatagories');
-		// get list thuoc tính 
-		$listattribute = $this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$idcatalog);
+		// get list thuoc tính đầy đủ từ ID danh mục ra list đầy đủ
+		$listattribute = $this->model->listattribute($idcatagories);
 		// tính số trang 
 		$totalpage =count($listattribute);
 		if($totalpage<=0)
@@ -344,6 +346,13 @@ class catalogcontroller  extends controller
 		$items = $this->model->listitem();
 		$listkm = $this->model->listkm($catalogs->sku);
 		$status = $this->modelstatus->status();
+		// city 
+		$city=$this->customersmodel->city();
+		// district
+		$district=$this->customersmodel->district();
+		// loại tin đăng
+		$typecatalogs=$this->typecatalogsmodel->listtypecatalogsall();
+
 		if(!$catalogs)
 			redirect('catalog/create',1);
 		else
@@ -382,6 +391,9 @@ class catalogcontroller  extends controller
 						'quantity' => $this->model->clean($this->post('quantity')),
 		                'catagories_id' => $this->model->clean($this->post('catagorie_id')),
 		                'tax' => $this->model->clean($this->post('tax')),
+		                'city' => $this->model->clean($this->post('city')),
+		                'district' => $this->model->clean($this->post('district')),
+		                'idtypecatalogs' => $this->model->clean($this->post('idtypecatalogs')),
 		                'afterprice' => (1+0.1) * $this->model->clean($this->post('price')),
 		                // 'username' => $this->model->clean($this->model->session->get('admin_name')),
 						'update_at' => date('Y-m-d H:i:s'),
@@ -437,6 +449,9 @@ class catalogcontroller  extends controller
 									'listdis'=>$discounts,
 									'itemkm'=>$items,
 									'listkm'=>$listkm,
+									'city'=>$city,
+									'district'=>$district,
+									'typecatalogs'=>$typecatalogs,
 									'status'=>$this->modelstatus->status(),
 								));
 				$this->render('create_and_edit_form_products');

@@ -109,10 +109,12 @@ class catagorycontroller  extends controller
 			}
 		}
 		$status = $this->modelstatus->status();
+		$catagories=$this->model->catagories_idcatagories($idcatagories);
 		$listattribute = $this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
 		$listattributeall = $this->model->listattributeall();
 	    $totalpage =count($listattribute);
 		$this->setdata(array('listattribute'=>$listattribute,
+							  'catagories'=>$catagories,
 							 'listattributeall'=>$listattributeall,
 							  'totalpage'=> $totalpage,
 							  'status'=>$status
@@ -193,7 +195,14 @@ class catagorycontroller  extends controller
 		$this->size_image = '(300x300)px';
 		$this->size_imgshare = '(300x300)px';
 		$this->uri = $this->getactionname();
-		$this->setdata(array('list_catagory'=>$this->model->listcatagories()));
+		$listattributeall = $this->model->listattributeall();
+		$totalpage=1;
+	
+		$this->setdata(array('list_catagory'=>$this->model->listcatagories(),
+							 'listattribute'=>null,
+							  'totalpage'=>$totalpage,
+							 'listattributeall'=>$listattributeall
+							));
 		if($this->post() && $this->istoken('tokencatagory',$this->model->clean($this->post('tokencatagory'))))
 		{			
 			//if($this->api_check_catagory(true))
@@ -378,6 +387,15 @@ class catagorycontroller  extends controller
 	       }
 	   }
 	   echo '<select>';
+	}
+	function api_list_attribute()
+	{
+		if($this->post()){
+			$list_attribute = $this->model->list_attribute($this->post('idselected'));
+			echo json_encode(array('data'=>$list_attribute));
+		}else
+			echo '[]';
+
 	}
 
 	
