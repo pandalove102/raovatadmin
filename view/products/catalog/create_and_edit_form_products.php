@@ -43,7 +43,7 @@
                               <li class=""><a data-toggle="tab" href="#tab-4"> Hình ảnh</a></li>
                               <li class=""><a data-toggle="tab" href="#tab-5"> SEO</a></li>
                               <!-- <li class=""><a data-toggle="tab" href="#tab-6"> Khuyến mãi</a></li> -->
-                              <li class=""><a data-toggle="tab" href="#tab-7"> Thuộc tính khác</a></li>
+                              <li class=""><a data-toggle="tab" href="#tab-7"> Thuộc tính mở rộng</a></li>
                               <li class=""><a data-toggle="tab" href="#tab-8"> Thông tin liên hệ</a></li>
                            </ul>
                            <div class="tab-content">
