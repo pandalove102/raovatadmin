@@ -76,7 +76,7 @@ class catagorycontroller  extends controller
 		$this->uri = $this->getactionname();
 		$id = $this->get('id');
 		$idattribute = $this->post('idattribute');
-		$idcatagories = $this->post('idcatagories');
+		echo $idcatagories = $this->post('idcatagories');
 		if($this->post())
 		{
 				if($this->model->check_idattribute($idattribute,$idcatagories))
@@ -109,7 +109,7 @@ class catagorycontroller  extends controller
 			}
 		}
 		$status = $this->modelstatus->status();
-		$catagories=$this->model->catagories_idcatagories($idcatagories);
+		$catagories=$this->model->catagories_idcatagories($id);
 		$listattribute = $this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
 		$listattributeall = $this->model->listattributeall();
 	    $totalpage =count($listattribute);
