@@ -445,16 +445,26 @@ class catalogcontroller  extends controller
 					}
 			
 			}
-				$this->setdata(array('catalogs'=>$catalogs,
-									'listdis'=>$discounts,
-									'itemkm'=>$items,
-									'listkm'=>$listkm,
-									'city'=>$city,
-									'district'=>$district,
-									'typecatalogs'=>$typecatalogs,
-									'status'=>$this->modelstatus->status(),
-								));
-				$this->render('create_and_edit_form_products');
+			// danh sách thuộc tính mở rộng tin đăng
+			$listattribute = $this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
+			// tính số trang 
+			$totalpage =count($listattribute);
+			if($totalpage<=0)
+			{
+				$totalpage=1;
+			}
+			$this->setdata(array('catalogs'=>$catalogs,
+								 'listattribute'=>$listattribute,
+								 'totalpage'=>$totalpage,
+								'listdis'=>$discounts,
+								'itemkm'=>$items,
+								'listkm'=>$listkm,
+								'city'=>$city,
+								'district'=>$district,
+								'typecatalogs'=>$typecatalogs,
+								'status'=>$this->modelstatus->status(),
+							));
+			$this->render('create_and_edit_form_products');
 		}
 	}
 	function delete()

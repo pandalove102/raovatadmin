@@ -121,20 +121,6 @@
                                              </select>
                                         </div>
                                         </div>
-									    <!-- <div class="form-group">
-                                          <label class="col-sm-2 control-label">Màu sắc</label>
-                                          <div class="col-sm-10">
-                                             <input type="text" required="" placeholder="color" class="form-control area-input" 
-                                                name="color" id="color" data-error="Nhập color"  value="<?=(isset($catalogs)) ? $catalogs->color : ''?>">
-                                          </div>
-                                       </div> -->
-									    <!-- <div class="form-group">
-                                          <label class="col-sm-2 control-label">Chất liệu</label>
-                                          <div class="col-sm-10">
-                                             <input type="text" required="" placeholder="material" class="form-control area-input" 
-                                                name="material" id="material" data-error="Nhập Chất liệu" value="<?=(isset($catalogs)) ? $catalogs->material : ''?>">
-                                          </div>
-                                       </div> -->
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Mô tả ngắn:</label>
                                           <div class="col-sm-10">
@@ -256,58 +242,6 @@
                                     </fieldset>
                                  </div>
                               </div>
-                              <!-- <div id="tab-3" class="tab-pane">
-                                 <div class="panel-body">
-                                    <div class="table-responsive">
-                                       <table class="table table-stripped table-bordered">
-                                          <thead>
-                                             <tr>
-                                                <th>
-                                                   Tên
-                                                </th>
-                                                <th>
-                                                   Số lượng
-                                                </th>
-                                                <th>
-                                                   Giá
-                                                </th>
-                                                <th style="width: 20%">
-                                                   Ngày bắt đầu
-                                                </th>
-                                                <th style="width: 20%">
-                                                   Ngày kết thúc
-                                                </th>
-                                              
-                                                <th>
-                                                   Hành động
-                                                </th>
-                                             </tr>
-                                          </thead>
-                                          <tbody id="listdis">
-                                             <?php  $idd = 1; if(isset($listdis) && $listdis){ foreach ($listdis as $ds) { ?>
-                                                <tr id="dis_<?=$ds->id?>">
-                                                   <td><input type="text" class="form-control" name="disname[]" value="<?=$ds->name?>" placeholder="name"></td>
-                                                   <td><input type="text" class="form-control" name="disqty[]" value="<?=$ds->quantity?>" placeholder="00"></td>
-                                                   <td> <input type="text" class="form-control" name="disprice[]" value="<?=$ds->price?>" placeholder="$00.00"></td>
-                                                   <td>
-                                                      <div class="input-group"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="disstart[]" type="text" class="form-control date" value="<?=$ds->datestart?>"/></div>
-                                                   </td>
-                                                   <td>
-                                                      <div class="input-group">   <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="disend[]" type="text" class="form-control date " value="<?=$ds->dateend?>">  </div>
-                                                   </td>
-                                                 
-                                                   <td align="center">    <button data-id="<?=$ds->id?>" class="btn btndeldis btn-white"><i class="fa fa-trash"></i> </button> </td>
-                                                </tr>                                           
-                                             <?php
-                                             if($ds->id>$idd) $idd=$ds->id; 
-                                             }
-                                          } ?>
-                                          </tbody>
-                                       </table>
-                                        <a class="btn btn-success" id="adddis" >Thêm giảm giá</a>
-                                    </div>
-                                 </div>
-                              </div> -->
                               <div id="tab-4" class="tab-pane">
                                  <div class="panel-body">
                                     <div class="table-responsive">
@@ -400,56 +334,64 @@
                                     </fieldset>
                                  </div>
                               </div>
-                              <!-- <div id="tab-6" class="tab-pane">
-                                 <div class="panel-body">
-                                    <div class="table-responsive">
-                                       <table class="table table-stripped table-bordered">
-                                          <thead>
-                                             <tr>
-                                                <th>
-                                                   Mã sku sản phẩm
-                                                </th>
-                                                <th>
-                                                   Số lượng tặng
-                                                </th>                                                                                          
-                                                <th>
-                                                   Hành động
-                                                </th>
-                                             </tr>
-                                          </thead>
-                                          <tbody id="listkm">
-                                              <?php  $idkm = 1; if(isset($listkm) && $listkm){ foreach ($listkm as $km) { ?>
-                                                <tr id="km_<?=$km->id?>">
-                                                   <td>                                                      
-                                                      <div class="col-md-12">
-                                                         <select class="select2_demo_3 form-control" name="kmitem_id[]">
-                                                            <option value=" ">-- Chọn sản phẩm tặng --</option>
-                                                            <?php 
-                                                            if(isset($itemkm) && $itemkm)
-                                                            {
-                                                               foreach($itemkm as $item)
-                                                                  echo "<option ".( $km->item_id ==  $item->id?'selected':'')." value='{$item->id}'>{$item->name}</option>";
-                                                            }
-                                                            ?>
-                                                         </select>
-                                                     </div>
-                                                   </td>
-                                                   <td><input type="text" class="form-control" name="kmqty[]" value="<?=$km->qty?>" placeholder="00"></td>
-                                                   <td align="center">    <a data-id="<?=$km->id?>" class="btn btndelkm btn-white"><i class="fa fa-trash"></i> </a> </td>
-                                                </tr>                                           
-                                             <?php
-                                             if($km->id>$idkm) $idkm=$km->id; 
-                                          }
-                                          } ?>
-                                          </tbody>
-                                       </table>
-                                        <a class="btn btn-success" id="addkm" >Thêm hàng tặng</a>
-                                    </div>
-                                 </div>
-                              </div> -->
                               <div id="tab-7" class="tab-pane">
                                  <div class="panel-body">
                                     <div class="table-responsive">
+                                      <?php $this->paging($totalpage,'left'); ?>
+                                        <table class="table table-striped table-bordered table-hover ">
+                                            <thead>
+                                            <tr>
+                                                <th data-toggle="true">ID</th>
+                                                <th data-toggle="true">Tiêu đề</th>
+                                                <th data-toggle="true">Giá Trị</th>
+                                                <th data-toggle="true">Giá trị mặc định</th>
+                                                <th data-toggle="true">Code</th>
+                                                <th data-toggle="true">Loại</th>
+                                                <th class="text-right" data-sort-ignore="true">Hành Động</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php if($listattribute) {foreach ($listattribute as $v) { ?>
+                                                <tr class="footable-even" style="">
+                                                    <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>
+                                                        <?php echo $v->idattribute ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $v->label ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $v->value ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $v->defaultvalue ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $v->code ?>
+                                                    </td>
+                                                    <td>
+                                                    <!-- $this->form->select(data , dieukien ) -->
+                                                        <select class="form-control" name="type">
+                                                            <option <?php if(isset($v->type)&& $v->type=='select' ) echo 'selected="selected"'; else echo ''; ?> value="select" >Select/option</option>
+                                                            <option  <?php if(isset($v->type)&& $v->type=='text' ) echo 'selected="selected"'; else echo ''; ?> value="text" >Text</option>
+                                                            <option  <?php if(isset($v->type)&& $v->type=='input' ) echo 'selected="selected"'; else echo ''; ?> value="input" >input</option>
+                                                            <option  <?php if(isset($v->type)&& $v->type=='hidden' ) echo 'selected="selected"'; else echo ''; ?> value="hidden" >hidden</option>
+                                                            <option  <?php if(isset($v->type)&& $v->type=='date' ) echo 'selected="selected"'; else echo ''; ?> value="date" >date</option>
+                                                            <option  <?php if(isset($v->type)&& $v->type=='textarea' ) echo 'selected="selected"'; else echo ''; ?> value="textarea" >textarea</option>
+                                                        </select>
+                                                    </td>
+                                                
+                                                   
+                                                    <td class="text-right">
+                                                        <div class="btn-group">
+                                                        <!-- <a href="<?=base_url('attribute/edit/'.$v->idattribute); ?>" class="btn-white btn btn-xs">Sửa</a> -->
+                                                        <a href="<?=base_url('catagory/delete_attribute/?idattribute='.$v->idattribute.'&&idcatagories='.$this->get('id')); ?>" class="btn-white btn btn-xs">Xóa</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php }}else echo '<tr><td colspan="10">Chưa có dữ liệu</td></tr>' ?>
+                                            </tbody>
+                                        </table>
+                                        <?php $this->paging($totalpage); ?>
                                        
                                       
                                     </div>
@@ -471,28 +413,28 @@
                                           <label class="col-sm-2 control-label">Tên:</label>
                                           <div class="col-sm-10">
                                             <input type="text" required="" placeholder="Tên" class="form-control area-input" 
-                                             name="h1" id="h1" value="<?=(isset($catalogs)) ? $catalogs->h1 : ''?>">
+                                             name="h1" id="h1" value="<?=(isset($catalogs->namecontact)) ? $catalogs->namecontact : ''?>">
                                           </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Số điện thoại:</label>
                                           <div class="col-sm-10">
                                             <input type="text" required="" placeholder="Số điện thoại" class="form-control area-input" 
-                                             name="metatitle" id="metatitle" value="<?=(isset($catalogs)) ? $catalogs->metatitle : ''?>">
+                                             name="metatitle" id="metatitle" value="<?=(isset($catalogs->phonecontact)) ? $catalogs->phonecontact : ''?>">
                                           </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Email:</label>
                                           <div class="col-sm-10">
                                             <input type="text" required="" placeholder="Email" class="form-control area-input" 
-                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs)) ? $catalogs->metadesc : ''?>">
+                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs->emailcontact)) ? $catalogs->emailcontact : ''?>">
                                          </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Phương tiện khác:</label>
                                           <div class="col-sm-10">
                                             <input type="text" required="" placeholder="Phương tiện khách" class="form-control area-input" 
-                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs)) ? $catalogs->metadesc : ''?>">
+                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs->ordercontact)) ? $catalogs->ordercontact : ''?>">
                                          </div>
                                        </div>
                                        <div class="form-group">
@@ -509,7 +451,7 @@
                                           <label class="col-sm-2 control-label">Ghi chú:</label>
                                           <div class="col-sm-10">
                                             <textarea type="text" rows="4" placeholder="Ghi chú" class="form-control area-input" 
-                                             name="" ><?=(isset($catalogs)) ? $catalogs->metakey : ''?></textarea>
+                                             name="" ><?=(isset($catalogs->desc)) ? $catalogs->desc : ''?></textarea>
                                          </div>
                                        </div>
                                     </fieldset>
