@@ -391,6 +391,7 @@ class catagorycontroller  extends controller
 	function api_list_attribute()
 	{
 		if($this->post()){
+			
 			$list_attribute = $this->model->list_attribute($this->post('idselected'));
 			echo json_encode(array('data'=>$list_attribute));
 		}else

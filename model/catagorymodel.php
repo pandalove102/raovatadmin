@@ -160,7 +160,7 @@ class catagorymodel extends model
 		{
 			$w .= "  and `id`=$id";
 		}
-		$sql="select * from attribute  ";
+		$sql="select * from attribute $w  ";
 		$this->setQuery($sql);
 		return $this->loadRow();
 	}

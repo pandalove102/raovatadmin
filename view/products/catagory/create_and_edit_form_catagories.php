@@ -145,26 +145,23 @@
                             <table class="table table-striped table-bordered table-hover ">
                                 <thead>
                                 <tr>
+                                    <th data-toggle="true">Chọn lựa</th>
                                     <th data-toggle="true">ID</th>
                                     <th data-toggle="true">Tiêu đề</th>
                                     <th data-toggle="true">Giá Trị</th>
                                     <th data-toggle="true">Giá trị mặc định</th>
                                     <th data-toggle="true">Code</th>
                                     <th data-toggle="true">Loại</th>
-                                    <th class="text-right" data-sort-ignore="true">Hành Động</th>
+                                    <!-- <th class="text-right" data-sort-ignore="true">Hành Động</th> -->
                                 </tr>
                                 </thead>
                                 <tbody id="myTable">
-                                    <tr class="footable-even" style="">
-                                       
-                                       
-                                    
-                                        
-                                      
-                                    </tr>
+                                   
                                 </tbody>
                             </table>
                             <?php $this->paging($totalpage); ?>
+
+                            <button type="button"  class="btn btn-w-m btn-danger" id="deleterows">Xóa thuộc tính</button>
                         </div>
                      </div>
 
@@ -191,27 +188,36 @@
         {
             var selected = $('select#idattribute option:selected').text();
             var idselected = $('select#idattribute option:selected').val();
-
-            alert(selected);
-            alert(idselected);
-
+            // alert(selected);
+            // alert(idselected);
             $.post('<?=base_url('catagory/api_list_attribute') ?>',{idselected:idselected})
             .done(function(d){
-                        if(d && d!='[]')
-                        {
-                            var str='';
-                            alert(d);
-                            d = JSON.parse(d);
-                            $.each(d.data, function(k,v)
-                            {
-                                var str+='<tr class="gradeA odd" role="row"><td class="sorting_1">'+v.id+'</td><td>'+v.label+'</td><td>'+v.value+'</td><td>'+v.defaultvalue+'</td><td>'+v.code+'</td><td>'+v.type+'</td></tr>';
-                            }
-                            alert(str);
-                            //     $( "#district" ).html(str);
-                            // }else{
-                            //     $( "#district" ).html('<select class="form-control m-b" name="district"> No data </select> ');
-                        }
+                if(d && d!='[]')
+                {
+                   
+                    var str='';
+                    // alert(d);
+                    d = JSON.parse(d);
+                    $.each(d, function(k,v) 
+                    {
+                       
+                        str+='<tr class="gradeA odd" role="row"><td class="sorting_1"><input type="checkbox" name="idattribute[]" value="'+v.id+'"><input type="hidden" name="idattribute[]" value="'+v.id+'">'+v.id+'</td><td>'+v.label+'</td><td>'+v.value+'</td><td>'+v.defaultvalue+'</td><td>'+v.code+'</td><td>'+v.type+'</td></tr>';
+                    });
+                    // alert(str);
+                $( "#myTable" ).append(str);
+            }else{
+                $( "#myTable" ).append('<select class="form-control m-b" name="district"> No data </select> ');
+                }
             })
+
+            // Find and remove selected table rows
+            $("#deleterows").click(function(){
+                $("#myTable").find('input[name="idattribute[]"]').each(function(){
+                    if($(this).is(":checked")){
+                        $(this).parents("tr").remove();
+                    }
+                });
+            });
 
 
             // selected.each(function () {
@@ -220,3 +226,5 @@
         }
     });
 </script>
+
+<!-- <input type="text" name="idattribute" id="idattribute" value=" "> -->
