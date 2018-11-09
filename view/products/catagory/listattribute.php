@@ -131,16 +131,9 @@
                                                         <?php echo $v->code ?>
                                                     </td>
                                                     <td>
-                                                    <!-- $this->form->select(data , dieukien ) -->
-                                                        <select class="form-control" name="type">
-                                                            <option <?php if(isset($v->type)&& $v->type=='select' ) echo 'selected="selected"'; else echo ''; ?> value="select" >Select/option</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='text' ) echo 'selected="selected"'; else echo ''; ?> value="text" >Text</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='input' ) echo 'selected="selected"'; else echo ''; ?> value="input" >input</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='hidden' ) echo 'selected="selected"'; else echo ''; ?> value="hidden" >hidden</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='date' ) echo 'selected="selected"'; else echo ''; ?> value="date" >date</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='textarea' ) echo 'selected="selected"'; else echo ''; ?> value="textarea" >textarea</option>
-                                                        </select>
+                                                        <?php echo $v->type ?>
                                                     </td>
+                                                  
                                                 
                                                    
                                                     <td class="text-right">
