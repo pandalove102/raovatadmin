@@ -197,16 +197,10 @@ class catagorycontroller  extends controller
 		$this->uri = $this->getactionname();
 		$listattributeall = $this->model->listattributeall();
 		$totalpage=1;
-	
-		$this->setdata(array('list_catagory'=>$this->model->listcatagories(),
-							 'listattribute'=>null,
-							  'totalpage'=>$totalpage,
-							 'listattributeall'=>$listattributeall
-							));
 		if($this->post() && $this->istoken('tokencatagory',$this->model->clean($this->post('tokencatagory'))))
 		{			
-			//if($this->api_check_catagory(true))
-			//{ 
+			if($this->api_check_catagory(true))
+			{ 
 				$data = array(
 					'title' => $this->model->clean($this->post('title')),
 	                'name' => $this->model->clean($this->post('name')),
@@ -225,6 +219,31 @@ class catagorycontroller  extends controller
 				);
 				if($this->model->insert($data))
 				{
+					 $last_id=$this->model->get_id_last();
+					 $idattribute=array();
+					 $idattribute=$this->post('idattribute');
+					if(isset($last_id))
+					{
+						foreach ($idattribute as $key => $value) 
+						{
+							if($this->model->check_idattribute($value,$last_id))
+							{
+								$data = array(
+									'idattribute' => $value,
+									'idcatagories' => $last_id,
+									'created' => date('Y-m-d H:i:s'),
+									'hide' => 1,
+									'state' => 1
+								);
+								if($this->model->insert($data,'','catagories_attribute')){
+									$this->setmsg('Thêm thành công.','success');
+								}
+								
+							}
+								
+							
+						}
+					}
 					$this->model->logs('Thêm thành công danh mục: '.$this->model->clean($this->post('username')),$this->getcontrollername().'/'.$this->uri);
 					if($this->model->clean($this->post('save')) == 1)
 					{
@@ -238,23 +257,31 @@ class catagorycontroller  extends controller
 				{
 					$this->setmsg('Thêm thất bại.','error');
 				}
-			//}else
-			//{
-				//$this->setmsg('Tên danh mục đã tồn tại!','error');
-			//}
+			}else
+			{
+				$this->setmsg('Tên danh mục đã tồn tại!','error');
+			}
 		}
+		$this->setdata(array('list_catagory'=>$this->model->listcatagories(),
+							  'totalpage'=>$totalpage,
+							 'listattributeall'=>$listattributeall
+							));
+	
 		$this->render('create_and_edit_form_catagories');
 	}
 	function edit()
 	{
-		$this->title ='Sửa nhóm';
-		$this->h = 'Sửa nhóm';
-		$this->a = 'Nhóm hệ thống';
+
+		$this->title ='Sửa danh mục';
+		$this->h = 'Sửa danh mục';
+		$this->a = 'Danh mục';
 		$this->strong = 'Sửa';
 		$this->save = 'Cập nhật';
 		$this->save_close = 'Cập nhật & Đóng';
 		$this->size_image = '(300x300)px';
 		$this->size_imgshare = '(300x300)px';
+		$listattributeall = $this->model->listattributeall();
+		$totalpage=1;
 		$id = $this->get('id');
 		$catagory = $this->model->getonekey(array('id'=>$id,'hide'=>1));
 		if(!$catagory)
@@ -263,7 +290,7 @@ class catagorycontroller  extends controller
 		{
 			$this->uri = $this->getactionname();
 			if($this->post() && $this->istoken('tokencatagory',$this->model->clean($this->post('tokencatagory'))))
-			{			
+			{
 				$data = array(
 					'id' => $catagory->id,
 	                'title' => $this->model->clean($this->post('title')),
@@ -276,7 +303,8 @@ class catagorycontroller  extends controller
 					'pos' => $this->model->clean($this->post('pos')),
 	                'imgshare' => $this->model->clean($this->post('imgshare')),
 	                'parent_id' => $this->model->clean($this->post('parent_id')),
-	                'username' => $this->model->clean($this->model->session->get('admin_user')),    
+					'username' => $this->model->clean($this->model->session->get('admin_user')),
+					'status' => $this->model->clean($this->post('status')),
 					'update_at' => date('Y-m-d H:i:s'),
 				);
 				if($this->model->update($data))
@@ -297,7 +325,14 @@ class catagorycontroller  extends controller
 					$this->setmsg('Cập nhật thất bại. Đang chuyển hướng...','error');
 				}
 			}
-			$this->setdata(array('catagory'=>$catagory,'list_catagory'=>$this->model->listcatagories()));
+			$listattribute=$this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
+			$totalpage=count($listattribute);
+			$this->setdata(array('catagory'=>$catagory,
+								 'list_catagory'=>$this->model->listcatagories(),
+								 'totalpage'=>$totalpage,
+								 'listattribute'=>$listattribute,
+								 'listattributeall'=>$listattributeall
+								));
 			$this->render('create_and_edit_form_catagories');
 		}
 	}

@@ -394,9 +394,21 @@ class catalogcontroller  extends controller
 		                'city' => $this->model->clean($this->post('city')),
 		                'district' => $this->model->clean($this->post('district')),
 		                'idtypecatalogs' => $this->model->clean($this->post('idtypecatalogs')),
+		                'desc' => $this->model->clean($this->post('desc')),
+		                'namecontact' => $this->model->clean($this->post('namecontact')),
+		                'ordercontact' => $this->model->clean($this->post('ordercontact')),
+		                'maps' => $this->model->clean($this->post('maps')),
+		                'email' => $this->model->clean($this->post('email')),
+		                'tag' => $this->model->clean($this->post('tag')),
 		                'afterprice' => (1+0.1) * $this->model->clean($this->post('price')),
 		                // 'username' => $this->model->clean($this->model->session->get('admin_name')),
-						'update_at' => date('Y-m-d H:i:s'),
+						'update_at' => date('Y-m-d H:i:s')
+
+
+						
+
+
+
 					);
 					if($this->model->update($data))
 					{

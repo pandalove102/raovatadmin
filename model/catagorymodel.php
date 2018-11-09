@@ -24,7 +24,14 @@ class catagorymodel extends model
 	// 	$this->setQuery($sql);
 	// 	return $this->loadAllRow();
 	// }
-
+	
+	
+	function get_id_last()
+	{
+		$sql ="select max(id) as id from catagories where hide=1";
+		$this->setQuery($sql);
+		return $this->loadRow()->id;
+	}
 	function listcatagories($id='')
 	{
 		$add = '';

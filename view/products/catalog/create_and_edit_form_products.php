@@ -1,3 +1,4 @@
+
 <?php defined('BASE') OR exit('No direct script access allowed');?>
 <div class="row">
    <div class="col-lg-12">
@@ -24,9 +25,9 @@
          </div>
          <div class="ibox-content">
             <div class="form-horizontal">
-               <form class="m-t" role="form" action="" method="post" id="form-users">
+               <form class="m-t" role="form" action="" method="post" >
                   <input type="hidden" name="uri" id="uri" value="<?php echo $this->uri ?>">
-                  <input type="hidden" name="id_user" id="id_user" value="<?=(isset($catalogs)) ? $catalogs->id : ''?>">
+                  <input type="hidden" name="id" id="id" value="<?=(isset($catalogs)) ? $catalogs->id : ''?>">
                   <div class="wrapper wrapper-content animated fadeInRight ecommerce">
                     <div class="col-sm-9 col-sm-offset-8">
                         <a class="btn btn-white" type="text" href="<?=base_url('catalog');?>">Cancel</a>
@@ -38,11 +39,8 @@
                         <div class="tabs-container">
                            <ul class="nav nav-tabs">
                               <li class="active"><a data-toggle="tab" href="#tab-1"> Thông tin chung</a></li>
-                              <!-- <li class=""><a data-toggle="tab" href="#tab-2"> Thông tin khác</a></li> -->
-                              <!-- <li class=""><a data-toggle="tab" href="#tab-3"> Giảm giá</a></li> -->
                               <li class=""><a data-toggle="tab" href="#tab-4"> Hình ảnh</a></li>
                               <li class=""><a data-toggle="tab" href="#tab-5"> SEO</a></li>
-                              <!-- <li class=""><a data-toggle="tab" href="#tab-6"> Khuyến mãi</a></li> -->
                               <li class=""><a data-toggle="tab" href="#tab-7"> Thuộc tính mở rộng</a></li>
                               <li class=""><a data-toggle="tab" href="#tab-8"> Thông tin liên hệ</a></li>
                            </ul>
@@ -163,7 +161,7 @@
                                         <div class="form-group">
                                           <label class="col-sm-2 control-label">Ngày Hiển Thị:</label>
                                           <div class="col-sm-10">
-                                             <input type="text" required="" placeholder="Ngày Hiển Thị" class="form-control area-input" 
+                                             <input type="text" value="<?=(isset($catalogs->date_show)) ? $catalogs->date_show : ''?>" placeholder="Ngày Hiển Thị" class="form-control area-input" 
                                                 name="date_show" id="date_show" >
                                           </div>
                                        </div>
@@ -193,52 +191,6 @@
 
                                       
 
-                                    </fieldset>
-                                 </div>
-                              </div>
-                              <div id="tab-2" class="tab-pane">
-                                 <div class="panel-body">
-                                    <fieldset class="form-horizontal">
-                                       
-                                            <input type="hidden" 
-                                             name="id" id="id" value="<?=(isset($catalogs)) ? $catalogs->id : ''?>">
-                                       <!-- <div class="form-group">
-                                          <label class="col-sm-2 control-label">Thương hiệu:</label>
-                                          <div class="col-sm-10">
-                                             <input type="text" class="form-control" required="" name="brand" id="brand" placeholder="Thương hiệu" data-error="Nhập thương hiệu" value="<?=(isset($catalogs)) ? $catalogs->brand : ''?>">
-                                          </div>
-                                       </div> -->
-                                       <!-- <div class="form-group">
-                                          <label class="col-sm-2 control-label">Danh mục:</label>
-                                          <div class="col-sm-10">
-                                              <?=$this->api_listcatnice('catagorie_id',@$catalogs->catagories_id)?>
-                                          </div>
-                                       </div> -->
-                                       <!-- <div class="form-group">
-                                          <label class="col-sm-2 control-label">Thuế</label>
-                                          <div class="col-sm-10">
-                                             <select class="form-control" id="tax" name="tax">
-                                                <option value="10" <?=(isset($catalogs) && $catalogs->tax==10) ? 'selected="selected"' : '' ?>>10 %</option>
-                                             </select>
-                                          </div>
-                                       </div> -->
-                                       <!-- <div class="form-group">
-                                          <label class="col-sm-2 control-label">Số lượng:</label>
-                                          <div class="col-sm-10">
-                                            <input type="number" required="" placeholder="quantity" class="form-control area-input" 
-                                             name="quantity" data-error="Nhập số lượng" onkeyup="validateInp(this);" id="quantity" value="<?=(isset($catalogs)) ? $catalogs->quantity : ''?>">
-                                          </div>
-                                       </div>
-                                       <div class="form-group">
-                                          <label class="col-sm-2 control-label">Trạng thái:</label>
-                                          <div class="col-sm-10">
-                                             <select class="form-control m-b" name="status">
-                                                 <?php if($status) {foreach ($status as $v){ ?>
-                                                <option value="<?=$v->id?>" <?=$this->uri!='create' ? (isset($v) && $v->id==$catalogs->status) ? 'selected="selected"' : '' :''?> ><?php echo $v->name ?></option>
-                                                <?php }} ?>
-                                             </select>
-                                          </div>
-                                       </div> -->
                                     </fieldset>
                                  </div>
                               </div>
@@ -317,18 +269,11 @@
                                              name="metadesc" id="metadesc" value="<?=(isset($catalogs)) ? $catalogs->metadesc : ''?>">
                                          </div>
                                        </div>
-                                       <!-- <div class="form-group hidden">
-                                          <label class="col-sm-2 control-label">Meta Tag Keywords:</label>
-                                          <div class="col-sm-10">
-                                            <input type="text" required="" placeholder="metakey" class="form-control area-input" 
-                                             name="metakey" id="metakey" value="<?=(isset($catalogs)) ? $catalogs->metakey : ''?>">
-                                         </div>
-                                       </div> -->
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Tag:</label>
                                           <div class="col-sm-10">
                                             <textarea type="text" rows="4" placeholder="Tag" class="form-control area-input" 
-                                             name="" ><?=(isset($catalogs)) ? $catalogs->metakey : ''?></textarea>
+                                             name="tag" ><?=(isset($catalogs)) ? $catalogs->tag : ''?></textarea>
                                          </div>
                                        </div>
                                     </fieldset>
@@ -369,21 +314,10 @@
                                                         <?php echo $v->code ?>
                                                     </td>
                                                     <td>
-                                                    <!-- $this->form->select(data , dieukien ) -->
-                                                        <select class="form-control" name="type">
-                                                            <option <?php if(isset($v->type)&& $v->type=='select' ) echo 'selected="selected"'; else echo ''; ?> value="select" >Select/option</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='text' ) echo 'selected="selected"'; else echo ''; ?> value="text" >Text</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='input' ) echo 'selected="selected"'; else echo ''; ?> value="input" >input</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='hidden' ) echo 'selected="selected"'; else echo ''; ?> value="hidden" >hidden</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='date' ) echo 'selected="selected"'; else echo ''; ?> value="date" >date</option>
-                                                            <option  <?php if(isset($v->type)&& $v->type=='textarea' ) echo 'selected="selected"'; else echo ''; ?> value="textarea" >textarea</option>
-                                                        </select>
+                                                        <?php echo $v->type ?>
                                                     </td>
-                                                
-                                                   
                                                     <td class="text-right">
                                                         <div class="btn-group">
-                                                        <!-- <a href="<?=base_url('attribute/edit/'.$v->idattribute); ?>" class="btn-white btn btn-xs">Sửa</a> -->
                                                         <a href="<?=base_url('catagory/delete_attribute/?idattribute='.$v->idattribute.'&&idcatagories='.$this->get('id')); ?>" class="btn-white btn btn-xs">Xóa</a>
                                                         </div>
                                                     </td>
@@ -392,56 +326,43 @@
                                             </tbody>
                                         </table>
                                         <?php $this->paging($totalpage); ?>
-                                       
-                                      
                                     </div>
                                  </div>
                               </div>
                               <div id="tab-8" class="tab-pane">
                                  <div class="panel-body">
                                     <fieldset class="form-horizontal">
-                                       <!-- <div class="form-group">
-                                          <label class="col-sm-2 control-label">Hình ảnh chia sẽ</label>
-                                          <div class="col-sm-9">
-                                             <img src="<?=(isset($catalogs) && $catalogs->imgshare) ? $catalogs->imgshare : base_url('layout/images/no-image.png')?>" height="100px" width="100px">                  
-                                             <input type="hidden" name="imgshare" value="<?=(isset($catalogs)) ? $catalogs->imgshare : ''?>"  id="imgshare" />
-                                             <button class="btn btn-info" type="button" onclick="openPopup('imgshare')">Changes</button>
-                                             <?php echo $this->size_imgshare ?>
-                                          </div>
-                                       </div> -->
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Tên:</label>
                                           <div class="col-sm-10">
-                                            <input type="text" required="" placeholder="Tên" class="form-control area-input" 
-                                             name="h1" id="h1" value="<?=(isset($catalogs->namecontact)) ? $catalogs->namecontact : ''?>">
+                                            <input type="text"  placeholder="Tên" class="form-control area-input" 
+                                             name="namecontact" id="namecontact" value="<?=(isset($catalogs->namecontact)) ? $catalogs->namecontact : ''?>">
                                           </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Số điện thoại:</label>
                                           <div class="col-sm-10">
-                                            <input type="text" required="" placeholder="Số điện thoại" class="form-control area-input" 
-                                             name="metatitle" id="metatitle" value="<?=(isset($catalogs->phonecontact)) ? $catalogs->phonecontact : ''?>">
+                                            <input type="text"  placeholder="Số điện thoại" class="form-control area-input" 
+                                             name="phonecontact" id="phonecontact" value="<?=(isset($catalogs->phonecontact)) ? $catalogs->phonecontact : ''?>">
                                           </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Email:</label>
                                           <div class="col-sm-10">
-                                            <input type="text" required="" placeholder="Email" class="form-control area-input" 
-                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs->emailcontact)) ? $catalogs->emailcontact : ''?>">
+                                            <input type="text"  placeholder="text" class="form-control area-input" 
+                                             name="email"  value="<?=(isset($catalogs->email)) ? $catalogs->email : ''?>">
                                          </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Phương tiện khác:</label>
                                           <div class="col-sm-10">
-                                            <input type="text" required="" placeholder="Phương tiện khách" class="form-control area-input" 
-                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs->ordercontact)) ? $catalogs->ordercontact : ''?>">
+                                            <input type="text"  placeholder="Phương tiện khách" class="form-control area-input" 
+                                             name="ordercontact" id="ordercontact" value="<?=(isset($catalogs->ordercontact)) ? $catalogs->ordercontact : ''?>">
                                          </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Vị trí bản đồ:</label>
                                           <div class="col-sm-10">
-                                            <!-- <input type="text" required="" placeholder="Vị trí bản đồ" class="form-control area-input" 
-                                             name="metadesc" id="metadesc" value="<?=(isset($catalogs)) ? $catalogs->metadesc : ''?>"> -->
                                              <div>
                                                 <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15673.15986240415!2d106.5996596!3d10.86553605!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1541606648945" width="900" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
                                              </div>
@@ -451,7 +372,7 @@
                                           <label class="col-sm-2 control-label">Ghi chú:</label>
                                           <div class="col-sm-10">
                                             <textarea type="text" rows="4" placeholder="Ghi chú" class="form-control area-input" 
-                                             name="" ><?=(isset($catalogs->desc)) ? $catalogs->desc : ''?></textarea>
+                                             name="desc" ><?=(isset($catalogs->desc)) ? $catalogs->desc : ''?></textarea>
                                          </div>
                                        </div>
                                     </fieldset>
@@ -461,8 +382,9 @@
                         </div>
                      </div>
                   </div>
-                  <?=$this->randtoken('tokencatalog'); ?>
+                 
                </div>
+               <?=$this->randtoken('tokencatalog');?>
                </form>
             </div>
          </div>
@@ -470,12 +392,10 @@
    </div>
 </div>
 <script type="text/javascript">CKEDITOR.replace('description');CKEDITOR.replace('shortdescription');</script>
-<script>
+<!-- <script>
       var idd = <?=$idd+1?>;
       var idkm = <?=$idkm+1?>;
-    
     $(document).ready(function(){
-      
         $('#imgs').change(function(){
             var hinhchon = $(this).val();
             var imgs = hinhchon.split(',');
@@ -579,7 +499,7 @@
              idkm++;
         });
     
-</script>
+</script> -->
 <script>
 $(document).on('change','#city', function() {
   var _that = $(this);
