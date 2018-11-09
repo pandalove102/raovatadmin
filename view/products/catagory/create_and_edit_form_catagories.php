@@ -1,7 +1,4 @@
-<?php 
- $this->xem_mang($_POST);
 
-?>
 <?php defined('BASE') OR exit('No direct script access allowed');?>
 <div class="row">
     <div class="col-lg-12">
@@ -142,9 +139,17 @@
                      <div class="hr-line-dashed"></div>
                         <div class="form-group"><label class="col-sm-2 control-label">Thuộc tính mở rộng:</label>
                         <div class="col-sm-9">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                            <?php 
+                                if($this->uri=='create')
+                                {
+                                    echo ' <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                                            Thêm thuộc tính mới vào danh mục 
+                                            </button>';
+                                }
+                            ?>
+                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                                             Thêm thuộc tính mới vào danh mục 
-                            </button>
+                            </button> -->
                             <?php $this->paging($totalpage,'left'); ?>
                            
                             <table class="table table-striped table-bordered table-hover ">
@@ -176,7 +181,13 @@
                                 </tbody>
                             </table>
                             <?php $this->paging($totalpage); ?>
-                                <button type="button"  class="btn btn-w-m btn-danger" id="deleterows">Xóa thuộc tính</button>
+                            <?php 
+                                if($this->uri=='create')
+                                {
+                                    echo '<button type="button"  class="btn btn-w-m btn-danger" id="deleterows">Xóa thuộc tính</button>';
+                                }
+                            ?>
+                                <!-- <button type="button"  class="btn btn-w-m btn-danger" id="deleterows">Xóa thuộc tính</button> -->
                         </div>
                      </div>
 
