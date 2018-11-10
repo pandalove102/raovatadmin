@@ -58,7 +58,7 @@
               <div class="ibox">
                   <div class="ibox-content">
                     <div style="text-align: right;">
-                      <a class="btn btn-success" style="margin-bottom: 0px;" type="text" href="<?=base_url('catalog/create'); ?>">Thêm sản phẩm mới</a>
+                      <a class="btn btn-success" style="margin-bottom: 0px;" type="text" href="<?=base_url('catalog/create'); ?>">Thêm bài viết mới</a>
 					  <?php $this->paging($totalpage,'left'); ?>
                     </div>
 					

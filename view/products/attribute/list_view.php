@@ -28,9 +28,17 @@
                      <th  style="width: 218px;">Code</th>
                      <th style="width: 218px;">Type</th>      
                      <th style="width: 75px;">Action</th>
+                     <th style="width: 75px;">Action</th>
                         </tr>
                      </thead>
                      <tbody>
+                        <?php
+                              $data = array(
+                                  'name'  => 'John Doe',
+                                  'email' => 'john@example.com',
+                                  'url'   => 'http://example.com'
+                              );
+                        ?>
                         <?php if($attribute ) {foreach ($attribute as $v) { ?>
                            <tr class="gradeA odd" role="row">
                               <td class="sorting_1"><?php echo $v->id ?></td>
@@ -41,6 +49,7 @@
                               <td><?php echo $v->unique==1?'Có':'Không' ?></td>
                               <td><?php echo $v->code ?></td>
                               <td><?php echo $v->type ?></td>
+                              <td><?php $this->form_hidden('test',$data) ?></td>
                              
                            
                               <td class="center">

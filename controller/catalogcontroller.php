@@ -190,42 +190,6 @@ class catalogcontroller  extends controller
 							  'totalpage'=> $totalpage
 							));
 		$this->render('listattribute');
-		// if($this->post())
-		// {
-		// 		if($this->model->check_idattribute($idattribute,$idcatagories))
-		// 		{
-				
-		// 			$data = array(
-		// 				'idattribute' => $this->model->clean($this->post('idattribute')),
-		// 				'idcatagories' => $this->model->clean($this->post('idcatagories')),
-		// 				'created' => date('Y-m-d H:i:s'),
-		// 				'hide' => 1,
-		// 				'state' => 1
-		// 			);
-		// 			if($this->model->insert($data,'','catagories_attribute'))
-		// 			{
-		// 				$this->model->logs('Thêm thành công thuộc tình vào DM: '.$this->model->clean($this->post('username')),$this->getcontrollername().'/'.$this->uri);
-		// 				if($this->model->clean($this->post('save')) == 1)
-		// 				{
-		// 					$this->setmsg('Thêm thành công.','success');
-		// 				}
-		// 				else{
-		// 					redirect('catagory',2);
-		// 				}
-		// 			}
-		// 			else
-		// 			{
-		// 				$this->setmsg('Thêm thất bại.','error');
-		// 			}
-				
-
-		// 	}
-		// }
-	
-		
-		
-	    
-		
 		
 
 	}
@@ -241,7 +205,13 @@ class catalogcontroller  extends controller
 		$this->size_imgshare = '(600x400)px';
 		$this->uri = $this->getactionname();
 		$items = $this->model->listitem();
-		$this->setdata(array('itemkm'=>$items,'status'=>$this->modelstatus->liststatusall()));
+		// city 
+		$city=$this->customersmodel->city();
+		// district
+		$district=$this->customersmodel->district();
+		// loại tin đăng
+		$typecatalogs=$this->typecatalogsmodel->listtypecatalogsall();
+		$totalpage=1;
 		if($this->post() && $this->istoken('tokencatalog',$this->model->clean($this->post('tokencatalog'))))
 		{
 						$jsonarray = array();
@@ -328,6 +298,13 @@ class catalogcontroller  extends controller
 				}
 		
 		}
+		$this->setdata(array('itemkm'=>$items,
+							 'status'=>$this->modelstatus->liststatusall(),
+							 'city'=>$city,
+							 'totalpage'=>$totalpage,
+							 'district'=>$district,
+							 'typecatalogs'=>$typecatalogs
+							));
 		$this->render('create_and_edit_form_products');
 	}
 	function edit()
@@ -404,11 +381,6 @@ class catalogcontroller  extends controller
 		                // 'username' => $this->model->clean($this->model->session->get('admin_name')),
 						'update_at' => date('Y-m-d H:i:s')
 
-
-						
-
-
-
 					);
 					if($this->model->update($data))
 					{
@@ -457,24 +429,28 @@ class catalogcontroller  extends controller
 					}
 			
 			}
-			// danh sách thuộc tính mở rộng tin đăng
-			$listattribute = $this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
+			// danh sách thuộc tính mở rộng của  tin đăng 
+			// $listattribute = $this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
+			//id catageries
+			$catagories_id=$this->post('catagorie_id');
+			// id catalogs
+			$listattributecatalogs = $this->model->listattributecatalogs($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
 			// tính số trang 
-			$totalpage =count($listattribute);
+			$totalpage =count($listattributecatalogs);
 			if($totalpage<=0)
 			{
 				$totalpage=1;
 			}
 			$this->setdata(array('catalogs'=>$catalogs,
-								 'listattribute'=>$listattribute,
+								 'listattributecatalogs'=>$listattributecatalogs,
 								 'totalpage'=>$totalpage,
-								'listdis'=>$discounts,
-								'itemkm'=>$items,
-								'listkm'=>$listkm,
-								'city'=>$city,
-								'district'=>$district,
-								'typecatalogs'=>$typecatalogs,
-								'status'=>$this->modelstatus->status(),
+								 'listdis'=>$discounts,
+								 'itemkm'=>$items,
+								 'listkm'=>$listkm,
+								 'city'=>$city,
+								 'district'=>$district,
+								 'typecatalogs'=>$typecatalogs,
+								 'status'=>$this->modelstatus->status(),
 							));
 			$this->render('create_and_edit_form_products');
 		}
@@ -501,10 +477,44 @@ class catalogcontroller  extends controller
 		}
 		$this->render('list_view_products');
 	}
+	function api_get_attribute()
+	{
+		if($this->post()){
+			$list = $this->model->get_attribute_id($this->post('id'));
+			$w='';
+			foreach($list as $k=>$v)
+			{
+				if($v->type=='select')
+				{
+				}elseif($v->type=='input')
+				{
+					$w.='<input  ';
+					foreach($data as $k=>$v)
+					{
+						$w.=' '.$k.'="'.$v.'"';					
+					}
+					$w.=' ?>';
+				}else
+				{
+					$w.='<textarea  ';
+					foreach($data as $k=>$v)
+					{
+						if($v!='value')
+						{
+							$w.=' '.$k.'="'.$v.'"';	
+						}			
+					}
+					$w.=' ?>'.$v.'</textarea>';
+				}
+			}
+			echo json_encode(array('data'=>$w));
+		}else
+			echo '[]';
+	}
 	function api_listcatnice($name='catagories_id',$selectid = 0)
 	{
 	   $list = $this->model->listcatnice();
-	   echo ' <select class="form-control m-b" name="'.$name.'"> <option value="">--- Danh mục bài viết ---</option>';
+	   echo ' <select class="form-control m-b" id="'.$name.'"  name="'.$name.'"> <option value="">--- Danh mục bài viết ---</option>';
 	   $ar1 = array();$ar2 = array();
 	   foreach($list as $item)
 	   {

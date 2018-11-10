@@ -176,6 +176,57 @@ class controller extends pager
 		print_r($array);
 		echo "</pre>";
 	}
+	// dây xựng form load 
+	// function form_hidden($name,$data=array())
+    // {
+    //     // $data = array(
+    //     //     'name'  => 'John Doe',
+    //     //     'email' => 'john@example.com',
+    //     //     'url'   => 'http://example.com'
+    //     // );
+    //     // echo form_hidden('my_array', $data);
+    //     if(isset($data))
+    //     {
+    //         foreach($data as $v=>$v)
+    //         {
+    //             echo '<input type="hidden" name="+'$name[$k]'+" value="$v" />';
+    //         }
+
+    //     }
+    // }
+
+	// kết thúc xây dựng form load 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
  
 ?>

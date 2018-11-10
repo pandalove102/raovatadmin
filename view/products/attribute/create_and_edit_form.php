@@ -88,10 +88,7 @@
                                 <td>
                                     <select class="form-control" name="type">
                                         <option <?php if(isset($attribute->type)&& $attribute->type=='select' ) echo 'selected="selected"'; else echo ''; ?> value="select" >Select/option</option>
-                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='text' ) echo 'selected="selected"'; else echo ''; ?> value="text" >Text</option>
                                         <option  <?php if(isset($attribute->type)&& $attribute->type=='input' ) echo 'selected="selected"'; else echo ''; ?> value="input" >input</option>
-                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='hidden' ) echo 'selected="selected"'; else echo ''; ?> value="hidden" >hidden</option>
-                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='date' ) echo 'selected="selected"'; else echo ''; ?> value="date" >date</option>
                                         <option  <?php if(isset($attribute->type)&& $attribute->type=='textarea' ) echo 'selected="selected"'; else echo ''; ?> value="textarea" >textarea</option>
                                     </select>
                                 </td>

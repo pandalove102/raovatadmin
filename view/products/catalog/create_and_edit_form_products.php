@@ -28,6 +28,7 @@
                <form class="m-t" role="form" action="" method="post" >
                   <input type="hidden" name="uri" id="uri" value="<?php echo $this->uri ?>">
                   <input type="hidden" name="id" id="id" value="<?=(isset($catalogs)) ? $catalogs->id : ''?>">
+                  <input type="hidden" name="catagories_id" id="catagories_id" value="<?=(isset($catalogs->catagories_id)) ? $catalogs->catagories_id : ''?>">
                   <div class="wrapper wrapper-content animated fadeInRight ecommerce">
                     <div class="col-sm-9 col-sm-offset-8">
                         <a class="btn btn-white" type="text" href="<?=base_url('catalog');?>">Cancel</a>
@@ -50,7 +51,7 @@
                                     <fieldset class="form-horizontal">
                                         <div class="form-group">
                                           <label class="col-sm-2 control-label">Mã bài viết:</label>
-                                          <div class="col-sm-10"><input type="text" required="" placeholder="Sku" class="form-control area-input" name="sku" id="sku"  data-error="Nhập Sku" data-error-1="Mã sku đã tồn tại!" data-url="<?=base_url('catalog/api_check_sku')?>" value="<?=(isset($catalogs)) ? $catalogs->sku : ''?>"></div>
+                                          <div class="col-sm-10"><input type="text" required="" placeholder="" class="form-control area-input" name="sku" id="sku"  data-error="Nhập Sku" data-error-1="Mã sku đã tồn tại!" data-url="<?=base_url('catalog/api_check_sku')?>" value="<?=(isset($catalogs)) ? $catalogs->sku : ''?>"></div>
                                         </div>
                                         <div class="form-group">
                                           <label class="col-sm-2 control-label">Tên bài viết:</label>
@@ -80,14 +81,11 @@
                                                 });
                                                 </script>
                                               <input type="number"   placeholder="nhập giá" class="form-control area-input" 
-                                             name="price" id="price" value="<?=(isset($catalogs)) ? $catalogs->price : ''?>">
-                                                <input type="checkbox" <?php if($catalogs->price==0) echo  'checked' ; else echo ''; ?>  id="inlineCheckbox1" value="lienhe">
+                                             name="price" id="price" value="<?=(isset($catalogs->price)) ? $catalogs->price : ''?>">
+                                                <input type="checkbox" <?=(isset($catalogs->price)&& $catalogs->price==0 ) ? 'checked' : ''?>  id="inlineCheckbox1" value="lienhe">
                                                 <label for="inlineCheckbox1"> Liên hệ </label>
                                           </div>
                                        </div>
-
-
-
 
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Thành Phố:</label>
@@ -160,9 +158,9 @@
 
                                         <div class="form-group">
                                           <label class="col-sm-2 control-label">Ngày Hiển Thị:</label>
-                                          <div class="col-sm-10">
-                                             <input type="text" value="<?=(isset($catalogs->date_show)) ? $catalogs->date_show : ''?>" placeholder="Ngày Hiển Thị" class="form-control area-input" 
-                                                name="date_show" id="date_show" >
+                                          <div class="col-sm-10" >
+                                             <input class="date"  type="text" value="<?=(isset($catalogs->date_show)) ? $catalogs->date_show : ''?>" placeholder="Ngày Hiển Thị" class="form-control area-input" 
+                                                name="date_show"  >
                                           </div>
                                        </div>
 
@@ -283,22 +281,57 @@
                                  <div class="panel-body">
                                     <div class="table-responsive">
                                       <?php $this->paging($totalpage,'left'); ?>
+                                      <!-- <div style="text-align: right;">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                                Thêm thuộc tính mới vào danh mục 
+                                            </button>
+                                            <div class="modal" id="myModal">
+                                           
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Danh sach thuộc tính</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <select class="form-control" name="idattribute">
+                                                                <?php 
+                                                                
+                                                                    for($i=0;$i<count($listattributeall);$i++)
+                                                                    {
+                                                                        
+                                                                ?>
+                                                                <option  value="<?php  echo $listattributeall[$i]->id  ?>" ><?php  echo $listattributeall[$i]->label  ?></option>
+                                                                <?php 
+                                                                        
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" value="1" class="btn btn-success" name="save" >Lưu</button>
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div> -->
                                         <table class="table table-striped table-bordered table-hover ">
                                             <thead>
                                             <tr>
-                                                <th data-toggle="true">ID</th>
-                                                <th data-toggle="true">Tiêu đề</th>
-                                                <th data-toggle="true">Giá Trị</th>
-                                                <th data-toggle="true">Giá trị mặc định</th>
-                                                <th data-toggle="true">Code</th>
-                                                <th data-toggle="true">Loại</th>
-                                                <th class="text-right" data-sort-ignore="true">Hành Động</th>
+                                                <th data-toggle="true" style="width: 200px;">ID</th>
+                                                <th data-toggle="true" style="width: 200px;" >ID Catagories</th>
+                                                <th data-toggle="true" style="width: 200px;" >ID Attribute</th>
+                                                <th data-toggle="true">Giá trị </th>
+                                                <th class="text-right" style="width: 100px;" data-sort-ignore="true">Hành Động</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <?php if($listattribute) {foreach ($listattribute as $v) { ?>
+                                            <?php if(isset($listattributecatalogs)) {foreach ($listattributecatalogs as $v) { ?>
                                                 <tr class="footable-even" style="">
                                                     <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>
+                                                        <?php echo $v->id ?>
+                                                    </td>
+                                                    <td>
                                                         <?php echo $v->idattribute ?>
                                                     </td>
                                                     <td>
@@ -307,15 +340,7 @@
                                                     <td>
                                                         <?php echo $v->value ?>
                                                     </td>
-                                                    <td>
-                                                        <?php echo $v->defaultvalue ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $v->code ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $v->type ?>
-                                                    </td>
+                                                 
                                                     <td class="text-right">
                                                         <div class="btn-group">
                                                         <a href="<?=base_url('catagory/delete_attribute/?idattribute='.$v->idattribute.'&&idcatagories='.$this->get('id')); ?>" class="btn-white btn btn-xs">Xóa</a>
@@ -523,6 +548,34 @@ $(document).on('change','#city', function() {
 			}else{
 				$( "#district" ).html('<select class="form-control m-b" name="district"> No data </select> ');
 			}
+		})
+
+});
+</script>
+
+<script>
+$(document).on('change','#catagorie_id', function() {
+  var _that = $(this);
+  var id=$( "#catagorie_id" ).val();
+  alert(id);
+  $.post('<?=base_url('catalog/api_get_attribute') ?>',{id:id})
+  .done(function(d){
+        if(d && d!='[]')
+        {
+            alert(d);
+            // var str = '<input type="text" ';
+            // 		$( "#district" ).empty();
+            // 		d = JSON.parse(d);
+            // 		$.each(d.data, function(k,v) 
+            // {
+            //   str +='<option value="'+v.id+'">'+v.name+' </option>';	
+            // });
+            // 		str += '</select>';
+            // // alert(str);
+            // 		$( "#district" ).html(str);
+            // 	}else{
+            // 		$( "#district" ).html('<select class="form-control m-b" name="district"> No data </select> ');
+		}
 		})
 
 });
