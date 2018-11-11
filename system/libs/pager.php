@@ -106,6 +106,7 @@ class pager
 		}
 		//////xử lý giữ tham số trên url
 		return $query_string;
-	}	
+	}
+		
 }
 ?>

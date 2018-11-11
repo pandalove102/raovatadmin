@@ -11,6 +11,8 @@ class catalogcontroller  extends controller
 		$this->models = new catagorymodel();
 		$this->modelstatus = new statusmodel();
 		$this->pathview = 'view/products/catalog/';
+		
+		
 	}
 	function index()
 	{
@@ -481,36 +483,25 @@ class catalogcontroller  extends controller
 	{
 		if($this->post()){
 			$list = $this->model->get_attribute_id($this->post('id'));
-			$w='';
-			foreach($list as $k=>$v)
-			{
-				if($v->type=='select')
-				{
-				}elseif($v->type=='input')
-				{
-					$w.='<input  ';
-					foreach($data as $k=>$v)
-					{
-						$w.=' '.$k.'="'.$v.'"';					
-					}
-					$w.=' ?>';
-				}else
-				{
-					$w.='<textarea  ';
-					foreach($data as $k=>$v)
-					{
-						if($v!='value')
-						{
-							$w.=' '.$k.'="'.$v.'"';	
-						}			
-					}
-					$w.=' ?>'.$v.'</textarea>';
-				}
-			}
+			$data = array(
+				'name'          => 'username',
+				'id'            => 'username',
+				'value'         => 'johndoe',
+				'maxlength'     => '100',
+				'size'          => '50',
+				'style'         => 'width:50%'
+			);
+		
+			
+		
+			
+
+
 			echo json_encode(array('data'=>$w));
 		}else
 			echo '[]';
 	}
+	
 	function api_listcatnice($name='catagories_id',$selectid = 0)
 	{
 	   $list = $this->model->listcatnice();
