@@ -188,7 +188,7 @@ class catalogmodel extends model
 		{
 			$w .= " and  a.idcatagories=$id ";
 		}
-		$sql = "SELECT a.*,b.label,b.`value`,b.defaultvalue,b.code,b.type  FROM catagories_attribute a, attribute b ";
+		$sql = "SELECT a.*,b.label,b.`value`,b.defaultvalue,b.code,b.type  FROM catagories_attribute a, attribute b $w ";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}

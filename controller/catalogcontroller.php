@@ -485,24 +485,37 @@ class catalogcontroller  extends controller
 	{
 		if($this->post()){
 			$list = $this->model->get_attribute_id($this->post('id'));
-			$data = array(
-				'name'          => 'username',
-				'id'            => 'username',
-				'value'         => 'johndoe',
-				'maxlength'     => '100',
-				'size'          => '50',
-				'style'         => 'width:50%'
-			);
-			// $this->form=new form();
-			$w=$this->form_input($data);
-
-		
+			$str='';
 			
-		
-			
-
-
-			echo json_encode(array('data'=>$w));
+			foreach($list as $k=>$v)
+			{
+				if($v->type=='dropdown')
+				{
+					$tam=explode(',',trim($v->value));
+					$datavalue=array();
+					foreach($tam as $i=>$j)
+					{
+						
+						$datavalue[]=array('value'=>$j,'label'=>$j);
+					}
+				}else{
+					$datavalue=$v->value;
+				}
+				
+				$data = array(
+					'type'=>$v->type,
+					'name'=>$v->code,
+					'isvalue'=>$v->defaultvalue,
+					'label'=>$v->label,
+					'data'=>$datavalue
+				);
+				// $this->xem_mang($data);
+				// exit();
+				$str.=$this->form->input($data);
+			}
+			// $this->xem_mang($str);
+			// 	exit();
+			echo json_encode(array('data'=>$str));
 		}else
 			echo '[]';
 	}

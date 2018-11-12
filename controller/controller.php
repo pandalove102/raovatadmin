@@ -18,8 +18,10 @@ class controller extends pager
 	var $parent = ''; 
 	var $numrow = 10;
 	var $pos = 0;
+	var $form;
 	function __construct()
 	{
+		$this->form=new form();
 		$this->pos = $this->tim_vi_tri_bat_dau($this->numrow);
 	}
 	function render($view,$baselayout = 'layout')
