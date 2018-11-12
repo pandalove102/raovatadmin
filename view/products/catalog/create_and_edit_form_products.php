@@ -1,8 +1,3 @@
-
-<?php
-$this->xem_mang($_POST);
-?>
-
 <?php defined('BASE') OR exit('No direct script access allowed');?>
 <div class="row">
    <div class="col-lg-12">

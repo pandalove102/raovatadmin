@@ -1,5 +1,4 @@
 
-<!-- <?php $this->xem_mang($_POST); ?> -->
 <?php defined('BASE') OR exit('No direct script access allowed');?>
 <form class="m-t" role="form" action="" method="post" >
 <div class="row">

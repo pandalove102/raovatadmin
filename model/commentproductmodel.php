@@ -16,16 +16,16 @@ class commentproductmodel extends model
 		return $this->loadAllRow();
 	}
 	// load theo dạng table - phân trang 
-	// function listcommentproduct($pos,$numrow)
-	// {
-	// 	if($numrow>0)
-	// 	{
-	// 		$this->limit = " and `level`=0 limit $pos,$numrow";
-	// 	}
-    //    	$sql = "select cp.*,c.fullname as customerspost,n.name as title from `" . $this->table . "` cp , `news` n , `customers` c where cp.idpost=n.id and cp.iduser=c.id and parent_id=0 and cp.hide = 1 {$this->limit} ";
-	// 	$this->setQuery($sql);
-	// 	return $this->loadAllRow();
-	// }
+	function listcommentproduct11($pos,$numrow)
+	{
+		if($numrow>0)
+		{
+			$this->limit = " and `level`=0 limit $pos,$numrow";
+		}
+       	$sql = "select cp.*,c.fullname as customerspost,n.name as title from `" . $this->table . "` cp , `news` n , `customers` c where cp.idpost=n.id and cp.iduser=c.id and parent_id=0 and cp.hide = 1 {$this->limit} ";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+	}
 	function detailscommentproduct($id)
 	{
 		$add='';
