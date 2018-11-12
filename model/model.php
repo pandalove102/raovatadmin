@@ -137,6 +137,7 @@ class model extends database
 		}else
 			return 2;//thông tin rỗng
 	}
+	
 	function delete($id,$table='')
 	{
 		$table = $table ?$table:$this->table;

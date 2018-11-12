@@ -12,6 +12,18 @@ class catalogmodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	
+	function get_attribute_idcatagories($catagorie_id='')
+	{
+		$w='  WHERE a.idattribute=b.id and a.hide=1  ';
+		if(isset($catagorie_id) &&  $catagorie_id!='')
+		{
+			$w.=" and a.idcatagories=$catagorie_id  ";
+		}  
+	    $sql = "SELECT a.idattribute,b.*  FROM catagories_attribute a , attribute b  $w ";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+	}
 	function listattribute($pos,$numrow,$id='')
 	{
 		if($numrow>0)
@@ -28,18 +40,14 @@ class catalogmodel extends model
 		return $this->loadAllRow();
 
 	}
-	function listattributecatalogs($pos,$numrow,$idcatalogs)
+	function listattributecatalogs($idcatalogs='')
 	{
 		$w='';
 		if(isset($idcatalogs) &&  $idcatalogs!='')
 		{
-			$w="  WHERE a.hide=1 and a.idattribute=b.id  and  a.idcatalogs=$idcatalogs ";
+			$w="  WHERE a.hide=1 and a.idattribute=b.id and a.idcatalogs=$idcatalogs ";
 		}
-		if($numrow>0)
-		{
-			$this->limit = " limit $pos,$numrow";
-		}
-		$sql = "SELECT a.*,b.label as label FROM catalogs_attribute a, attribute b $w {$this->limit} ";
+	     $sql = "SELECT * FROM catalogs_attribute a, attribute b $w  ";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 

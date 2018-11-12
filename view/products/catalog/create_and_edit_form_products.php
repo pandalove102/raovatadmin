@@ -1,4 +1,8 @@
 
+<?php
+$this->xem_mang($_POST);
+?>
+
 <?php defined('BASE') OR exit('No direct script access allowed');?>
 <div class="row">
    <div class="col-lg-12">
@@ -51,11 +55,11 @@
                                     <fieldset class="form-horizontal">
                                         <div class="form-group">
                                           <label class="col-sm-2 control-label">Mã bài viết:</label>
-                                          <div class="col-sm-10"><input type="text" required="" placeholder="" class="form-control area-input" name="sku" id="sku"  data-error="Nhập Sku" data-error-1="Mã sku đã tồn tại!" data-url="<?=base_url('catalog/api_check_sku')?>" value="<?=(isset($catalogs)) ? $catalogs->sku : ''?>"></div>
+                                          <div class="col-sm-10"><input type="text"  placeholder="" class="form-control area-input" name="sku" id="sku"  data-error="Nhập Sku" data-error-1="Mã sku đã tồn tại!" data-url="<?=base_url('catalog/api_check_sku')?>" value="<?=(isset($catalogs)) ? $catalogs->sku : ''?>"></div>
                                         </div>
                                         <div class="form-group">
                                           <label class="col-sm-2 control-label">Tên bài viết:</label>
-                                          <div class="col-sm-10"><input type="text" required="" placeholder="Name" onchange="stralias('username','alias')" class="form-control area-input" name="username" id="username"  data-error="Nhập tên sản phẩm" data-error-1="Tên sản phẩm đã tồn tại!" data-url="<?=base_url('catalog/api_check_catalogs')?>" value="<?=(isset($catalogs)) ? $catalogs->name : ''?>"></div>
+                                          <div class="col-sm-10"><input type="text"  placeholder="Name" onchange="stralias('username','alias')" class="form-control area-input" name="username" id="username"  data-error="Nhập tên sản phẩm" data-error-1="Tên sản phẩm đã tồn tại!" data-url="<?=base_url('catalog/api_check_catalogs')?>" value="<?=(isset($catalogs)) ? $catalogs->name : ''?>"></div>
                                        </div>
 
                                         <div class="form-group">
@@ -69,7 +73,7 @@
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Alias</label>
                                           <div class="col-sm-10">
-                                             <input type="text" required="" placeholder="alias" class="form-control area-input" 
+                                             <input type="text"  placeholder="alias" class="form-control area-input" 
                                                 name="alias" id="alias" data-error="Nhập alias" data-error-1="Alias đã tồn tại!" data-url="<?=base_url('catalog/api_check_alias')?>" value="<?=(isset($catalogs)) ? $catalogs->alias : ''?>">
                                           </div>
                                        </div>
@@ -129,13 +133,13 @@
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Mô tả ngắn:</label>
                                           <div class="col-sm-10">
-                                             <textarea type="text" required=""  placeholder="Description" class="form-control area-input" name="shortdescription" id="shortdescription"><?=(isset($catalogs)) ? $catalogs->shortdescription : ''?></textarea>
+                                             <textarea type="text"   placeholder="Description" class="form-control area-input" name="shortdescription" id="shortdescription"><?=(isset($catalogs)) ? $catalogs->shortdescription : ''?></textarea>
                                           </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Mô tả:</label>
                                           <div class="col-sm-10">
-                                             <textarea type="text" required=""  placeholder="Description" class="form-control area-input" name="description" id="description"> <?=(isset($catalogs)) ? $catalogs->description : ''?></textarea>
+                                             <textarea type="text"   placeholder="Description" class="form-control area-input" name="description" id="description"> <?=(isset($catalogs)) ? $catalogs->description : ''?></textarea>
                                           </div>
                                        </div>
                                      
@@ -154,7 +158,7 @@
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Số lượng:</label>
                                           <div class="col-sm-10">
-                                            <input type="number" required="" placeholder="quantity" class="form-control area-input" 
+                                            <input type="number"  placeholder="quantity" class="form-control area-input" 
                                              name="quantity" data-error="Nhập số lượng" onkeyup="validateInp(this);" id="quantity" value="<?=(isset($catalogs)) ? $catalogs->quantity : ''?>">
                                           </div>
                                        </div>
@@ -252,21 +256,21 @@
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">H1:</label>
                                           <div class="col-sm-10">
-                                            <input type="text" required="" placeholder="H1" class="form-control area-input" 
+                                            <input type="text" placeholder="H1" class="form-control area-input" 
                                              name="h1" id="h1" value="<?=(isset($catalogs)) ? $catalogs->h1 : ''?>">
                                           </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Meta Tag Title:</label>
                                           <div class="col-sm-10">
-                                            <input type="text" required="" placeholder="metatitle" class="form-control area-input" 
+                                            <input type="text" placeholder="metatitle" class="form-control area-input" 
                                              name="metatitle" id="metatitle" value="<?=(isset($catalogs)) ? $catalogs->metatitle : ''?>">
                                           </div>
                                        </div>
                                        <div class="form-group">
                                           <label class="col-sm-2 control-label">Meta Tag Description:</label>
                                           <div class="col-sm-10">
-                                            <input type="text" required="" placeholder="metadesc" class="form-control area-input" 
+                                            <input type="text"  placeholder="metadesc" class="form-control area-input" 
                                              name="metadesc" id="metadesc" value="<?=(isset($catalogs)) ? $catalogs->metadesc : ''?>">
                                          </div>
                                        </div>
@@ -282,7 +286,8 @@
                               </div>
                               <div id="tab-7" class="tab-pane">
                                  <div class="panel-body">
-                                    <div id='table_attribute'></div>
+                                   
+                                    <div id='table_attribute'> <?=(isset($str)?$str:'Chưa có dữ liệu !! ') ?></div>
                                  </div>
                               </div>
                               <div id="tab-8" class="tab-pane">

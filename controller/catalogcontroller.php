@@ -11,8 +11,7 @@ class catalogcontroller  extends controller
 		$this->models = new catagorymodel();
 		$this->modelstatus = new statusmodel();
 		$this->pathview = 'view/products/catalog/';
-		include_once('form.php');
-		
+	
 		
 		
 	}
@@ -323,6 +322,7 @@ class catalogcontroller  extends controller
 		$this->size_imgshare = '(600x400)px';
 		$id = $this->get('id');
 		$catalogs = $this->model->getonekey(array('id'=>$id,'hide'=>1));
+		
 		$discounts = $this->model->listdis($catalogs->sku);
 		$items = $this->model->listitem();
 		$listkm = $this->model->listkm($catalogs->sku);
@@ -341,7 +341,35 @@ class catalogcontroller  extends controller
 			$this->uri = $this->getactionname();
 			if($this->post() && $this->istoken('tokencatalog',$this->model->clean($this->post('tokencatalog'))))
 			{
+					// if($catagorieid==$this->model->clean($this->post('tokencatalog'))){
+					// 	//update 
+					
+
+					// }else
+					// {
+					// 	// Ẩn tất cả 
+
+
+					// 	// add mới 
+
+					// }
+					$list=$this->model->get_attribute_idcatagories($this->model->clean($this->post('catagorie_id')));
 				
+					foreach($list as $k=>$v)
+					{
+						$data1[]=array($v->idattribute => $this->model->clean($this->post($v->code.$v->idattribute)));
+					}
+					
+				
+
+
+					$this->xem_mang($list);
+					$this->xem_mang($list);
+					$this->xem_mang($_POST);
+					$this->xem_mang($data1);
+					exit();
+
+					
 					$jsonarray = array();
 					if($this->post('imgs')){
 						foreach($this->post('imgs') as $i=>$img)
@@ -386,46 +414,54 @@ class catalogcontroller  extends controller
 						'update_at' => date('Y-m-d H:i:s')
 
 					);
+					
+					foreach($list as $k=>$v)
+					{
+						
+					}
 					if($this->model->update($data))
 					{
+						// //update thuộc tính mở rộng : 
+						// $this->update_attribute_catalogs_idcatagories($catagorie_id,$idcatalog);
+						
 						$catalogs = $this->model->getone($catalogs->id);
 						$this->model->logs('Cập nhật thành công bài viết: '.$catalogs->sku,$this->getcontrollername().'/'.$this->uri);
 						$this->setmsg('Cập nhật thành công. Đang chuyển hướng...','success');
-						if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
-							{							
-								if($catalogs->sku){
-									$this->model->deldis($catalogs->sku);
-									foreach($this->post('disname') as $i=>$discount)
-									{
-										$qty = $this->post('disqty')[$i];
-										$pri = $this->post('disprice')[$i];
-										$st = $this->post('disstart')[$i];
-										$en = $this->post('disend')[$i];
-										$this->model->adddiscount($catalogs->sku,$discount,$qty,$pri,$st,$en);
-									}
-								}
-							}
-						$this->model->delpro($catalogs->sku);
-						if($this->post('kmitem_id') &&  $this->post('kmqty') )
-							{
-								if($catalogs->sku){	
-									foreach($this->post('kmitem_id') as $j=>$km)
-									{
-										$qty = $this->post('kmqty')[$j];
-										$this->model->addkm($catalogs->sku,$km,$qty);
-									}
-								}
-							}
-						$discounts = $this->model->listdis($catalogs->sku);
-						$items = $this->model->listitem();
-						$listkm = $this->model->listkm($catalogs->sku);
-						if($this->model->clean($this->post('save')) == 1)
-						{
-							$this->setmsg('Cập nhật thành công.','success');
-						}
-						else{
-							redirect('catalog',2);
-						}
+						// if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
+						// 	{							
+						// 		if($catalogs->sku){
+						// 			$this->model->deldis($catalogs->sku);
+						// 			foreach($this->post('disname') as $i=>$discount)
+						// 			{
+						// 				$qty = $this->post('disqty')[$i];
+						// 				$pri = $this->post('disprice')[$i];
+						// 				$st = $this->post('disstart')[$i];
+						// 				$en = $this->post('disend')[$i];
+						// 				$this->model->adddiscount($catalogs->sku,$discount,$qty,$pri,$st,$en);
+						// 			}
+						// 		}
+						// 	}
+						// $this->model->delpro($catalogs->sku);
+						// if($this->post('kmitem_id') &&  $this->post('kmqty') )
+						// 	{
+						// 		if($catalogs->sku){	
+						// 			foreach($this->post('kmitem_id') as $j=>$km)
+						// 			{
+						// 				$qty = $this->post('kmqty')[$j];
+						// 				$this->model->addkm($catalogs->sku,$km,$qty);
+						// 			}
+						// 		}
+						// 	}
+						// $discounts = $this->model->listdis($catalogs->sku);
+						// $items = $this->model->listitem();
+						// $listkm = $this->model->listkm($catalogs->sku);
+						// if($this->model->clean($this->post('save')) == 1)
+						// {
+						// 	$this->setmsg('Cập nhật thành công.','success');
+						// }
+						// else{
+						// 	redirect('catalog',2);
+						// }
 					}
 					else
 					{
@@ -434,20 +470,34 @@ class catalogcontroller  extends controller
 			
 			}
 			// danh sách thuộc tính mở rộng của  tin đăng 
-			// $listattribute = $this->model->listattribute($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
-			//id catageries
-			$catagories_id=$this->post('catagorie_id');
-			// id catalogs
-			$listattributecatalogs = $this->model->listattributecatalogs($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow,$id);
-			// tính số trang 
-			$totalpage =count($listattributecatalogs);
-			if($totalpage<=0)
+			$listattributecatalogs = $this->model->listattributecatalogs($id);
+			$str='';
+			foreach($listattributecatalogs as $k=>$v)
 			{
-				$totalpage=1;
+				if($v->type=='dropdown')
+				{
+					$tam=explode(',',trim($v->value));
+					$datavalue=array();
+					foreach($tam as $i=>$j)
+					{
+						
+						$datavalue[]=array('value'=>$j,'label'=>$j);
+					}
+				}else{
+					$datavalue=$v->value;
+				}
+				
+				$data = array(
+					'type'=>$v->type,
+					'name'=>$v->code.$v->idattribute,
+					'isvalue'=>$v->defaultvalue,
+					'label'=>$v->label,
+					'data'=>$datavalue
+				);
+				$str.=$this->form->input($data);
 			}
 			$this->setdata(array('catalogs'=>$catalogs,
-								 'listattributecatalogs'=>$listattributecatalogs,
-								 'totalpage'=>$totalpage,
+								  'str'=>$str,
 								 'listdis'=>$discounts,
 								 'itemkm'=>$items,
 								 'listkm'=>$listkm,
@@ -486,7 +536,6 @@ class catalogcontroller  extends controller
 		if($this->post()){
 			$list = $this->model->get_attribute_id($this->post('id'));
 			$str='';
-			
 			foreach($list as $k=>$v)
 			{
 				if($v->type=='dropdown')
@@ -504,7 +553,7 @@ class catalogcontroller  extends controller
 				
 				$data = array(
 					'type'=>$v->type,
-					'name'=>$v->code,
+					'name'=>$v->code.$v->idattribute,
 					'isvalue'=>$v->defaultvalue,
 					'label'=>$v->label,
 					'data'=>$datavalue
@@ -555,173 +604,6 @@ class catalogcontroller  extends controller
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	function form_input($data = '', $value = '', $extra = '')
-	{
-		$defaults = array(
-			'type' => 'text',
-			'name' => is_array($data) ? '' : $data,
-			'value' => $value
-		);
-
-		return '<input '.$this->_parse_form_attributes($data, $defaults).$this->_attributes_to_string($extra)." />\n";
-	}
-	function _parse_form_attributes($attributes, $default)
-	{
-		if (is_array($attributes))
-		{
-			foreach ($default as $key => $val)
-			{
-				if (isset($attributes[$key]))
-				{
-					$default[$key] = $attributes[$key];
-					unset($attributes[$key]);
-				}
-			}
-
-			if (count($attributes) > 0)
-			{
-				$default = array_merge($default, $attributes);
-			}
-		}
-
-		$att = '';
-
-		foreach ($default as $key => $val)
-		{
-			if ($key === 'value')
-			{
-				$val = $this->html_escape($val);
-			}
-			elseif ($key === 'name' && ! strlen($default['name']))
-			{
-				continue;
-			}
-
-			$att .= $key.'="'.$val.'" ';
-		}
-
-		return $att;
-	}
-	function _attributes_to_string($attributes)
-	{
-		if (empty($attributes))
-		{
-			return '';
-		}
-
-		if (is_object($attributes))
-		{
-			$attributes = (array) $attributes;
-		}
-
-		if (is_array($attributes))
-		{
-			$atts = '';
-
-			foreach ($attributes as $key => $val)
-			{
-				$atts .= ' '.$key.'="'.$val.'"';
-			}
-
-			return $atts;
-		}
-
-		if (is_string($attributes))
-		{
-			return ' '.$attributes;
-		}
-
-		return FALSE;
-	}
-	function html_escape($var, $double_encode = TRUE)
-	{
-		if (empty($var))
-		{
-			return $var;
-		}
-
-		if (is_array($var))
-		{
-			foreach (array_keys($var) as $key)
-			{
-				$var[$key] = html_escape($var[$key], $double_encode);
-			}
-
-			return $var;
-		}
-
-		return htmlspecialchars($var, ENT_QUOTES, $this->config_item('charset'), $double_encode);
-	}
-	function config_item($item)
-	{
-		static $_config;
-
-		if (empty($_config))
-		{
-			// references cannot be directly assigned to static variables, so we use an array
-			$_config[0] =& $this->get_config();
-		}
-
-		return isset($_config[0][$item]) ? $_config[0][$item] : NULL;
-	}
-	function &get_config(Array $replace = array())
-	{
-		static $config;
-
-		if (empty($config))
-		{
-			$file_path = APPPATH.'config/config.php';
-			$found = FALSE;
-			if (file_exists($file_path))
-			{
-				$found = TRUE;
-				require($file_path);
-			}
-
-			// Is the config file in the environment folder?
-			if (file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
-			{
-				require($file_path);
-			}
-			elseif ( ! $found)
-			{
-				set_status_header(503);
-				echo 'The configuration file does not exist.';
-				exit(3); // EXIT_CONFIG
-			}
-
-			// Does the $config array exist in the file?
-			if ( ! isset($config) OR ! is_array($config))
-			{
-				set_status_header(503);
-				echo 'Your config file does not appear to be formatted correctly.';
-				exit(3); // EXIT_CONFIG
-			}
-		}
-
-		// Are any values being dynamically added or replaced?
-		foreach ($replace as $key => $val)
-		{
-			$config[$key] = $val;
-		}
-
-		return $config;
-	}
 
 }
  
