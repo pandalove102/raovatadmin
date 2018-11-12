@@ -6,16 +6,26 @@ class commentproductmodel extends model
 		parent::__construct();
 		$this->table = 'comment_product';
 	}
-	function listcommentproduct($pos,$numrow)
+	//load bình luận theo kiểu bài viết - bình luận 
+	function listcommentproduct()
 	{
-		if($numrow>0)
-		{
-			$this->limit = " and `level`=0 limit $pos,$numrow";
-		}
-       	$sql = "select cp.*,c.fullname as customerspost,n.name as title from `" . $this->table . "` cp , `news` n , `customers` c where cp.idpost=n.id and cp.iduser=c.id and parent_id=0 and cp.hide = 1 {$this->limit} ";
+       	$sql = "SELECT a.*,b.name,b.shortdescription,b.description,b.create_at,b.date_show,c.fullname,c.image 
+		   		FROM comment_product a,catalogs b , customers c 
+				WHERE a.idpost=b.id and a.iduser=c.id and a.hide=1 ";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	// load theo dạng table - phân trang 
+	// function listcommentproduct($pos,$numrow)
+	// {
+	// 	if($numrow>0)
+	// 	{
+	// 		$this->limit = " and `level`=0 limit $pos,$numrow";
+	// 	}
+    //    	$sql = "select cp.*,c.fullname as customerspost,n.name as title from `" . $this->table . "` cp , `news` n , `customers` c where cp.idpost=n.id and cp.iduser=c.id and parent_id=0 and cp.hide = 1 {$this->limit} ";
+	// 	$this->setQuery($sql);
+	// 	return $this->loadAllRow();
+	// }
 	function detailscommentproduct($id)
 	{
 		$add='';

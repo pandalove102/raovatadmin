@@ -11,6 +11,8 @@ class catalogcontroller  extends controller
 		$this->models = new catagorymodel();
 		$this->modelstatus = new statusmodel();
 		$this->pathview = 'view/products/catalog/';
+		include_once('form.php');
+		
 		
 		
 	}
@@ -491,6 +493,9 @@ class catalogcontroller  extends controller
 				'size'          => '50',
 				'style'         => 'width:50%'
 			);
+			// $this->form=new form();
+			$w=$this->form_input($data);
+
 		
 			
 		
@@ -535,6 +540,176 @@ class catalogcontroller  extends controller
 	   }
 	   echo '<select>';
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	function form_input($data = '', $value = '', $extra = '')
+	{
+		$defaults = array(
+			'type' => 'text',
+			'name' => is_array($data) ? '' : $data,
+			'value' => $value
+		);
+
+		return '<input '.$this->_parse_form_attributes($data, $defaults).$this->_attributes_to_string($extra)." />\n";
+	}
+	function _parse_form_attributes($attributes, $default)
+	{
+		if (is_array($attributes))
+		{
+			foreach ($default as $key => $val)
+			{
+				if (isset($attributes[$key]))
+				{
+					$default[$key] = $attributes[$key];
+					unset($attributes[$key]);
+				}
+			}
+
+			if (count($attributes) > 0)
+			{
+				$default = array_merge($default, $attributes);
+			}
+		}
+
+		$att = '';
+
+		foreach ($default as $key => $val)
+		{
+			if ($key === 'value')
+			{
+				$val = $this->html_escape($val);
+			}
+			elseif ($key === 'name' && ! strlen($default['name']))
+			{
+				continue;
+			}
+
+			$att .= $key.'="'.$val.'" ';
+		}
+
+		return $att;
+	}
+	function _attributes_to_string($attributes)
+	{
+		if (empty($attributes))
+		{
+			return '';
+		}
+
+		if (is_object($attributes))
+		{
+			$attributes = (array) $attributes;
+		}
+
+		if (is_array($attributes))
+		{
+			$atts = '';
+
+			foreach ($attributes as $key => $val)
+			{
+				$atts .= ' '.$key.'="'.$val.'"';
+			}
+
+			return $atts;
+		}
+
+		if (is_string($attributes))
+		{
+			return ' '.$attributes;
+		}
+
+		return FALSE;
+	}
+	function html_escape($var, $double_encode = TRUE)
+	{
+		if (empty($var))
+		{
+			return $var;
+		}
+
+		if (is_array($var))
+		{
+			foreach (array_keys($var) as $key)
+			{
+				$var[$key] = html_escape($var[$key], $double_encode);
+			}
+
+			return $var;
+		}
+
+		return htmlspecialchars($var, ENT_QUOTES, $this->config_item('charset'), $double_encode);
+	}
+	function config_item($item)
+	{
+		static $_config;
+
+		if (empty($_config))
+		{
+			// references cannot be directly assigned to static variables, so we use an array
+			$_config[0] =& $this->get_config();
+		}
+
+		return isset($_config[0][$item]) ? $_config[0][$item] : NULL;
+	}
+	function &get_config(Array $replace = array())
+	{
+		static $config;
+
+		if (empty($config))
+		{
+			$file_path = APPPATH.'config/config.php';
+			$found = FALSE;
+			if (file_exists($file_path))
+			{
+				$found = TRUE;
+				require($file_path);
+			}
+
+			// Is the config file in the environment folder?
+			if (file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+			{
+				require($file_path);
+			}
+			elseif ( ! $found)
+			{
+				set_status_header(503);
+				echo 'The configuration file does not exist.';
+				exit(3); // EXIT_CONFIG
+			}
+
+			// Does the $config array exist in the file?
+			if ( ! isset($config) OR ! is_array($config))
+			{
+				set_status_header(503);
+				echo 'Your config file does not appear to be formatted correctly.';
+				exit(3); // EXIT_CONFIG
+			}
+		}
+
+		// Are any values being dynamically added or replaced?
+		foreach ($replace as $key => $val)
+		{
+			$config[$key] = $val;
+		}
+
+		return $config;
+	}
+
 }
  
 ?>

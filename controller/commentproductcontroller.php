@@ -15,12 +15,16 @@ class commentproductcontroller  extends controller
 		$this->strong = 'DS Bình Luận';
 		$this->setscript(array('layout/js/plugins/dataTables/datatables.min.js'));
 		$this->setcss(array('layout/css/plugins/dataTables/datatables.min.css'));
-		$comment = $this->model->listcommentproduct($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow);
-		$totalpage = $this->model->total();
-		$this->setdata(array('commentproduct'=>$comment,
-							 'totalpage'=>$totalpage
+		$comment = $this->model->listcommentproduct();
+		// $comment = $this->model->listcommentproduct($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow);
+		// $totalpage = $this->model->total();
+		// $this->setdata(array('commentproduct'=>$comment,
+		// 					 'totalpage'=>$totalpage
+		// 			  ));
+		$this->setdata(array('commentproduct'=>$comment
 					  ));
-		$this->render('list_view');
+		// $this->render('list_view');
+		$this->render('list_view2');
 	}
 	function api_getsub()
 	{
