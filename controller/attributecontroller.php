@@ -7,6 +7,7 @@ class attributecontroller  extends controller
 		$this->model = new attributemodel();
 		$this->models = new catalogmodel();
 		$this->pathview = 'view/products/attribute/';
+		
 	}
 	function index()
 	{
@@ -16,6 +17,22 @@ class attributecontroller  extends controller
 		$this->strong = 'Danh sách thuộc tính';
 		$this->setscript(array('layout/js/plugins/dataTables/datatables.min.js'));
 		$this->setcss(array('layout/css/plugins/dataTables/datatables.min.css'));
+		$list_type=array(
+			'text'=>'Loại Chữ',
+			'number'=>'Loại Số',
+			'date'=>'Ngày Tháng Năm',
+			'email'=>'Loại Email',
+			'radio'=>'Chọn lựa',
+			'checkbox'=>'Đánh dấu',
+			'dropdown'=>'Danh sách lựa chọn',
+			'linkbutton'=>'nút liên kết',
+			'button'=>'Nút',
+			'color'=>'Màu',
+			'image'=>'Một Hình Ảnh ',
+			'images'=>'Nhiều Hình Ảnh',
+			'editor'=>'Chỉnh sửa văn bản',
+			'textarea'=>'Khung văn bản'
+		);
 		if($this->get() && $this->istoken('tokensearch',$this->model->clean($this->get('tokensearch'))))
 		{
 			$attribute = $this->model->listattributesearch($this->tim_vi_tri_bat_dau($this->numrow),
@@ -35,7 +52,7 @@ class attributecontroller  extends controller
 			$totalpage = $this->model->total();
 		}
 		
-		$this->setdata(array('attribute'=>$attribute ,'totalpage'=>$totalpage));
+		$this->setdata(array('attribute'=>$attribute ,'list_type'=>$list_type,'totalpage'=>$totalpage));
 		$this->render('list_view');
 	}
 	function api_check_label($return = false)
@@ -76,6 +93,22 @@ class attributecontroller  extends controller
 		$this->save = 'Lưu';
 		$this->save_close = 'Lưu & Đóng';
 		$this->uri = $this->getactionname();
+		$list_type=array(
+			'text'=>'Loại Chữ',
+			'number'=>'Loại Số',
+			'date'=>'Ngày Tháng Năm',
+			'email'=>'Loại Email',
+			'radio'=>'Chọn lựa',
+			'checkbox'=>'Đánh dấu',
+			'dropdown'=>'Danh sách lựa chọn',
+			'linkbutton'=>'nút liên kết',
+			'button'=>'Nút',
+			'color'=>'Màu',
+			'image'=>'Một Hình Ảnh ',
+			'images'=>'Nhiều Hình Ảnh',
+			'editor'=>'Chỉnh sửa văn bản',
+			'textarea'=>'Khung văn bản'
+		);
 		if($this->post() && $this->istoken('tokenattribute',$this->model->clean($_POST['tokenattribute'])))
 		{			
 			if($this->api_check_label(true))
@@ -109,6 +142,8 @@ class attributecontroller  extends controller
 				$this->setmsg('Thuộc tính đã tồn tại!','error');
 			}
 		}
+		$this->setdata(array('list_type'=>$list_type
+							));
 		$this->render('create_and_edit_form');
 	}
 	function edit()
@@ -120,6 +155,22 @@ class attributecontroller  extends controller
 		$this->save = 'Cập nhật';
 		$this->save_close = 'Cập nhật & Đóng';
 		$id = $this->get('id');
+		$list_type=array(
+			'text'=>'Loại Chữ',
+			'number'=>'Loại Số',
+			'date'=>'Ngày Tháng Năm',
+			'email'=>'Loại Email',
+			'radio'=>'Chọn lựa',
+			'checkbox'=>'Đánh dấu',
+			'dropdown'=>'Danh sách lựa chọn',
+			'linkbutton'=>'nút liên kết',
+			'button'=>'Nút',
+			'color'=>'Màu',
+			'image'=>'Một Hình Ảnh ',
+			'images'=>'Nhiều Hình Ảnh',
+			'editor'=>'Chỉnh sửa văn bản',
+			'textarea'=>'Khung văn bản'
+		);
 		$attribute = $this->model->getonekey(array('id'=>$id,'hide'=>1));
 		if(!$attribute)
 			redirect('attribute/edit',1);		
@@ -157,6 +208,7 @@ class attributecontroller  extends controller
 		$listcatagories=$this->model->listcatagories();
 		$detail_catagories_attribute=$this->model->detail_catagories_attribute($id);
 		$this->setdata(array('attribute'=>$attribute,
+							  'list_type'=>$list_type,
 							 'listcatagories'=>$listcatagories,
 							 'detail_catagories_attribute'=>$detail_catagories_attribute
 							));

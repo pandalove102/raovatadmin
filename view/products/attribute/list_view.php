@@ -26,19 +26,13 @@
                      <th  style="width: 196px;">Bắt buộc</th>
                      <th  style="width: 196px;">Không trùng</th>
                      <th  style="width: 218px;">Code</th>
-                     <th style="width: 218px;">Type</th>      
-                     <th style="width: 75px;">Action</th>
-                     <th style="width: 75px;">Action</th>
+                     <th style="width: 218px;">Loại</th>      
+                     <th style="width: 75px;">Hành Động</th>
+                    
                         </tr>
                      </thead>
                      <tbody>
-                        <?php
-                              $data = array(
-                                  'name'  => 'John Doe',
-                                  'email' => 'john@example.com',
-                                  'url'   => 'http://example.com'
-                              );
-                        ?>
+                      
                         <?php if($attribute ) {foreach ($attribute as $v) { ?>
                            <tr class="gradeA odd" role="row">
                               <td class="sorting_1"><?php echo $v->id ?></td>
@@ -48,10 +42,16 @@
                               <td><?php echo $v->requrire==1?'Có':'Không' ?></td>
                               <td><?php echo $v->unique==1?'Có':'Không' ?></td>
                               <td><?php echo $v->code ?></td>
-                              <td><?php echo $v->type ?></td>
-                              <td><?php $this->form_hidden('test',$data) ?></td>
+                              <?php
+                                    foreach($list_type as $i=>$j)
+                                    {
+                                      if($v->type==$i)
+                                      {
+                                          echo '<td>'.$j.'</td>';     
+                                      }
+                                    }
+                              ?>
                              
-                           
                               <td class="center">
                                  <a href="<?=base_url('attribute/edit/'.$v->id); ?>" ><span class="glyphicon glyphicon-pencil"></span></a>
                                  <a class="delete-confirm" href="<?=base_url('attribute/delete/'.$v->id); ?>"><span class="glyphicon glyphicon-trash"></span></a>

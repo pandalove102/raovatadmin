@@ -87,9 +87,14 @@
                            <div class="relative">
                                 <td>
                                     <select class="form-control" name="type">
-                                        <option <?php if(isset($attribute->type)&& $attribute->type=='select' ) echo 'selected="selected"'; else echo ''; ?> value="select" >Select/option</option>
-                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='input' ) echo 'selected="selected"'; else echo ''; ?> value="input" >input</option>
-                                        <option  <?php if(isset($attribute->type)&& $attribute->type=='textarea' ) echo 'selected="selected"'; else echo ''; ?> value="textarea" >textarea</option>
+                                    <?php
+                                        foreach($list_type as $k=>$v)
+                                        {
+                                    ?>
+                                        <option <?php if(isset($attribute->type)&& $attribute->type==$k ) echo 'selected="selected"'; else echo ''; ?> value="<?=isset($k)?$k:''?>" ><?=isset($v)?$v:''?></option>
+                                    <?php 
+                                        }
+                                    ?>
                                     </select>
                                 </td>
                               <!-- <input type="text" class="form-control area-input" rows="1" required="" placeholder="Loại"  name="type" id="type" data-error="Nhập unique" value="<?=(isset($attribute)) ? $attribute->type : ''?>"> -->
