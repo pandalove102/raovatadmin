@@ -12,6 +12,31 @@ class catalogmodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	function update2($data,$condition='',$table = '')
+	{
+		$table = $table ?$table:$this->table;
+		$columns = '';
+		$values=null;
+
+		foreach($data as $k=>$v)
+		{
+			if($k != 'id'){
+				$columns.='`'.$k.'`=?,';
+				$values[]=trim($v);
+			}
+		}
+		if($columns && $values){
+			$columns = rtrim($columns,',');
+		    $lenh_sql = "update $table SET $columns where $condition ";
+			$this->setQuery($lenh_sql);
+			$result = $this->execute($values);
+			if($result)
+				return 1;//ok
+			else
+				return 0;//lỗi server
+		}else
+			return 2;//thông tin rỗng
+	}
 	
 	function get_attribute_idcatagories($catagorie_id='')
 	{
@@ -48,6 +73,18 @@ class catalogmodel extends model
 			$w="  WHERE a.hide=1 and a.idattribute=b.id and a.idcatalogs=$idcatalogs ";
 		}
 	     $sql = "SELECT * FROM catalogs_attribute a, attribute b $w  ";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+
+	}
+	function get_value_list_attribute_catalogs_id($idcatalogs='')
+	{
+		$w='';
+		if(isset($idcatalogs) &&  $idcatalogs!='')
+		{
+			$w.="  WHERE a.idattribute=b.id  and a.hide=1 and a.idcatalogs=$idcatalogs ";
+		}
+	     $sql = "SELECT a.*,b.code FROM catalogs_attribute a, attribute b  $w  ";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 

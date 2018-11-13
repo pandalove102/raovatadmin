@@ -258,29 +258,29 @@ class catalogcontroller  extends controller
 					{
 						$this->model->logs('Thêm thành công bài viết: '.$this->model->clean($this->post('sku')),$this->getcontrollername().'/'.$this->uri);
 						$sku = $this->model->getsku($this->model->clean($this->post('sku')));
-						if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
-							{							
-								if($sku){
-									foreach($this->post('disname') as $i=>$discount)
-									{
-										$qty = $this->post('disqty')[$i];
-										$pri = $this->post('disprice')[$i];
-										$st = $this->post('disstart')[$i];
-										$en = $this->post('disend')[$i];
-										$this->model->adddiscount($sku->sku,$discount,$qty,$pri,$st,$en);
-									}
-								}
-							}						
-						if($this->post('kmitem_id') &&  $this->post('kmqty') )
-							{
-								if($sku){
-									foreach($this->post('kmitem_id') as $j=>$km)
-									{
-										$qty = $this->post('kmqty')[$j];
-										$this->model->addkm($sku->sku,$km,$qty);
-									}
-								}
-							}
+						// if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
+						// 	{							
+						// 		if($sku){
+						// 			foreach($this->post('disname') as $i=>$discount)
+						// 			{
+						// 				$qty = $this->post('disqty')[$i];
+						// 				$pri = $this->post('disprice')[$i];
+						// 				$st = $this->post('disstart')[$i];
+						// 				$en = $this->post('disend')[$i];
+						// 				$this->model->adddiscount($sku->sku,$discount,$qty,$pri,$st,$en);
+						// 			}
+						// 		}
+						// 	}						
+						// if($this->post('kmitem_id') &&  $this->post('kmqty') )
+						// 	{
+						// 		if($sku){
+						// 			foreach($this->post('kmitem_id') as $j=>$km)
+						// 			{
+						// 				$qty = $this->post('kmqty')[$j];
+						// 				$this->model->addkm($sku->sku,$km,$qty);
+						// 			}
+						// 		}
+						// 	}
 
 						if($this->model->clean($this->post('save')) == 1)
 						{
@@ -322,7 +322,7 @@ class catalogcontroller  extends controller
 		$this->size_imgshare = '(600x400)px';
 		$id = $this->get('id');
 		$catalogs = $this->model->getonekey(array('id'=>$id,'hide'=>1));
-		
+		$catagorieid=$catalogs->catagories_id;
 		$discounts = $this->model->listdis($catalogs->sku);
 		$items = $this->model->listitem();
 		$listkm = $this->model->listkm($catalogs->sku);
@@ -341,35 +341,48 @@ class catalogcontroller  extends controller
 			$this->uri = $this->getactionname();
 			if($this->post() && $this->istoken('tokencatalog',$this->model->clean($this->post('tokencatalog'))))
 			{
-					// if($catagorieid==$this->model->clean($this->post('tokencatalog'))){
-					// 	//update 
-					
-
-					// }else
-					// {
-					// 	// Ẩn tất cả 
-
-
-					// 	// add mới 
-
-					// }
-					$list=$this->model->get_attribute_idcatagories($this->model->clean($this->post('catagorie_id')));
-				
+					$list=$this->model->get_attribute_idcatagories($this->model->clean($this->post('catagories_id')));
 					foreach($list as $k=>$v)
 					{
-						$data1[]=array($v->idattribute => $this->model->clean($this->post($v->code.$v->idattribute)));
+						// $datapost1[$v->code.$v->id]=$this->model->clean($this->post($v->code.$v->id));
+						$datapost2[$v->id]=$this->model->clean($this->post($v->code.$v->id));
+
 					}
 					
-				
+					if($this->model->clean($this->post('catagories_id'))==$catagorieid) // danh muc cũ 
+					{
+						echo "buoc 1";
+						foreach($datapost2 as $k=>$v)
+						{
+							$data1=array('idcatalogs'=>$id,
+										 'idattribute'=>$k,
+										 'value'=>$v
+										);
+							
+							$dk=" idcatalogs=$id and idattribute=$k and hide=1";
+							$this->model->update2($data1,$dk,'catalogs_attribute');
+						}
 
+					}else
+					{
+						echo "buoc 2";
+						$dataupdate=array('hide' => 2
+											);
+						$dk="  idcatalogs=$id and `hide`=1 ";
+						$this->model->update2($dataupdate,$dk,'catalogs_attribute');
+						foreach($datapost2 as $k=>$v)
+						{
+							$data1=array('idcatalogs'=>$id,
+										'idattribute'=>$k,
+										'value'=>$v,
+										'created' => date('Y-m-d H:i:s'),
+										'state'=>1,
+										'hide' => 1
+									   );
+							$this->model->insert($data1,NULL,'catalogs_attribute');
+						}
 
-					$this->xem_mang($list);
-					$this->xem_mang($list);
-					$this->xem_mang($_POST);
-					$this->xem_mang($data1);
-					exit();
-
-					
+					}
 					$jsonarray = array();
 					if($this->post('imgs')){
 						foreach($this->post('imgs') as $i=>$img)
@@ -398,7 +411,7 @@ class catalogcontroller  extends controller
 		                'price' => $this->model->clean($this->post('price')),
 						'status' => $this->model->clean($this->post('status')),
 						'quantity' => $this->model->clean($this->post('quantity')),
-		                'catagories_id' => $this->model->clean($this->post('catagorie_id')),
+		                'catagories_id' => $this->model->clean($this->post('catagories_id')),
 		                'tax' => $this->model->clean($this->post('tax')),
 		                'city' => $this->model->clean($this->post('city')),
 		                'district' => $this->model->clean($this->post('district')),
@@ -414,54 +427,11 @@ class catalogcontroller  extends controller
 						'update_at' => date('Y-m-d H:i:s')
 
 					);
-					
-					foreach($list as $k=>$v)
-					{
-						
-					}
 					if($this->model->update($data))
 					{
-						// //update thuộc tính mở rộng : 
-						// $this->update_attribute_catalogs_idcatagories($catagorie_id,$idcatalog);
-						
 						$catalogs = $this->model->getone($catalogs->id);
 						$this->model->logs('Cập nhật thành công bài viết: '.$catalogs->sku,$this->getcontrollername().'/'.$this->uri);
 						$this->setmsg('Cập nhật thành công. Đang chuyển hướng...','success');
-						// if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
-						// 	{							
-						// 		if($catalogs->sku){
-						// 			$this->model->deldis($catalogs->sku);
-						// 			foreach($this->post('disname') as $i=>$discount)
-						// 			{
-						// 				$qty = $this->post('disqty')[$i];
-						// 				$pri = $this->post('disprice')[$i];
-						// 				$st = $this->post('disstart')[$i];
-						// 				$en = $this->post('disend')[$i];
-						// 				$this->model->adddiscount($catalogs->sku,$discount,$qty,$pri,$st,$en);
-						// 			}
-						// 		}
-						// 	}
-						// $this->model->delpro($catalogs->sku);
-						// if($this->post('kmitem_id') &&  $this->post('kmqty') )
-						// 	{
-						// 		if($catalogs->sku){	
-						// 			foreach($this->post('kmitem_id') as $j=>$km)
-						// 			{
-						// 				$qty = $this->post('kmqty')[$j];
-						// 				$this->model->addkm($catalogs->sku,$km,$qty);
-						// 			}
-						// 		}
-						// 	}
-						// $discounts = $this->model->listdis($catalogs->sku);
-						// $items = $this->model->listitem();
-						// $listkm = $this->model->listkm($catalogs->sku);
-						// if($this->model->clean($this->post('save')) == 1)
-						// {
-						// 	$this->setmsg('Cập nhật thành công.','success');
-						// }
-						// else{
-						// 	redirect('catalog',2);
-						// }
 					}
 					else
 					{
@@ -471,6 +441,14 @@ class catalogcontroller  extends controller
 			}
 			// danh sách thuộc tính mở rộng của  tin đăng 
 			$listattributecatalogs = $this->model->listattributecatalogs($id);
+			// lấy giá trị có của thuộc tính trong bảng đã lưu 
+			$value_attribute=$this->model->get_value_list_attribute_catalogs_id($id);
+			foreach($value_attribute as $k=>$v)
+			{
+				$value[$v->code.$v->idattribute]=$v->value;
+			}
+			// $this->xem_mang($value);
+			// exit();
 			$str='';
 			foreach($listattributecatalogs as $k=>$v)
 			{
@@ -490,10 +468,12 @@ class catalogcontroller  extends controller
 				$data = array(
 					'type'=>$v->type,
 					'name'=>$v->code.$v->idattribute,
-					'isvalue'=>$v->defaultvalue,
+					'isvalue'=>$value[$v->code.$v->idattribute],
 					'label'=>$v->label,
 					'data'=>$datavalue
 				);
+				// $this->xem_mang($data);
+				// exit();
 				$str.=$this->form->input($data);
 			}
 			$this->setdata(array('catalogs'=>$catalogs,

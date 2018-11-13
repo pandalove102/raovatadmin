@@ -123,7 +123,7 @@ class model extends database
 		//varray($data);
 		if(!$error && $columns && $values){
 			$columns = rtrim($columns,',');
-			$lenh_sql = 'update '.$table.' set '.$columns.' where id='.$data['id'];
+			 $lenh_sql = 'update '.$table.' set '.$columns.' where id='.$data['id'];
 			$check =$condition?$this->getone($condition):false;
 			if(!$check){
 				$this->setQuery($lenh_sql);

@@ -1,3 +1,4 @@
+<?php $this->xem_mang($catalogs); ?>
 <?php defined('BASE') OR exit('No direct script access allowed');?>
 <div class="row">
    <div class="col-lg-12">
@@ -27,7 +28,7 @@
                <form class="m-t" role="form" action="" method="post" >
                   <input type="hidden" name="uri" id="uri" value="<?php echo $this->uri ?>">
                   <input type="hidden" name="id" id="id" value="<?=(isset($catalogs)) ? $catalogs->id : ''?>">
-                  <input type="hidden" name="catagories_id" id="catagories_id" value="<?=(isset($catalogs->catagories_id)) ? $catalogs->catagories_id : ''?>">
+                  <input type="hidden" name="catagoriesid"  value="<?=(isset($catalogs->catagories_id)) ? $catalogs->catagories_id : ''?>">
                   <div class="wrapper wrapper-content animated fadeInRight ecommerce">
                     <div class="col-sm-9 col-sm-offset-8">
                         <a class="btn btn-white" type="text" href="<?=base_url('catalog');?>">Cancel</a>
@@ -60,7 +61,7 @@
                                         <div class="form-group">
                                           <label class="col-sm-2 control-label">Danh mục:</label>
                                           <div class="col-sm-10">
-                                              <?=$this->api_listcatnice('catagorie_id',@$catalogs->catagories_id)?>
+                                              <?=$this->api_listcatnice('catagories_id',@$catalogs->catagories_id)?>
                                           </div>
                                        </div>
                                        
@@ -485,9 +486,9 @@ $(document).on('change','#city', function() {
 </script>
 
 <script>
-$(document).on('change','#catagorie_id', function() {
+$(document).on('change','#catagories_id', function() {
   var _that = $(this);
-  var id=$( "#catagorie_id" ).val();
+  var id=$( "#catagories_id" ).val();
 //   alert(id);
   $.post('<?=base_url('catalog/api_get_attribute') ?>',{id:id})
   .done(function(d){
