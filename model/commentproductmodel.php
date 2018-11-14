@@ -38,11 +38,10 @@ class commentproductmodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
-	function list_catalogs_all()
+	function list_catalogs_all()// danh sach bài viết có bài luận
 	{
-		$sql="SELECT a.id,a.`name`,a.alias,a.shortdescription , a.description , a.image,a.imgshare ,a.catagories_id,a.create_at,a.date_show  
-			  from catalogs a 
-			  WHERE a.hide=1 ";
+		$sql="SELECT b.id,b.name,b.alias,b.shortdescription,b.description,b.image,b.imgshare,b.create_at,b.date_show 
+		FROM catalogs b WHERE b.hide=1 and id in(SELECT idpost FROM comment_product WHERE  hide=1 )";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}

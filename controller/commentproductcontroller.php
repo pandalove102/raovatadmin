@@ -25,12 +25,12 @@ class commentproductcontroller  extends controller
 		// hiển thị theo dạng bài viết và bình luận 
 			// list tất cả bài viết - 1 bài - 1 trang 
 			//load bai viết - commnet bài viết 
-			$catalogs_comment=$this->model->catalogs_comment();
+			$catalogs=$this->model->list_catalogs_all();
 			// set data ra View 2 
-			$this->setdata(array('catalogs_comment'=>$catalogs_comment
+			$this->setdata(array('catalogs'=>$catalogs
 								));
 			// gọi view 2 thể hiện : 
-			$this->render('list_view2');
+			$this->render('list_view3');
 
 
 

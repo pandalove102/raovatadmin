@@ -1,6 +1,6 @@
 <?php 
 
-// $this->xem_mang($catalogs_comment);
+// $this->xem_mang($catalogs);
 // exit();
 
 ?>
@@ -8,9 +8,9 @@
     <div class="row">
         <div class="col-lg-12">
         <?php 
-            foreach($catalogs_comment as $k=>$v)
+            foreach($catalogs as $k=>$v)
             {
-                if(isset($v->idpost))
+                if(isset($v->id))
                 {
         ?>
           <!-- bắt đầu bài viết và bình luận  -->
@@ -41,7 +41,7 @@
                     <div class="social-footer">
 
                         <!--bình luận cấp 1  -->
-                        <div class="social-comment">
+                        <!-- <div class="social-comment">
                             <a href="#" class="float-left">
                                 <img alt="image" src="img/a4.jpg">
                             </a>
@@ -67,7 +67,7 @@
                                     <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Trả lời</strong></button>
                                 </div>
                             </form>
-                            </div>
+                            </div> -->
                         <!-- kết thúc bình luận cấp 1  -->
                             
                            
