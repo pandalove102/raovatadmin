@@ -1,4 +1,4 @@
-<?php $this->xem_mang($catalogs); ?>
+<!-- <?php $this->xem_mang($catalogs); ?> -->
 <?php defined('BASE') OR exit('No direct script access allowed');?>
 <div class="row">
    <div class="col-lg-12">

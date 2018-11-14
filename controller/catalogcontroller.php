@@ -445,7 +445,7 @@ class catalogcontroller  extends controller
 			$value_attribute=$this->model->get_value_list_attribute_catalogs_id($id);
 			foreach($value_attribute as $k=>$v)
 			{
-				$value[$v->code.$v->idattribute]=$v->value;
+				$value[$v->code.$v->idattribute]=trim($v->value);
 			}
 			// $this->xem_mang($value);
 			// exit();
@@ -459,7 +459,7 @@ class catalogcontroller  extends controller
 					foreach($tam as $i=>$j)
 					{
 						
-						$datavalue[]=array('value'=>$j,'label'=>$j);
+						$datavalue[]=array('value'=>trim($j),'label'=>trim($j));
 					}
 				}else{
 					$datavalue=$v->value;
@@ -468,7 +468,7 @@ class catalogcontroller  extends controller
 				$data = array(
 					'type'=>$v->type,
 					'name'=>$v->code.$v->idattribute,
-					'isvalue'=>$value[$v->code.$v->idattribute],
+					'isvalue'=>trim($value[$v->code.$v->idattribute]),
 					'label'=>$v->label,
 					'data'=>$datavalue
 				);
@@ -520,7 +520,7 @@ class catalogcontroller  extends controller
 			{
 				if($v->type=='dropdown')
 				{
-					$tam=explode(',',trim($v->value));
+					$tam=explode(',',$v->value);
 					$datavalue=array();
 					foreach($tam as $i=>$j)
 					{
