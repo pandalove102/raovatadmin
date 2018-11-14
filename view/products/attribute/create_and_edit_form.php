@@ -36,6 +36,26 @@
                         </div>
                      </div>
                      <div class="hr-line-dashed"></div>
+                     <div class="form-group"><label class="col-sm-2 control-label">Loại</label>
+                        <div class="col-sm-9">
+                           <div class="relative">
+                                <td>
+                                    <select class="form-control" name="type">
+                                    <?php
+                                        foreach($list_type as $k=>$v)
+                                        {
+                                    ?>
+                                        <option <?php if(isset($attribute->type)&& $attribute->type==$k ) echo 'selected="selected"'; else echo ''; ?> value="<?=isset($k)?$k:''?>" ><?=isset($v)?$v:''?></option>
+                                    <?php 
+                                        }
+                                    ?>
+                                    </select>
+                                </td>
+                              <!-- <input type="text" class="form-control area-input" rows="1" required="" placeholder="Loại"  name="type" id="type" data-error="Nhập unique" value="<?=(isset($attribute)) ? $attribute->type : ''?>"> -->
+                           </div>
+                        </div>
+                     </div>
+                     <div class="hr-line-dashed"></div>
                      <div class="form-group"><label class="col-sm-2 control-label">Giá trị thuộc tính</label>
                         <div class="col-sm-9">
                            <div class="relative">
@@ -82,25 +102,7 @@
                         </div>
                      </div>
                      <div class="hr-line-dashed"></div>
-                     <div class="form-group"><label class="col-sm-2 control-label">Loại</label>
-                        <div class="col-sm-9">
-                           <div class="relative">
-                                <td>
-                                    <select class="form-control" name="type">
-                                    <?php
-                                        foreach($list_type as $k=>$v)
-                                        {
-                                    ?>
-                                        <option <?php if(isset($attribute->type)&& $attribute->type==$k ) echo 'selected="selected"'; else echo ''; ?> value="<?=isset($k)?$k:''?>" ><?=isset($v)?$v:''?></option>
-                                    <?php 
-                                        }
-                                    ?>
-                                    </select>
-                                </td>
-                              <!-- <input type="text" class="form-control area-input" rows="1" required="" placeholder="Loại"  name="type" id="type" data-error="Nhập unique" value="<?=(isset($attribute)) ? $attribute->type : ''?>"> -->
-                           </div>
-                        </div>
-                     </div>
+                    
                     
                      <div class="hr-line-dashed"></div>
                      <div class="form-group">

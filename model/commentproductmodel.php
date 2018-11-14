@@ -26,6 +26,34 @@ class commentproductmodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	function list_catalogs_limit($pos,$numrow)
+	{
+		if($numrow>0)
+		{
+			$this->limit = " and  limit $pos,$numrow";
+		}
+		$sql="SELECT a.id,a.`name`,a.alias,a.shortdescription , a.description , a.image,a.imgshare ,a.catagories_id,a.create_at,a.date_show 
+		from catalogs a 
+		WHERE a.hide=1 {$this->limit}";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+	}
+	function list_catalogs_all()
+	{
+		$sql="SELECT a.id,a.`name`,a.alias,a.shortdescription , a.description , a.image,a.imgshare ,a.catagories_id,a.create_at,a.date_show  
+			  from catalogs a 
+			  WHERE a.hide=1 ";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+	}
+	function catalogs_comment()
+	{
+		$sql="SELECT a.*,b.name,b.alias,b.shortdescription,b.description,b.image,b.imgshare,b.create_at,b.date_show 
+		FROM comment_product a,catalogs b 
+		WHERE a.idpost=b.id and a.hide=1 and b.hide=1 ";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+	}
 	function detailscommentproduct($id)
 	{
 		$add='';

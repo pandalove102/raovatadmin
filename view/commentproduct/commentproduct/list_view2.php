@@ -1,9 +1,14 @@
+<?php 
 
+// $this->xem_mang($catalogs_comment);
+// exit();
+
+?>
 <div class="wrapper wrapper-content  animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
         <?php 
-            foreach($commentproduct as $k=>$v)
+            foreach($catalogs_comment as $k=>$v)
             {
                 if(isset($v->idpost))
                 {
@@ -22,7 +27,7 @@
                         <a href="#">
                             <?=(isset($v->name) ? $v->name : '' )?>
                         </a>
-                        <small class="text-muted">Ngày tạo :<?=(isset($v->created) ? $v->created : '' )?> </small>
+                        <small class="text-muted">Ngày tạo :<?=(isset($v->created) ? $v->created : '' )?> -------- Ngày ngày hiển thị :<?=(isset($v->date_show) ? $v->date_show : '' )?></small>
                     </div>
                     <div class="social-body">
                         <p>
