@@ -1783,6 +1783,8 @@ fieldset[disabled] .btn-link.active {
   color: inherit;
   background: white;
   border: 1px solid #e7eaec;
+  /* tăng kích thước */
+  font-size: 10px;
 }
 .btn-white:hover,
 .btn-white:focus,
