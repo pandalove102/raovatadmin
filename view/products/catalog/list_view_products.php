@@ -1,3 +1,4 @@
+<?php $this->xem_mang($totalpage); ?>
 <div class="row">
    <div class="wrapper wrapper-content animated fadeInRight ecommerce">
     <form class="m-t" role="form" action="<?=base_url('catalog'); ?>" method="get" id="form-users">

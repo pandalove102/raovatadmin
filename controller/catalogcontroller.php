@@ -24,8 +24,8 @@ class catalogcontroller  extends controller
 		$status = $this->modelstatus->status();
 		if($this->get() && $this->istoken('tokensearch',$this->model->clean($this->get('tokensearch'))))
 		{
-			// $this->model>varray($this->get('skus'),true);
-			echo '2222';
+			$this->model>varray($this->get('skus'),true);
+			// echo '2222';
 			$catalogs = $this->model->searchproduct($this->get('skus'),$this->get('products'),
 													$this->get('prices'),$this->get('qty'),
 													$this->get('parent_id'),$this->get('status'),
@@ -45,8 +45,9 @@ class catalogcontroller  extends controller
 				
 		}else
 		{
-			$catalogs = $this->model->listcatalogs($this->pos,$this->numrow);
-			$totalpage = $this->model->total();
+			$catalogs = $this->model->listcatalogs($this->tim_vi_tri_bat_dau($this->numrow),$this->numrow);
+		     $totalpage = $this->model->total();
+		   
 		}
 		$this->setdata(array('catalogs'=>$catalogs,'status'=>$status,'totalpage'=>$totalpage));
 		$this->render('list_view_products');
@@ -247,7 +248,7 @@ class catalogcontroller  extends controller
 		                'price' => $this->model->clean($this->post('price')),
 						'status' => $this->model->clean($this->post('status')),
 						'quantity' => $this->model->clean($this->post('quantity')),
-		                'catagories_id' => $this->model->clean($this->post('catagorie_id')),
+		                'catagories_id' => $this->model->clean($this->post('catagories_id')),
 		                'tax' => $this->model->clean($this->post('tax')),
 		                'afterprice' => (1+0.1)* $this->model->clean($this->post('price')),
 		                'username' => $this->model->clean($this->model->session->get('admin_name')),
@@ -256,31 +257,88 @@ class catalogcontroller  extends controller
 					);
 					if($this->model->insert($data))
 					{
+						// id bài viết vừa tạo : 
+						$idcatalog_new=$this->model->get_id_last();
+						$list=$this->model->get_attribute_idcatagories($this->model->clean($this->post('catagories_id')));
+						foreach($list as $k=>$v)
+						{
+							// $datapost1[$v->code.$v->id]=$this->model->clean($this->post($v->code.$v->id));
+							$datapost2[$v->id]=$this->model->clean($this->post($v->code.$v->id));
+
+						}	
+						foreach($datapost2 as $k=>$v)
+						{
+							$data1=array('idcatalogs'=>$idcatalog_new,
+										'idattribute'=>$k,
+										'value'=>$v,
+										'created' => date('Y-m-d H:i:s'),
+										'state'=>1,
+										'hide' => 1
+									   );
+							$this->model->insert($data1,NULL,'catalogs_attribute');
+						}
+						// // danh sách thuộc tính mở rộng của  tin đăng 
+						// $listattributecatalogs = $this->model->listattributecatalogs(isset($this->model->clean($this->post('catagories_id'))?$this->model->clean($this->post('catagories_id'):'');
+						// // lấy giá trị có của thuộc tính trong bảng đã lưu 
+						// $value_attribute=$this->model->get_value_list_attribute_catalogs_id(isset($this->model->clean($this->post('catagories_id'))?$this->model->clean($this->post('catagories_id'):'');
+						// foreach($value_attribute as $k=>$v)
+						// {
+						// 	$value[$v->code.$v->idattribute]=trim($v->value);
+						// }
+						// // $this->xem_mang($value);
+						// // exit();
+						// $str='';
+						// foreach($listattributecatalogs as $k=>$v)
+						// {
+						// 	if($v->type=='dropdown')
+						// 	{
+						// 		$tam=explode(',',trim($v->value));
+						// 		$datavalue=array();
+						// 		foreach($tam as $i=>$j)
+						// 		{
+									
+						// 			$datavalue[]=array('value'=>trim($j),'label'=>trim($j));
+						// 		}
+						// 	}else{
+						// 		$datavalue=$v->value;
+						// 	}
+							
+						// 	$data = array(
+						// 		'type'=>$v->type,
+						// 		'name'=>$v->code.$v->idattribute,
+						// 		'isvalue'=>trim($value[$v->code.$v->idattribute]),
+						// 		'label'=>$v->label,
+						// 		'data'=>$datavalue
+						// 	);
+						// 	// $this->xem_mang($data);
+						// 	// exit();
+						// 	$str.=$this->form->input($data);
+						// }
 						$this->model->logs('Thêm thành công bài viết: '.$this->model->clean($this->post('sku')),$this->getcontrollername().'/'.$this->uri);
 						$sku = $this->model->getsku($this->model->clean($this->post('sku')));
-						// if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
-						// 	{							
-						// 		if($sku){
-						// 			foreach($this->post('disname') as $i=>$discount)
-						// 			{
-						// 				$qty = $this->post('disqty')[$i];
-						// 				$pri = $this->post('disprice')[$i];
-						// 				$st = $this->post('disstart')[$i];
-						// 				$en = $this->post('disend')[$i];
-						// 				$this->model->adddiscount($sku->sku,$discount,$qty,$pri,$st,$en);
-						// 			}
-						// 		}
-						// 	}						
-						// if($this->post('kmitem_id') &&  $this->post('kmqty') )
-						// 	{
-						// 		if($sku){
-						// 			foreach($this->post('kmitem_id') as $j=>$km)
-						// 			{
-						// 				$qty = $this->post('kmqty')[$j];
-						// 				$this->model->addkm($sku->sku,$km,$qty);
-						// 			}
-						// 		}
-						// 	}
+						if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
+							{							
+								if($sku){
+									foreach($this->post('disname') as $i=>$discount)
+									{
+										$qty = $this->post('disqty')[$i];
+										$pri = $this->post('disprice')[$i];
+										$st = $this->post('disstart')[$i];
+										$en = $this->post('disend')[$i];
+										$this->model->adddiscount($sku->sku,$discount,$qty,$pri,$st,$en);
+									}
+								}
+							}						
+						if($this->post('kmitem_id') &&  $this->post('kmqty') )
+							{
+								if($sku){
+									foreach($this->post('kmitem_id') as $j=>$km)
+									{
+										$qty = $this->post('kmqty')[$j];
+										$this->model->addkm($sku->sku,$km,$qty);
+									}
+								}
+							}
 
 						if($this->model->clean($this->post('save')) == 1)
 						{
@@ -301,6 +359,7 @@ class catalogcontroller  extends controller
 				}
 		
 		}
+		
 		$this->setdata(array('itemkm'=>$items,
 							 'status'=>$this->modelstatus->liststatusall(),
 							 'city'=>$city,

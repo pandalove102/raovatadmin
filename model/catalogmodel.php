@@ -12,6 +12,13 @@ class catalogmodel extends model
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
+	function get_id_last()
+	{
+		$sql="SELECT MAX(id) as id FROM catalogs WHERE hide=1";
+		$this->setQuery($sql);
+		return $this->loadRow()->id ;
+
+	}
 	function update2($data,$condition='',$table = '')
 	{
 		$table = $table ?$table:$this->table;
@@ -106,7 +113,7 @@ class catalogmodel extends model
 		{
 			$this->limit = " limit $pos,$numrow";
 		}
-		 $sql = "select p.*,c.name as catname from `catalogs` p join `catagories` c on p.catagories_id=c.id where p.hide = 1 and c.hide=1 {$this->limit}";
+	    $sql = "select p.*,c.name as catname from `catalogs` p join `catagories` c on p.catagories_id=c.id where p.hide = 1 and c.hide=1 {$this->limit}";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}
