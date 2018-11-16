@@ -34,15 +34,6 @@ class commentproductcontroller  extends controller
 								));
 			// gọi view 2 thể hiện : 
 			$this->render('list_view3');
-
-
-
-			
-			
-			
-			
-		
-
 	}
 	function api_getsub()
 	{

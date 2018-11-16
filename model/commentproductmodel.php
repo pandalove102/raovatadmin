@@ -6,6 +6,19 @@ class commentproductmodel extends model
 		parent::__construct();
 		$this->table = 'comment_product';
 	}
+	// load bình luận con 
+	function listcomment_id_comment($id='')
+	{
+		$w='';
+		if($id!='')
+		{
+			$w.=" and parent_id=$id";
+		}
+		$sql="SELECT * FROM comment_product WHERE hide=1 $w";
+		$this->setQuery($sql);
+		return $this->loadAllRow();
+
+	}
 	//load bình luận theo kiểu bài viết - bình luận 
 	function listcommentproduct()
 	{
