@@ -106,7 +106,7 @@
                                                                 </div>
 
                                                                 <div class="actions">
-                                                                    <a href="#" class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?>"><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
+                                                                    <a href="#" data-id="<?php echo $j->id ?>" onclick="update();"  class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
                                                                 </div>
                                                             
                                                                 <div class="chat-form">
@@ -145,7 +145,8 @@
                                                                                             </div>
 
                                                                                             <div class="actions">
-                                                                                                <a href="#" class="btn btn-xs <?=($l->state==0)?'btn-success':'btn-danger' ?>"><i class="fa fa-comments"></i> <?=($l->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
+                                                                                                
+                                                                                                <a href="#" data-id="<?php echo $l->id ?>" onclick="update();" class="btn btn-xs <?=($l->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($l->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
                                                                                             </div>
                                                                                         
                                                                                             <div class="chat-form">
@@ -165,6 +166,8 @@
                                                             <?php
                                                                             }
                                                                         }
+
+                                                                
                                                             ?>
                                             <?php
                                                     }
@@ -185,5 +188,16 @@
     ?>
       </div>
 </div>
+
+
+ <script>
+    $.get_id = function() {
+        // var id=$(this).data('state');
+        alert($(this).data("id"));
+    };
+    function update() {
+    $.get_id();
+    };
+</script>
 
  

@@ -59,7 +59,7 @@
                      <div class="form-group"><label class="col-sm-2 control-label">Giá trị thuộc tính</label>
                         <div class="col-sm-9">
                            <div class="relative">
-                              <input type="text" class="form-control area-input" rows="1" required="" placeholder="Giá trị thuộc tính"  name="value" id="value" data-error="Nhập giá trị" value="<?=(isset($attribute)) ? $attribute->value : ''?>">
+                              <input type="text" class="form-control area-input" rows="1"  placeholder="Giá trị thuộc tính"  name="value" id="value" data-error="Nhập giá trị" value="<?=(isset($attribute)) ? $attribute->value : ''?>">
                            </div>
                         </div>
                      </div>
@@ -67,7 +67,7 @@
                      <div class="form-group"><label class="col-sm-2 control-label">Giá trị mặc định</label>
                         <div class="col-sm-9">
                            <div class="relative">
-                              <input type="text" class="form-control area-input" rows="1" required="" placeholder="Giá trị mặc định thuộc tính"  name="defaultvalue" id="defaultvalue" data-error="Nhập giá trị thuộc tính mặc định" value="<?=(isset($attribute)) ? $attribute->defaultvalue : ''?>">
+                              <input type="text" class="form-control area-input" rows="1"  placeholder="Giá trị mặc định thuộc tính"  name="defaultvalue" id="defaultvalue" data-error="Nhập giá trị thuộc tính mặc định" value="<?=(isset($attribute)) ? $attribute->defaultvalue : ''?>">
                            </div>
                         </div>
                      </div>
