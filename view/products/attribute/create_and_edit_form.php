@@ -40,7 +40,7 @@
                         <div class="col-sm-9">
                            <div class="relative">
                                 <td>
-                                    <select class="form-control" name="type">
+                                    <select class="form-control" name="type" id='type'>
                                     <?php
                                         foreach($list_type as $k=>$v)
                                         {
@@ -55,19 +55,21 @@
                            </div>
                         </div>
                      </div>
-                     <div class="hr-line-dashed"></div>
-                     <div class="form-group"><label class="col-sm-2 control-label">Giá trị thuộc tính</label>
-                        <div class="col-sm-9">
-                           <div class="relative">
-                              <input type="text" class="form-control area-input" rows="1"  placeholder="Giá trị thuộc tính"  name="value" id="value" data-error="Nhập giá trị" value="<?=(isset($attribute)) ? $attribute->value : ''?>">
+                     <div id="table">
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Giá trị thuộc tính</label>
+                           <div class="col-sm-9">
+                              <div class="relative">
+                                 <input type="text" class="form-control area-input" rows="1"  placeholder="Giá trị thuộc tính"  name="value" id="value" data-error="Nhập giá trị" value="<?=(isset($attribute)) ? $attribute->value : ''?>">
+                              </div>
                            </div>
                         </div>
-                     </div>
-                    <div class="hr-line-dashed"></div>
-                     <div class="form-group"><label class="col-sm-2 control-label">Giá trị mặc định</label>
-                        <div class="col-sm-9">
-                           <div class="relative">
-                              <input type="text" class="form-control area-input" rows="1"  placeholder="Giá trị mặc định thuộc tính"  name="defaultvalue" id="defaultvalue" data-error="Nhập giá trị thuộc tính mặc định" value="<?=(isset($attribute)) ? $attribute->defaultvalue : ''?>">
+                     <div class="hr-line-dashed"></div>
+                        <div class="form-group"><label class="col-sm-2 control-label">Giá trị mặc định</label>
+                           <div class="col-sm-9">
+                              <div class="relative">
+                                 <input type="text" class="form-control area-input" rows="1"  placeholder="Giá trị mặc định thuộc tính"  name="defaultvalue" id="defaultvalue" data-error="Nhập giá trị thuộc tính mặc định" value="<?=(isset($attribute)) ? $attribute->defaultvalue : ''?>">
+                              </div>
                            </div>
                         </div>
                      </div>
@@ -122,3 +124,35 @@
 <script type="text/javascript">
     $('#example-multiple-optgroups-classes').multiselect();
 </script>
+<script>
+$(document).on('change','#type', function() {
+  var _that = $(this);
+  var id=$( "#type" ).val();
+  if(id=='text' || id=='number' || id=='date' || id=='textarea' || id=='email' || id=='color' || id=='linkbutton' || id=='button' || id=='image' || id=='images' || id=='editor' )
+  {
+    alert('an di');
+  }else{
+   alert('hien danh sach ');
+     
+      // $( "#table" ).html(text);
+  }
+
+
+});
+</script>
+<!-- $list_type=array(
+			'text'=>'Loại Chữ',
+			'number'=>'Loại Số',
+			'date'=>'Ngày Tháng Năm',
+			'email'=>'Loại Email',
+			'radio'=>'Chọn lựa',
+			'checkbox'=>'Đánh dấu',
+			'dropdown'=>'Danh sách lựa chọn',
+			'linkbutton'=>'nút liên kết',
+			'button'=>'Nút',
+			'color'=>'Màu',
+			'image'=>'Một Hình Ảnh ',
+			'images'=>'Nhiều Hình Ảnh',
+			'editor'=>'Chỉnh sửa văn bản',
+			'textarea'=>'Khung văn bản'
+		); -->
