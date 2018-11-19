@@ -55,24 +55,24 @@
                            </div>
                         </div>
                      </div>
-                     <div id="table"  >
-                        <div class="hr-line-dashed"></div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Giá trị thuộc tính</label>
-                           <div class="col-sm-9">
-                              <div class="relative">
-                                 <input type="hidden"  class="form-control area-input" rows="1"  placeholder="Giá trị thuộc tính"  name="value" id="value" data-error="Nhập giá trị" value="<?=(isset($attribute)) ? $attribute->value : ''?>">
+                     <div id="table" style="display: none;" >
+                              <div class="hr-line-dashed"></div>
+                              <div class="form-group"><label class="col-sm-2 control-label">Giá trị thuộc tính</label>
+                                 <div class="col-sm-9">
+                                    <div class="relative">
+                                       <input type="text"  class="form-control area-input" rows="1"  placeholder="Giá trị thuộc tính"  name="value" id="value" data-error="Nhập giá trị" value="<?=(isset($attribute)) ? $attribute->value : ''?>">
+                                    </div>
+                                 </div>
                               </div>
-                           </div>
-                        </div>
-                     <div class="hr-line-dashed"></div>
-                        <div class="form-group"><label class="col-sm-2 control-label">Giá trị mặc định</label>
-                           <div class="col-sm-9">
-                              <div class="relative">
-                                 <input type="hidden" class="form-control area-input" rows="1"  placeholder="Giá trị mặc định thuộc tính"  name="defaultvalue" id="defaultvalue" data-error="Nhập giá trị thuộc tính mặc định" value="<?=(isset($attribute)) ? $attribute->defaultvalue : ''?>">
+                              <div class="hr-line-dashed"></div>
+                              <div class="form-group"><label class="col-sm-2 control-label">Giá trị mặc định</label>
+                                 <div class="col-sm-9">
+                                    <div class="relative">
+                                       <input type="text" class="form-control area-input" rows="1"  placeholder="Giá trị mặc định thuộc tính"  name="defaultvalue" id="defaultvalue" data-error="Nhập giá trị thuộc tính mặc định" value="<?=(isset($attribute)) ? $attribute->defaultvalue : ''?>">
+                                    </div>
+                                 </div>
                               </div>
-                           </div>
                         </div>
-                     </div>
                      <div class="hr-line-dashed"></div>
                      <div class="form-group"><label class="col-sm-2 control-label">Bắt buộc</label>
                         <div class="col-sm-9">
@@ -121,23 +121,23 @@
         </div>
     </div>
 </div>
-<!-- <script type="text/javascript">
-    $('#example-multiple-optgroups-classes').multiselect();
-</script> -->
+
 <script>
 $(document).on('change','#type', function() {
   var _that = $(this);
   var id=$( "#type" ).val();
   if(id=='text' || id=='number' || id=='date' || id=='textarea' || id=='email' || id=='color' || id=='linkbutton' || id=='button' || id=='image' || id=='images' || id=='editor' )
   {
-    $('#value').attr('type', 'hidden');
-    $('#defaultvalue').attr('type', 'hidden');
+    $('#table').hide();
+    $("#value").val('');
+    $("#defaultvalue").val('');
+    
   }else{
-      $('#value').attr('type', 'text');
-      $('#defaultvalue').attr('type', 'text');
+      $("#value").val('');
+      $("#defaultvalue").val('');
+      $('#table').show();
+     
   }
-
-
 });
 </script>
 <!-- $list_type=array(
