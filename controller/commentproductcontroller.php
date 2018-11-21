@@ -43,6 +43,31 @@ class commentproductcontroller  extends controller
 		}else
 			echo '[]';
 	}
+	function api_show_hidden_commnet()
+	{
+		if($this->post()){
+			 $kq = $this->model->show_hidden_commnet($this->post('id'));
+			if($kq==1)
+			{
+				$data = array(
+					'id' => $this->post('id'),
+					'state'=>0
+				);
+				if($this->model->update($data))
+					echo json_encode(array('data'=>2,'state'=>$kq));
+				
+			}
+			if($kq==0)
+			{
+				$data = array(
+					'id' => $this->post('id'),
+					'state'=>1
+				);
+				if($this->model->update($data))
+					echo json_encode(array('data'=>1,'state'=>$kq));
+			}
+		}
+	}
 	function replace()
 	{
 		$this->title ='Trả lời bình luận';

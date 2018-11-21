@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+error_reporting(E_ALL);
+ini_set('error_reporting', 1);
 include 'system/autoload.php';
 load();
 $controllername = isset($_GET['controller'] )&& !empty($_GET['controller'])?$_GET['controller'].'controller':'usercontroller';

@@ -15,14 +15,14 @@
                             <div class="social-feed-separated">
                                 <!-- hình người đăng  bài viết  -->
                                 <div class="social-avatar">
-                                    <a href="#">
+                                    <a >
                                         <img alt="image" src="<?=(isset($v->image) && $v->image) ? $v->image : base_url('layout/images/no-image.png')?>">
                                     </a>
                                 </div>
                                 <div class="social-feed-box">
                                     <!-- bài viết   -->
                                     <div class="social-avatar">
-                                        <a href="#">
+                                        <a >
                                             <?=(isset($v->name) ? $v->name : '' )?>
                                         </a>
                                         <small class="text-muted">Ngày tạo :<?=(isset($v->created) ? $v->created : '' )?> -------- Ngày ngày hiển thị :<?=(isset($v->date_show) ? $v->date_show : '' )?></small>
@@ -43,7 +43,6 @@
                                 </div>
                                 </div>
                                 <div class="ibox-content" style="display: none;">
-                                  
                                         <div class="feed-activity-list">
                                             <?php
                                                 foreach($comment as $i=>$j)
@@ -54,23 +53,24 @@
                                             ?>
                                                         <!-- bình luận cấp 1  -->
                                                             <?=($j->parent_id==0)?'<div class="feed-element">':'<div class="feed-element" style="margin-left: 50px;" >' ?>
-                                                                <a href="#" class="float-left">
+                                                                <a  class="float-left">
                                                                     <img alt="image" class="rounded-circle" src="<?=(isset($j->image)? $j->image :'' ) ?>">
                                                                 </a>
                                                                 <small class="text-muted">Người tạo: <?=(isset($j->fullname)? $j->fullname :'')?></small>
                                                                 <div class="media-body ">
                                                                     <small class="text-muted">Ngày tạo: <?=(isset($j->created)? $j->created :'')?></small>
-                                                                
+                                                                    <div class="actions">
+                                                                        <a   data-id="<?php echo $j->id ?>" id="comment_<?php echo $j->id ?>"  class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
+                                                                    </div>
                                                                     <div class="well">
                                                                         <div class="media-body ">
                                                                             <?=(isset($j->content)?$j->content:'') ?>
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="actions">
-                                                                        <a href="#" class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?>"><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
-                                                                    </div>
-                                                                
+                                                                    <!-- <div class="actions">
+                                                                        <a   data-id="<?php echo $j->id ?>" id="comment_<?php echo $j->id ?>"  class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
+                                                                    </div> -->
                                                                     <div class="chat-form">
                                                                         <form role="form">
                                                                             <div class="form-group">
@@ -92,23 +92,24 @@
                                             ?>
                                                         <!-- bình luận cấp 1  -->
                                                         <?=($j->parent_id==0)?'<div class="feed-element">':'<div class="feed-element" style="margin-left: 50px;" >' ?>
-                                                            <a href="#" class="float-left">
+                                                            <a  class="float-left">
                                                                 <img alt="image" class="rounded-circle" src="<?=(isset($j->image)? $j->image :'' ) ?>">
                                                             </a>
                                                             <small class="text-muted">Người tạo: <?=(isset($j->fullname)? $j->fullname :'')?></small>
                                                             <div class="media-body ">
                                                                 <small class="text-muted">Ngày tạo: <?=(isset($j->created)? $j->created :'')?></small>
-                                                            
+                                                                <div class="actions">
+                                                                    <a   data-id="<?php echo $j->id ?>" id="comment_<?php echo $j->id ?>"  class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
+                                                                </div>
                                                                 <div class="well">
                                                                     <div class="media-body ">
                                                                         <?=(isset($j->content)?$j->content:'') ?>
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="actions">
-                                                                    <a href="#" data-id="<?php echo $j->id ?>" onclick="update();"  class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
-                                                                </div>
-                                                            
+                                                                <!-- <div class="actions">
+                                                                    <a   data-id="<?php echo $j->id ?>" id="comment_<?php echo $j->id ?>"  class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
+                                                                </div> -->
                                                                 <div class="chat-form">
                                                                     <form role="form">
                                                                         <div class="form-group">
@@ -131,23 +132,24 @@
                                                             ?>
                                                                                 <!-- bình luận cấp 2  -->
                                                                                 <?=($l->parent_id==0)?'<div class="feed-element">':'<div class="feed-element" style="margin-left: 50px;" >' ?>
-                                                                                        <a href="#" class="float-left">
+                                                                                        <a  class="float-left">
                                                                                             <img alt="image" class="rounded-circle" src="<?=(isset($l->image)? $l->image :'' ) ?>">
                                                                                         </a>
                                                                                         <small class="text-muted">Người tạo: <?=(isset($l->fullname)? $l->fullname :'')?></small>
                                                                                         <div class="media-body ">
                                                                                             <small class="text-muted">Ngày tạo: <?=(isset($l->created)? $l->created :'')?></small>
-                                                                                        
+                                                                                            <div class="actions">
+                                                                                                <a  data-id="<?php echo $l->id ?>" id="comment_<?php echo $l->id ?>" class="btn btn-xs <?=($l->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($l->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
+                                                                                            </div>
                                                                                             <div class="well">
                                                                                                 <div class="media-body ">
                                                                                                     <?=(isset($l->content)?$l->content:'') ?>
                                                                                                 </div>
                                                                                             </div>
 
-                                                                                            <div class="actions">
-                                                                                                
-                                                                                                <a href="#" data-id="<?php echo $l->id ?>" onclick="update();" class="btn btn-xs <?=($l->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($l->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
-                                                                                            </div>
+                                                                                            <!-- <div class="actions">
+                                                                                                <a  data-id="<?php echo $l->id ?>" id="comment_<?php echo $l->id ?>" class="btn btn-xs <?=($l->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($l->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
+                                                                                            </div> -->
                                                                                         
                                                                                             <div class="chat-form">
                                                                                                 <form role="form">
@@ -191,13 +193,23 @@
 
 
  <script>
-    $.get_id = function() {
-        // var id=$(this).data('state');
-        alert($(this).data("id"));
-    };
-    function update() {
-    $.get_id();
-    };
-</script>
 
- 
+    $(document).on('click','.state',function(){
+    var _that = $(this);
+    id=_that.data('id');
+    idcomment= $('comment_'+id);
+    // alert(id);
+    $.post('<?=base_url('commentproduct/api_show_hidden_commnet') ?>',{id:id})
+        .done(function(d){
+            d = JSON.parse(d);
+            //  alert(d.data)
+			if(d.data==1)
+			{
+                _that.removeClass('btn-danger').addClass('btn-success');
+			}else{
+				_that.removeClass('btn-success').addClass('btn-danger');
+			}
+		})
+    })
+
+</script>

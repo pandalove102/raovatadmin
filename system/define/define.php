@@ -1,4 +1,6 @@
 <?php 
+
+// print_r('port=' . $_SERVER['SERVER_PORT']);
 error_reporting(E_ALL);
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();
