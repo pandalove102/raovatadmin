@@ -1,5 +1,6 @@
 
 <div class="wrapper wrapper-content  animated fadeInRight">
+<input type="hidden" name="admin_id" id="admin_id" value="<?=(isset($_SESSION['admin_id'])) ? $_SESSION['admin_id'] : ''?>">
     <div class="row">
         <?php 
             foreach($catalogs as $k=>$v)
@@ -74,10 +75,13 @@
                                                                     <div class="chat-form">
                                                                         <form role="form">
                                                                             <div class="form-group">
-                                                                                <textarea class="form-control" placeholder="Message"></textarea>
+                                                                                <textarea id="rep_<?php echo $j->id ?>" data-idpost="<?php echo $v->id ?>"  data-id="<?php echo $j->id ?>" class="form-control" placeholder="Message"></textarea>
                                                                             </div>
                                                                             <div class="text-right">
-                                                                                <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Trả lời</strong></button>
+                                                                                <!-- <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Trả lời</strong></button> -->
+                                                                                <a class="btn btn-white btn-bitbucket">
+                                                                                    <i class="fa fa-star"></i> Trả lời
+                                                                                </a>
                                                                             </div>
                                                                         </form>
                                                                     </div>
@@ -99,7 +103,7 @@
                                                             <div class="media-body ">
                                                                 <small class="text-muted">Ngày tạo: <?=(isset($j->created)? $j->created :'')?></small>
                                                                 <div class="actions">
-                                                                    <a   data-id="<?php echo $j->id ?>" id="comment_<?php echo $j->id ?>"  class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
+                                                                    <a  data-id="<?php echo $j->id ?>" id="comment_<?php echo $j->id ?>"  class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
                                                                 </div>
                                                                 <div class="well">
                                                                     <div class="media-body ">
@@ -107,16 +111,17 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <!-- <div class="actions">
-                                                                    <a   data-id="<?php echo $j->id ?>" id="comment_<?php echo $j->id ?>"  class="btn btn-xs <?=($j->state==0)?'btn-success':'btn-danger' ?> state "><i class="fa fa-comments"></i> <?=($j->state==0)?' Đã duyệt / Hiện ':' Không Duyệ / Ẩn ' ?> </a>
-                                                                </div> -->
+                                                               
                                                                 <div class="chat-form">
                                                                     <form role="form">
                                                                         <div class="form-group">
-                                                                            <textarea class="form-control" placeholder="Message"></textarea>
+                                                                            <textarea id="rep_<?php echo $j->id ?>" data-idpost="<?php echo $v->id ?>"  data-id="<?php echo $j->id ?>" class="form-control" placeholder="Message"></textarea>
                                                                         </div>
                                                                         <div class="text-right">
-                                                                            <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Trả lời</strong></button>
+                                                                            <!-- <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Trả lời</strong></button> -->
+                                                                            <a class="btn btn-white btn-bitbucket replace">
+                                                                                <i class="fa fa-star"></i> Trả lời
+                                                                            </a>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -153,11 +158,28 @@
                                                                                         
                                                                                             <div class="chat-form">
                                                                                                 <form role="form">
-                                                                                                    <div class="form-group">
-                                                                                                        <textarea class="form-control" placeholder="Message"></textarea>
+                                                                                                    <div class="form-group"  >
+                                                                                                        <textarea id="rep_<?php echo $l->id ?>" data-idpost="<?php echo $v->id ?>"  data-id="<?php echo $l->id ?>" class="form-control" placeholder="Message"></textarea>
                                                                                                     </div>
                                                                                                     <div class="text-right">
-                                                                                                        <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Trả lời</strong></button>
+                                                                                                        <!-- <button type="submit" class="btn btn-sm btn-primary m-t-n-xs"><strong>Trả lời</strong></button> -->
+                                                                                                        <a class="btn btn-white btn-bitbucket replace"  >
+                                                                                                            <i class="fa fa-star"></i> Trả lời
+                                                                                                        </a>
+                                                                                                    </div>
+                                                                                                </form>
+                                                                                            </div>
+
+
+                                                                                              <div class="chat-form">
+                                                                                                <form role="form">
+                                                                                                    <div class="form-group" id="rep_comment_<?php echo $l->id ?>"  >
+                                                                                                        
+                                                                                                    </div>
+                                                                                                    <div class="text-right">
+                                                                                                        <a class="btn btn-white btn-bitbucket replace"  >
+                                                                                                            <i class="fa fa-star"></i> Trả lời
+                                                                                                        </a>
                                                                                                     </div>
                                                                                                 </form>
                                                                                             </div>
@@ -211,5 +233,30 @@
 			}
 		})
     })
+
+     $(document).on('click','.replace',function(){
+    var _that = $(this);
+    var dataid=_that.data('id');
+    var dataidpost=_that.data('idpost');
+    var admin_id = $('#admin_id').val();
+    var rep= $('rep_'+dataid).text();
+    // alert(id);
+    $.post('<?=base_url('commentproduct/api_replace_commnet') ?>',{dataid:dataid,dataidpost:dataidpost,admin_id:admin_id,rep:rep})
+        .done(function(d){
+            d = JSON.parse(d);
+            //  alert(d.data)
+			if(d.data==1)
+			{
+               
+			}else{
+				
+			}
+		})
+    })
+
+
+                    // 'content' => $this->post('rep'), 
+					// 'idpost' => $this->post('dataidpost'),
+					// 'parent_id' => $this->post('dataid')
 
 </script>

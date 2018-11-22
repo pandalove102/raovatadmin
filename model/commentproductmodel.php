@@ -6,6 +6,7 @@ class commentproductmodel extends model
 		parent::__construct();
 		$this->table = 'comment_product';
 	}
+	
 	// AJAX goi ve ID cua binh luan , thu hien show  / hidden 
 	function show_hidden_commnet($id='')
 	{

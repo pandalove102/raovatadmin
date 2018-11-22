@@ -43,6 +43,42 @@ class commentproductcontroller  extends controller
 		}else
 			echo '[]';
 	}
+	function api_replace_commnet()
+	{
+		if($this->post()){
+			// $rep=$this->post('rep');
+			// $id_comment=$this->post('dataid');
+			// $id_post=$this->post('dataidpost');
+			// $id_user=$this->post('admin_id');
+			$data = array(
+				'content' => $this->post('rep'), 
+                'idpost' => $this->post('dataidpost'),
+                'iduser' => $this->post('admin_id'),
+				'parent_id' => $this->post('dataid'),
+				'state'=>1,
+				'hide'=>1,
+				'created' => date('Y-m-d H:i:s')
+			);
+			
+			if($this->model->insert($data))
+			{
+				
+				$comment = $this->model->getone($comment->id);
+				$this->model->logs('Thêm thành công tài khoản: '.$comment->id,$this->getcontrollername().'/'.$this->uri);
+				$data_ajax = array(
+					'content' => $this->post('rep'), 
+					'idpost' => $this->post('dataidpost'),
+					'parent_id' => $this->post('dataid')
+				);
+				echo json_encode(array('data'=>$data_ajax));
+			}
+			else
+			{
+				$this->setmsg('Thêm thất bại. Đang chuyển hướng...','error');
+			}
+		
+	   }
+	}
 	function api_show_hidden_commnet()
 	{
 		if($this->post()){
