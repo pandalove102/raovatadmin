@@ -218,7 +218,7 @@ class catalogcontroller  extends controller
 		$totalpage=1;
 		if($this->post() && $this->istoken('tokencatalog',$this->model->clean($this->post('tokencatalog'))))
 		{
-						$jsonarray = array();
+				$jsonarray = array();
 				if($this->post('imgs')){
 					foreach($this->post('imgs') as $i=>$img)
 					{
@@ -226,7 +226,8 @@ class catalogcontroller  extends controller
 					}
 				}
 				$json = $jsonarray? json_encode($jsonarray):'';
-				if($this->api_check_catalogs(true) && $this->api_check_sku(true) && $this->api_check_alias(true))
+				// if($this->api_check_catalogs(true) && $this->api_check_sku(true) && $this->api_check_alias(true))
+				if($this->api_check_alias(true))
 				{
 					
 					$data = array(
@@ -269,6 +270,7 @@ class catalogcontroller  extends controller
 					if($this->model->insert($data))
 					{
 						// id bài viết vừa tạo : 
+						$datapost2=array();
 						$idcatalog_new=$this->model->get_id_last();
 						$list=$this->model->get_attribute_idcatagories($this->model->clean($this->post('catagories_id')));
 						foreach($list as $k=>$v)
@@ -288,43 +290,6 @@ class catalogcontroller  extends controller
 									   );
 							$this->model->insert($data1,NULL,'catalogs_attribute');
 						}
-						// // danh sách thuộc tính mở rộng của  tin đăng 
-						// $listattributecatalogs = $this->model->listattributecatalogs(isset($this->model->clean($this->post('catagories_id'))?$this->model->clean($this->post('catagories_id'):'');
-						// // lấy giá trị có của thuộc tính trong bảng đã lưu 
-						// $value_attribute=$this->model->get_value_list_attribute_catalogs_id(isset($this->model->clean($this->post('catagories_id'))?$this->model->clean($this->post('catagories_id'):'');
-						// foreach($value_attribute as $k=>$v)
-						// {
-						// 	$value[$v->code.$v->idattribute]=trim($v->value);
-						// }
-						// // $this->xem_mang($value);
-						// // exit();
-						// $str='';
-						// foreach($listattributecatalogs as $k=>$v)
-						// {
-						// 	if($v->type=='dropdown')
-						// 	{
-						// 		$tam=explode(',',trim($v->value));
-						// 		$datavalue=array();
-						// 		foreach($tam as $i=>$j)
-						// 		{
-									
-						// 			$datavalue[]=array('value'=>trim($j),'label'=>trim($j));
-						// 		}
-						// 	}else{
-						// 		$datavalue=$v->value;
-						// 	}
-							
-						// 	$data = array(
-						// 		'type'=>$v->type,
-						// 		'name'=>$v->code.$v->idattribute,
-						// 		'isvalue'=>trim($value[$v->code.$v->idattribute]),
-						// 		'label'=>$v->label,
-						// 		'data'=>$datavalue
-						// 	);
-						// 	// $this->xem_mang($data);
-						// 	// exit();
-						// 	$str.=$this->form->input($data);
-						// }
 						$this->model->logs('Thêm thành công bài viết: '.$this->model->clean($this->post('sku')),$this->getcontrollername().'/'.$this->uri);
 						$sku = $this->model->getsku($this->model->clean($this->post('sku')));
 						if($this->post('disname') && $this->post('disqty') && $this->post('disprice') && $this->post('disstart') && $this->post('disend'))
@@ -404,6 +369,8 @@ class catalogcontroller  extends controller
 		// loại tin đăng
 		$typecatalogs=$this->typecatalogsmodel->listtypecatalogsall();
 
+		$datapost2=array();
+
 		if(!$catalogs)
 			redirect('catalog/create',1);
 		else
@@ -421,7 +388,7 @@ class catalogcontroller  extends controller
 					
 					if($this->model->clean($this->post('catagories_id'))==$catagorieid) // danh muc cũ 
 					{
-						echo "buoc 1";
+						// echo "buoc 1";
 						foreach($datapost2 as $k=>$v)
 						{
 							$data1=array('idcatalogs'=>$id,
@@ -435,7 +402,7 @@ class catalogcontroller  extends controller
 
 					}else
 					{
-						echo "buoc 2";
+						// echo "buoc 2";
 						$dataupdate=array('hide' => 2
 											);
 						$dk="  idcatalogs=$id and `hide`=1 ";
