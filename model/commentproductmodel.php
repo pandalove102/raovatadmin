@@ -6,9 +6,36 @@ class commentproductmodel extends model
 		parent::__construct();
 		$this->table = 'comment_product';
 	}
-	
+	function get_comment($id='')
+	{
+		if($id!='')
+		{
+			$w=" and  a.id=$id";
+		}
+		$sql="SELECT a.*,b.*,c.*,a.id as repid  
+			  FROM comment_product a,account b, catalogs c 
+			  WHERE a.hide=1 and a.iduser=b.id and a.idpost=c.id $w";
+		$this->setQuery($sql);
+		return $this->loadRow();
+	}
+	function get_id_last_comment()
+	{
+		$sql="SELECT max(id) as id from comment_product WHERE hide=1";
+		$this->setQuery($sql);
+		return $this->loadRow()->id;
+	}
+	function get_info($id='')
+	{
+		if($id!='')
+		{
+			$w=" and  id=$id";
+		}
+		$sql="SELECT id,fullname,name FROM account WHERE hide=1  $w ";
+		$this->setQuery($sql);
+		return $this->loadRow()->kq;
+	}
 	// AJAX goi ve ID cua binh luan , thu hien show  / hidden 
-	function show_hidden_commnet($id='')
+	function show_hidden_commnet($id)
 	{
 		if($id!='')
 		{
@@ -66,7 +93,7 @@ class commentproductmodel extends model
 	function list_catalogs_all()// danh sach bài viết có bài luận
 	{
 		$sql="SELECT b.id,b.name,b.alias,b.shortdescription,b.description,b.image,b.imgshare,b.create_at,b.date_show 
-		FROM catalogs b WHERE b.hide=1 and id in(SELECT idpost FROM comment_product WHERE  hide=1 )";
+		FROM catalogs b WHERE b.hide=1 and id in(SELECT idpost FROM comment_product WHERE  hide=1 GROUP BY idpost )";
 		$this->setQuery($sql);
 		return $this->loadAllRow();
 	}

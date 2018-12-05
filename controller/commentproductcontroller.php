@@ -46,35 +46,53 @@ class commentproductcontroller  extends controller
 	function api_replace_commnet()
 	{
 		if($this->post()){
-			// $rep=$this->post('rep');
-			// $id_comment=$this->post('dataid');
-			// $id_post=$this->post('dataidpost');
-			// $id_user=$this->post('admin_id');
 			$data = array(
 				'content' => $this->post('rep'), 
                 'idpost' => $this->post('dataidpost'),
                 'iduser' => $this->post('admin_id'),
-				'parent_id' => $this->post('dataid'),
+				'parent_id' => $this->post('parent_id'),
 				'state'=>1,
 				'hide'=>1,
 				'created' => date('Y-m-d H:i:s')
 			);
-			
 			if($this->model->insert($data))
 			{
 				
-				$comment = $this->model->getone($comment->id);
-				$this->model->logs('Thêm thành công tài khoản: '.$comment->id,$this->getcontrollername().'/'.$this->uri);
-				$data_ajax = array(
-					'content' => $this->post('rep'), 
-					'idpost' => $this->post('dataidpost'),
-					'parent_id' => $this->post('dataid')
-				);
-				echo json_encode(array('data'=>$data_ajax));
+				$id_last=$this->model->get_id_last_comment();
+				$data_comment=$this->model->get_comment($id_last);
+				// đỗ vào text 
+				$text="";
+				$text.='<div class="feed-element" style="margin-left: 50px;" ><a  class="float-left"><img alt="image" class="rounded-circle" src="'.$data_comment->image.'">';
+				$text.='</a><small class="text-muted">Người tạo:'.$data_comment->fullname.'</small><div class="media-body ">';
+				$text.='<small class="text-muted">Ngày tạo: '.$data_comment->created.'</small>';
+				$text.='<div class="actions">';
+				$text.='<a  data-id="'.$data_comment->repid.'" id="comment_'.$data_comment->repid.'" class="btn btn-xs btn-success state "><i class="fa fa-comments"></i>Đã duyệt / Hiện</a>';
+				$text.='</div>';
+				$text.='<div class="well">';
+				$text.='<div class="media-body ">';
+				$text.=$data_comment->content;
+				$text.='</div>';
+				$text.='</div>';
+				$text.='<div class="chat-form">';
+				$text.='<form role="form">';
+				$text.='<div class="form-group">';
+				$text.='<textarea id="rep'.$data_comment->repid.'" data-idpost="'.$data_comment->idpost.'"  data-id="'.$data_comment->iduser.'" class="form-control" placeholder="Message"></textarea>';
+				$text.='</div>';
+				$text.='<div class="text-right">';
+				$text.='<a class="btn btn-white btn-bitbucket replace" at="'.$data_comment->repid.'">';
+				$text.='<i class="fa fa-star"></i> Trả lời';
+				$text.='</a>';
+				$text.='</div>';
+				$text.='</form>';
+				$text.='</div>';
+				$text.='</div>';
+				$text.='</div>'; 
+				$text.='<div id="div'.$data_comment->repid.'"></div>';
+				echo json_encode(array('text'=>$text));
 			}
 			else
 			{
-				$this->setmsg('Thêm thất bại. Đang chuyển hướng...','error');
+				echo '[]';
 			}
 		
 	   }
@@ -90,7 +108,7 @@ class commentproductcontroller  extends controller
 					'state'=>0
 				);
 				if($this->model->update($data))
-					echo json_encode(array('data'=>2,'state'=>$kq));
+					echo json_encode(array('data'=>0));
 				
 			}
 			if($kq==0)
@@ -100,7 +118,7 @@ class commentproductcontroller  extends controller
 					'state'=>1
 				);
 				if($this->model->update($data))
-					echo json_encode(array('data'=>1,'state'=>$kq));
+					echo json_encode(array('data'=>1));
 			}
 		}
 	}
